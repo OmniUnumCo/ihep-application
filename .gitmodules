@@ -1,0 +1,12 @@
+[submodule "training/DeepSpeed"]
+	path = training/DeepSpeed
+	url = https://github.com/microsoft/DeepSpeed.git
+	ignore = dirty
+[submodule "training/bitsandbytes"]
+	path = training/bitsandbytes
+	url = https://github.com/TimDettmers/bitsandbytes.git
+	ignore = dirty
+[submodule "training/datasets"]
+	path = training/datasets
+	url = https://github.com/huggingface/datasets.git
+	ignore = dirty
