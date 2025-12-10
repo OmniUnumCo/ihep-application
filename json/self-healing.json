@@ -1,0 +1,338 @@
+{
+  "title": "Morphogenetic Self-Healing Framework for Jarmacz.com",
+  "version": "1.0",
+  "date": "November 7, 2025",
+  "signals": {
+    "error_signal": {
+      "symbol": "E",
+      "definition": "Error rate measured as failed requests per total requests",
+      "raw_measurement": "E_raw = (failed_requests) / (total_requests)",
+      "normalization": "E = E_raw / E_max, where E_max = 0.10 (10% failure rate ceiling)",
+      "range": "[0, 1]",
+      "sampling": "Measured every 1s tick over sliding 10s window",
+      "data_source": "window.performance.timing, fetch() response codes, resource load events"
+    },
+    "latency_signal": {
+      "symbol": "L",
+      "definition": "Response latency normalized to target threshold",
+      "raw_measurement": "L_raw = (response_time_ms) / (target_time_ms)",
+      "normalization": "L = min(L_raw / L_max, 1.0), where L_max = 5.0 (5\u00d7 target = unacceptable)",
+      "range": "[0, 1]",
+      "target_time": "200ms for API calls, 50ms for asset loads",
+      "sampling": "Measured per request, averaged over 10s sliding window",
+      "data_source": "Performance API, fetch() timing, Resource Timing API"
+    },
+    "spare_capacity_signal": {
+      "symbol": "S",
+      "definition": "Available system headroom for additional load",
+      "raw_measurement": "S_raw = 1 - (current_load / max_capacity)",
+      "normalization": "S = S_raw (already in [0,1] range)",
+      "range": "[0, 1] where 0=no capacity, 1=full capacity available",
+      "capacity_metrics": {
+        "concurrent_requests": "max 10 simultaneous",
+        "retry_queue_depth": "max 50 pending",
+        "memory_usage": "monitor heap size if available"
+      },
+      "sampling": "Calculated every 1s tick",
+      "data_source": "Active fetch() count, retry queue length, navigator.deviceMemory"
+    }
+  },
+  "field_dynamics": {
+    "overview": "Signals diffuse across a spatial field (conceptually: different page sections/components)",
+    "injection": {
+      "equation": "\u03c6_inject(i,t) = k_inject \u00b7 signal(i,t)",
+      "constants": {
+        "k_inject_E": 1.0,
+        "k_inject_L": 0.8,
+        "k_inject_S": 0.6
+      },
+      "description": "New measurements directly inject into field at component location i"
+    },
+    "diffusion": {
+      "equation": "\u2202\u03c6/\u2202t = D\u00b7\u2207\u00b2\u03c6 (discrete: \u03c6_i(t+\u0394t) = \u03c6_i(t) + D\u00b7\u03a3_j[w_ij\u00b7(\u03c6_j - \u03c6_i)])",
+      "constants": {
+        "D_E": 0.15,
+        "D_L": 0.2,
+        "D_S": 0.1
+      },
+      "description": "Signals spread from high-stress to low-stress components via weighted adjacency",
+      "adjacency": "Components connected via DOM hierarchy (parent-child, sibling) with w_ij = 0.3"
+    },
+    "decay": {
+      "equation": "\u03c6_decay(i,t) = \u03c6(i,t) \u00b7 exp(-\u03bb\u00b7\u0394t)",
+      "constants": {
+        "\u03bb_E": 0.05,
+        "\u03bb_L": 0.08,
+        "\u03bb_S": 0.03
+      },
+      "description": "Signals naturally decay over time to prevent perpetual triggering",
+      "time_constant": "\u0394t = 1s (tick period)"
+    },
+    "update_rule": {
+      "equation": "\u03c6(i,t+1) = \u03c6_inject(i,t) + \u03c6_diffusion(i,t) + \u03c6_decay(i,t)",
+      "implementation": "Three-step update: (1) inject new measurements, (2) diffuse across components, (3) apply decay"
+    }
+  },
+  "triggers": {
+    "thresholds": {
+      "\u03b8_E": {
+        "value": 0.005,
+        "meaning": "0.5% error rate triggers attention",
+        "hot_threshold": 0.02,
+        "very_hot_threshold": 0.05
+      },
+      "\u03b8_L": {
+        "value": 0.35,
+        "meaning": "35% above target latency (270ms if target=200ms)",
+        "hot_threshold": 0.5,
+        "very_hot_threshold": 0.75
+      },
+      "\u03b8_S": {
+        "value": 0.3,
+        "meaning": "Spare capacity below 30% = constrained",
+        "low_threshold": 0.2,
+        "critical_threshold": 0.1
+      }
+    },
+    "state_detection": {
+      "E_hot": "E > \u03b8_E_hot (2%) for \u22653 consecutive ticks",
+      "E_very_hot": "E > \u03b8_E_very_hot (5%) for \u22652 consecutive ticks",
+      "L_hot": "L > \u03b8_L_hot (50%) for \u22653 consecutive ticks",
+      "S_high": "S > (1 - \u03b8_S) = 0.70 (70% capacity available)",
+      "S_low": "S < \u03b8_S_low (20%) for \u22652 consecutive ticks"
+    }
+  },
+  "agents": {
+    "weaver": {
+      "role": "Load balancer / traffic shaper",
+      "trigger_condition": "L_hot AND \u0394S \u2265 0.1 (capacity increased by 10%+ in last 5 ticks)",
+      "actions": {
+        "primary": "Shift ~15% of load to lower-latency endpoints",
+        "implementation": "Adjust ECMP-style weights: w_fast = w_fast \u00d7 1.15, w_slow = w_slow \u00d7 0.85",
+        "fallback": "If no alternative endpoints, queue 15% of requests with exponential backoff"
+      },
+      "hysteresis": {
+        "cooldown": "10s (10 ticks) after action before retriggering",
+        "threshold_differential": "Require L < \u03b8_L - 0.05 to deactivate"
+      },
+      "parameters": {
+        "shift_fraction": 0.15,
+        "min_delta_S": 0.1,
+        "weight_multiplier_fast": 1.15,
+        "weight_multiplier_slow": 0.85
+      }
+    },
+    "builder": {
+      "role": "Capacity expander / resource allocator",
+      "trigger_condition": "E_hot AND S_high AND quorum_approved",
+      "actions": {
+        "primary": "Add retry capacity by increasing max_concurrent_requests by +2",
+        "secondary": "Enable additional CDN edge if available",
+        "implementation": "Increment retry_queue_max from 50 \u2192 52, concurrent_max from 10 \u2192 12"
+      },
+      "quorum": {
+        "definition": "Majority consensus from 3 monitoring agents",
+        "agents": [
+          "E_monitor",
+          "L_monitor",
+          "S_monitor"
+        ],
+        "requirement": "\u22652 of 3 agents agree E_hot AND S_high",
+        "voting_window": "5s consensus period",
+        "implementation": "q = (vote_E + vote_L + vote_S) / 3; trigger if q \u2265 0.67"
+      },
+      "rate_limit": {
+        "max_expansions": 5,
+        "time_window": "60s",
+        "cooldown": "30s after max_expansions reached"
+      },
+      "parameters": {
+        "capacity_increment": 2,
+        "quorum_threshold": 0.67,
+        "max_total_capacity": 20
+      }
+    },
+    "scavenger": {
+      "role": "Fault isolator / circuit breaker",
+      "trigger_condition": "E_very_hot AND S_low",
+      "actions": {
+        "primary": "Quarantine failing endpoint (circuit breaker OPEN state)",
+        "secondary": "Health check every 5s: if 3 consecutive successes, reintegrate (HALF_OPEN \u2192 CLOSED)",
+        "tertiary": "If quarantine fails, fallback to cached/static content"
+      },
+      "circuit_breaker": {
+        "states": [
+          "CLOSED",
+          "OPEN",
+          "HALF_OPEN"
+        ],
+        "CLOSED": "Normal operation, requests pass through",
+        "OPEN": "Quarantine active, requests fail fast (no attempts)",
+        "HALF_OPEN": "Testing: allow 1 request every 5s to check recovery",
+        "transition_CLOSED_to_OPEN": "E_very_hot AND S_low",
+        "transition_OPEN_to_HALF_OPEN": "After 30s in OPEN",
+        "transition_HALF_OPEN_to_CLOSED": "3 consecutive successes",
+        "transition_HALF_OPEN_to_OPEN": "Any failure during HALF_OPEN"
+      },
+      "health_check": {
+        "interval": "5s in HALF_OPEN state",
+        "timeout": "2s per check",
+        "success_threshold": 3,
+        "failure_threshold": 1
+      },
+      "parameters": {
+        "quarantine_duration": 30,
+        "health_check_interval": 5,
+        "success_count_required": 3
+      }
+    }
+  },
+  "stability_mechanisms": {
+    "hysteresis": {
+      "purpose": "Prevent oscillation (thrashing) between states",
+      "implementation": {
+        "weaver": "10s cooldown after action, require L < \u03b8_L - 0.05 to deactivate",
+        "builder": "30s cooldown after 5 expansions in 60s",
+        "scavenger": "30s minimum in OPEN state before HALF_OPEN testing"
+      },
+      "mathematical_form": "\u03b8_activate = \u03b8 + \u03b4, \u03b8_deactivate = \u03b8 - \u03b4, where \u03b4 = 0.05"
+    },
+    "rate_limits": {
+      "global": {
+        "max_actions_per_minute": 10,
+        "token_bucket": "Refill 1 token every 6s, max 10 tokens",
+        "enforcement": "Each agent action consumes 1 token; if 0 tokens, defer action"
+      },
+      "per_agent": {
+        "weaver": "Max 6 shifts per minute",
+        "builder": "Max 5 expansions per minute",
+        "scavenger": "Max 3 quarantines per minute"
+      }
+    },
+    "quorum_math": {
+      "consensus_function": "q(t) = w_E \u00b7 vote_E(t) + w_L \u00b7 vote_L(t) + w_S \u00b7 vote_S(t)",
+      "weights": {
+        "w_E": 0.5,
+        "w_L": 0.3,
+        "w_S": 0.2
+      },
+      "threshold": "q(t) \u2265 0.67 for action approval",
+      "vote_encoding": "vote_i \u2208 {0, 1} where 1 = signal exceeds threshold",
+      "example": "If E_hot=1, L_hot=1, S_high=0: q = 0.5\u00d71 + 0.3\u00d71 + 0.2\u00d70 = 0.8 \u2265 0.67 \u2192 APPROVED"
+    }
+  },
+  "actuators": {
+    "load_shifting": {
+      "mechanism": "ECMP-style weight adjustment",
+      "implementation": "Maintain weight array w[endpoint_i]; redistribute requests via Math.random() < cumsum(w)",
+      "example": "endpoints = [CDN_A, CDN_B, origin]; w = [0.5, 0.3, 0.2]; shift 15% from slow \u2192 fast"
+    },
+    "capacity_expansion": {
+      "mechanism": "Increase concurrent request limit and retry queue depth",
+      "implementation": "max_concurrent += 2; retry_queue_max += 2",
+      "constraints": "Cannot exceed max_total_capacity = 20"
+    },
+    "circuit_breaker": {
+      "mechanism": "Quarantine failing endpoints via state machine",
+      "implementation": "Maintain state per endpoint; route around OPEN endpoints",
+      "states": "CLOSED (normal) \u2192 OPEN (quarantine) \u2192 HALF_OPEN (testing) \u2192 CLOSED"
+    },
+    "sdn_integration": {
+      "future_capability": "Push intent to Software-Defined Network controller",
+      "api": "POST /sdn/intent {endpoint: 'X', weight: 0.15, action: 'shift'}",
+      "current_status": "Not implemented (client-side only)"
+    },
+    "qos_tunnels": {
+      "future_capability": "Adjust Quality-of-Service parameters",
+      "mechanism": "Prioritize critical requests via HTTP/2 stream priority",
+      "current_status": "Not implemented"
+    }
+  },
+  "telemetry_loop": {
+    "measurement_sources": {
+      "performance_api": "window.performance.timing for page load metrics",
+      "fetch_timing": "fetch() Response headers (Server-Timing, timing-allow-origin)",
+      "resource_timing": "window.performance.getEntriesByType('resource')",
+      "custom_instrumentation": "Manual timing wrappers around critical operations"
+    },
+    "update_frequency": {
+      "tick_period": "1s (1000ms)",
+      "signal_window": "10s sliding window (last 10 measurements)",
+      "field_update": "Every tick: inject \u2192 diffuse \u2192 decay",
+      "agent_evaluation": "Every tick: check triggers, execute actions if conditions met"
+    },
+    "data_flow": {
+      "step_1": "Measure: Collect E_raw, L_raw, S_raw from instrumentation",
+      "step_2": "Normalize: Apply normalization functions to get E, L, S \u2208 [0,1]",
+      "step_3": "Inject: \u03c6_inject = k_inject \u00b7 signal",
+      "step_4": "Diffuse: \u03c6_diffuse via weighted adjacency matrix",
+      "step_5": "Decay: \u03c6_new = \u03c6_old \u00b7 exp(-\u03bb\u00b7\u0394t)",
+      "step_6": "Detect: Check if \u03c6 > \u03b8 for trigger conditions",
+      "step_7": "Vote: Agents vote on action via quorum",
+      "step_8": "Act: Execute approved actions via actuators",
+      "step_9": "Log: Record event to audit trail"
+    },
+    "state_persistence": {
+      "local_storage": "Store last 100 ticks for visualization",
+      "session_storage": "Store current agent states for page refreshes",
+      "memory_only": "Real-time field state not persisted"
+    }
+  },
+  "safety_and_logging": {
+    "least_privilege": {
+      "principle": "Each agent can only actuate its designated subsystem",
+      "implementation": {
+        "weaver": "Can only adjust load weights, not add/remove capacity",
+        "builder": "Can only expand capacity, not quarantine endpoints",
+        "scavenger": "Can only quarantine, not shift load or expand capacity"
+      },
+      "enforcement": "Agent actions gated by permission matrix"
+    },
+    "signed_actions": {
+      "mechanism": "Each action includes HMAC signature",
+      "key_derivation": "HMAC-SHA256(action_payload, agent_secret)",
+      "verification": "Actuator verifies signature before execution",
+      "current_status": "Simulated (no real crypto in browser-only implementation)"
+    },
+    "audit_trail": {
+      "log_format": "JSON: {timestamp, agent, trigger, condition, action, result, signature}",
+      "storage": "console.log() in development; future: POST to /api/audit",
+      "retention": "Last 1000 events in memory, 30 days server-side",
+      "example": {
+        "timestamp": "2025-11-07T19:14:23.456Z",
+        "agent": "weaver",
+        "trigger": "L_hot=true, \u0394S=0.12",
+        "condition": "L=0.52 > \u03b8_L=0.35 for 3 ticks",
+        "action": "shift_load(from=origin, to=CDN_A, fraction=0.15)",
+        "result": "success",
+        "signature": "HMAC-SHA256:a3f2..."
+      }
+    },
+    "monitoring_dashboard": {
+      "real_time_display": "Connection quality indicator (\ud83d\udfe2/\ud83d\udfe1/\ud83d\udd34) in footer",
+      "detailed_view": "console.table() showing E, L, S, agent states every 10s",
+      "visualization": "Future: Real-time graph of \u03c6_E, \u03c6_L, \u03c6_S over time"
+    }
+  },
+  "mathematical_proofs": {
+    "stability_proof_sketch": {
+      "claim": "System converges to stable state under bounded disturbances",
+      "lyapunov_function": "V(\u03c6) = ||\u03c6||\u00b2 = \u03a3_i \u03c6_i\u00b2",
+      "derivative": "dV/dt = 2\u03c6\u1d40\u00b7(D\u00b7\u2207\u00b2\u03c6 - \u03bb\u03c6) \u2264 -2\u03bb\u00b7V(\u03c6) if D\u00b7\u2207\u00b2\u03c6 \u2264 0",
+      "conclusion": "Exponential decay to equilibrium with time constant 1/(2\u03bb)",
+      "caveat": "Assumes injection rate bounded: ||\u03c6_inject|| \u2264 C"
+    },
+    "quorum_correctness": {
+      "theorem": "If \u22652 of 3 agents agree on condition, false positive rate < 5%",
+      "assumptions": "Each agent has independent 10% false positive rate",
+      "binomial_probability": "P(\u22652 of 3) = C(3,2)\u00b70.1\u00b2\u00b70.9 + C(3,3)\u00b70.1\u00b3 = 0.027 + 0.001 = 2.8%",
+      "conclusion": "Quorum reduces false positive rate from 10% to 2.8%"
+    },
+    "hysteresis_prevents_thrashing": {
+      "scenario": "Signal oscillates around threshold",
+      "without_hysteresis": "Agent triggers every oscillation \u2192 N actions",
+      "with_hysteresis": "Agent triggers only when signal crosses \u03b8+\u03b4, deactivates at \u03b8-\u03b4",
+      "benefit": "Reduces actions from O(N) to O(1) for oscillating signal"
+    }
+  }
+}

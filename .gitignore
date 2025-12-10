@@ -1,0 +1,59 @@
+.DS_Store
+**/.DS_Store
+terraform.tfstate
+terraform.tfstate.backup
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+# Dependencies
+/node_modules/
+
+# Python virtual environments
+venv/
+.venv/
+**/venv/
+**/.venv/
+.venv-*/
+*.py[cod]
+__pycache__/
+*.so
+
+# Build artifacts
+/dist/
+/.next/
+/out/
+/build/
+*.tsbuildinfo
+.cache/
+
+# Testing
+/coverage/
+/.nyc_output/
+
+# Logs
+/logs/
+*.log
+*.tar.gz
+
+# Backups
+/backups/
+/backup_debug/
+/terraform.zip
+
+# Local Config
+.env.local
+/.env
+/.config/
+/.local/
+.replit
+cookies.txt
+
+# Training libraries (cloned repos)
+/training/DeepSpeed/
+/training/bitsandbytes/
+/training/datasets/
+/training/accelerate/
+/training/evaluate/
+/training/peft/
+/training/transformers/
+/training/trl/

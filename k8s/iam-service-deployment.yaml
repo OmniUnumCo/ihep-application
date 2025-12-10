@@ -1,0 +1,62 @@
+# k8s/iam-service-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iam-service
+  labels:
+    app: iam-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: iam-service
+  template:
+    metadata:
+      labels:
+        app: iam-service
+    spec:
+      containers:
+      - name: iam-service
+        image: gcr.io/your-project/iam-service:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ihep-secrets
+              key: jwt-secret-key
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iam-service
+  labels:
+    app: iam-service
+spec:
+  selector:
+    app: iam-service
+  ports:
+  - port: 8080
+    targetPort: 8080
+  type: ClusterIP

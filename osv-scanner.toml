@@ -1,0 +1,45 @@
+# OSV-Scanner Configuration
+# https://google.github.io/osv-scanner/configuration/
+
+# Ignore packages that are NOT in production dependencies
+# These were found in development virtual environments only
+
+[[PackageOverrides]]
+name = "torch"
+ignore = true
+reason = "Not used in production. Found in development venv only."
+
+[[PackageOverrides]]
+name = "pytorch"
+ignore = true
+reason = "Not used in production. Found in development venv only."
+
+[[PackageOverrides]]
+name = "transformers"
+ignore = true
+reason = "Not used in production. Found in development venv only."
+
+[[PackageOverrides]]
+name = "aiohttp"
+ignore = true
+reason = "Not used in production. Found in development venv only."
+
+[[PackageOverrides]]
+name = "python-jose"
+ignore = true
+reason = "Not used in production. Found in development venv only."
+
+[[PackageOverrides]]
+name = "scikit-learn"
+ignore = true
+reason = "Not used in production. Root requirements.txt is deprecated."
+
+[[PackageOverrides]]
+name = "black"
+ignore = true
+reason = "Development dependency only (code formatting). Not in production."
+
+# Note: Flask-CORS, gunicorn, cryptography are in production and already patched
+# - flask-cors 6.0.1 (CVE-2024-6221 fixed in 5.0.0)
+# - gunicorn 23.0.0 (CVE-2024-1135 fixed in 22.0.0)
+# - cryptography 46.0.3 (CVE-2024-26130 fixed)

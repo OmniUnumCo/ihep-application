@@ -1,0 +1,72 @@
+name: web-deploy-staging
+
+on:
+  push:
+    branches: [ "CI" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      REGION: us-central1
+      PROJECT_ID: gen-lang-client-0928975904
+      PROJECT_NUMBER: "934473355501"
+      SERVICE_NAME: ihep-web-staging
+      IMAGE: us-docker.pkg.dev/gen-lang-client-0928975904/ihep/web:${{ github.sha }}
+      WIF_PROVIDER: projects/934473355501/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider
+      GCP_SA_EMAIL: github-actions-sa@gen-lang-client-0928975904.iam.gserviceaccount.com
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Auth to Google Cloud (OIDC)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.GCP_SA_EMAIL }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker auth for Artifact Registry
+        run: gcloud auth configure-docker us-docker.pkg.dev --quiet
+
+      - name: Build Docker image
+        run: |
+          docker build -t "$IMAGE" \
+            --build-arg NODE_ENV=production \
+            .
+
+      - name: Push image to Artifact Registry
+        run: docker push "$IMAGE"
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy "$SERVICE_NAME" \
+            --project "$PROJECT_ID" \
+            --region "$REGION" \
+            --image "$IMAGE" \
+            --platform managed \
+            --no-allow-unauthenticated \
+            --ingress internal-and-cloud-load-balancing \
+            --memory 512Mi \
+            --cpu 1 \
+            --max-instances 20 \
+            --min-instances 0 \
+            --port 5000 \
+            --set-env-vars "NODE_ENV=production" \
+            --quiet
+      
+      - name: Get Service URL
+        run: |
+          SERVICE_URL=$(gcloud run services describe "$SERVICE_NAME" \
+            --project "$PROJECT_ID" \
+            --region "$REGION" \
+            --format 'value(status.url)')
+          echo "🚀 Deployed to: $SERVICE_URL"
