@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IHEP Opportunity Matching Engine</title>
+    <style>
+        :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-charcoal-800: rgba(38, 40, 40, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-brown-600-rgb: 94, 82, 64;
+            --color-teal-500-rgb: 33, 128, 141;
+            --color-background: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: var(--color-slate-900);
+            --color-text-secondary: var(--color-slate-500);
+            --color-primary: var(--color-teal-500);
+            --color-primary-hover: var(--color-teal-600);
+            --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-btn-primary-text: var(--color-cream-50);
+            --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+            --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-24: 24px;
+            --radius-base: 8px;
+            --radius-lg: 12px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-background: var(--color-charcoal-700);
+                --color-surface: var(--color-charcoal-800);
+                --color-text: var(--color-gray-200);
+                --color-text-secondary: rgba(167, 169, 169, 0.7);
+                --color-primary: var(--color-teal-300);
+                --color-btn-primary-text: var(--color-slate-900);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background: var(--color-background);
+            color: var(--color-text);
+            padding: var(--space-24);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: var(--space-24);
+            color: var(--color-text);
+        }
+
+        .input-section {
+            background: var(--color-surface);
+            padding: var(--space-24);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-card-border);
+            margin-bottom: var(--space-24);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-16);
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: var(--space-8);
+            color: var(--color-text);
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: var(--space-12);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            background: var(--color-surface);
+            color: var(--color-text);
+            font-family: var(--font-family-base);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: var(--color-primary);
+            color: var(--color-btn-primary-text);
+            padding: var(--space-12) var(--space-24);
+            border: none;
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .opportunity-category {
+            background: var(--color-surface);
+            padding: var(--space-24);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-card-border);
+            margin-bottom: var(--space-24);
+        }
+
+        .opportunity-category h2 {
+            font-size: 20px;
+            margin-bottom: var(--space-16);
+            color: var(--color-primary);
+        }
+
+        .opportunity-item {
+            background: var(--color-background);
+            padding: var(--space-16);
+            border-radius: var(--radius-base);
+            border: 1px solid var(--color-border);
+            margin-bottom: var(--space-12);
+        }
+
+        .opportunity-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .opportunity-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: var(--space-8);
+            color: var(--color-text);
+        }
+
+        .opportunity-details {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-8);
+        }
+
+        .match-score {
+            display: inline-block;
+            padding: 4px var(--space-12);
+            background: var(--color-primary);
+            color: var(--color-btn-primary-text);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px var(--space-8);
+            background: rgba(var(--color-teal-500-rgb), 0.1);
+            border: 1px solid rgba(var(--color-teal-500-rgb), 0.3);
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 6px;
+            margin-top: 6px;
+            color: var(--color-primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--space-24);
+            color: var(--color-text-secondary);
+        }
+
+        .skill-input-group {
+            display: flex;
+            gap: var(--space-8);
+            margin-top: var(--space-8);
+        }
+
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px var(--space-12);
+            background: var(--color-primary);
+            color: var(--color-btn-primary-text);
+            border-radius: 20px;
+            font-size: 13px;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+
+        .skill-tag button {
+            background: none;
+            border: none;
+            color: var(--color-btn-primary-text);
+            cursor: pointer;
+            padding: 0;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .skills-container {
+            margin-top: var(--space-8);
+            min-height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 IHEP Opportunity Matching Engine</h1>
+        
+        <div class="input-section">
+            <h2 style="font-size: 18px; margin-bottom: 16px;">Participant Profile</h2>
+            
+            <div class="form-group">
+                <label for="name">Participant Name</label>
+                <input type="text" id="name" placeholder="Enter participant name">
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" placeholder="e.g., Miami, FL">
+            </div>
+
+            <div class="form-group">
+                <label>Skills</label>
+                <div class="skill-input-group">
+                    <input type="text" id="skill-input" placeholder="Add a skill (e.g., Customer Service)">
+                    <button class="btn" onclick="addSkill()">Add</button>
+                </div>
+                <div class="skills-container" id="skills-container"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="availability">Availability</label>
+                <select id="availability">
+                    <option value="full-time">Full-time (40+ hrs/week)</option>
+                    <option value="part-time">Part-time (20-40 hrs/week)</option>
+                    <option value="flexible">Flexible (10-20 hrs/week)</option>
+                    <option value="weekend">Weekends only</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="interests">Career Interests</label>
+                <textarea id="interests" placeholder="Describe career goals, preferred industries, or work preferences..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="experience">Experience Level</label>
+                <select id="experience">
+                    <option value="entry">Entry Level (0-2 years)</option>
+                    <option value="intermediate">Intermediate (2-5 years)</option>
+                    <option value="experienced">Experienced (5+ years)</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="matchOpportunities()" style="width: 100%; margin-top: 8px;">Find Opportunities</button>
+        </div>
+
+        <div class="results-section" id="results">
+            <div class="opportunity-category">
+                <h2>🚀 Immediate Gig Opportunities</h2>
+                <div id="gig-results"></div>
+            </div>
+
+            <div class="opportunity-category">
+                <h2>📚 Career Development Programs</h2>
+                <div id="training-results"></div>
+            </div>
+
+            <div class="opportunity-category">
+                <h2>🔬 Research Study Opportunities</h2>
+                <div id="research-results"></div>
+            </div>
+
+            <div class="opportunity-category">
+                <h2>🌟 Peer Navigator Track</h2>
+                <div id="navigator-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let skills = [];
+
+        // Skill management
+        function addSkill() {
+            const input = document.getElementById('skill-input');
+            const skill = input.value.trim();
+            
+            if (skill && !skills.includes(skill)) {
+                skills.push(skill);
+                renderSkills();
+                input.value = '';
+            }
+        }
+
+        function removeSkill(skill) {
+            skills = skills.filter(s => s !== skill);
+            renderSkills();
+        }
+
+        function renderSkills() {
+            const container = document.getElementById('skills-container');
+            if (skills.length === 0) {
+                container.innerHTML = '<p style="color: var(--color-text-secondary); font-size: 13px;">No skills added yet</p>';
+                return;
+            }
+            
+            container.innerHTML = skills.map(skill => 
+                `<span class="skill-tag">
+                    ${skill}
+                    <button onclick="removeSkill('${skill}')">×</button>
+                </span>`
+            ).join('');
+        }
+
+        // Enter key support for skill input
+        document.getElementById('skill-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addSkill();
+            }
+        });
+
+        // Opportunity database (simulated)
+        const gigOpportunities = [
+            {
+                title: "Customer Service Representative - Remote",
+                company: "TeleCare Solutions",
+                pay: "$18-22/hour",
+                hours: "20-40 hrs/week",
+                skills: ["Customer Service", "Communication", "Problem Solving"],
+                location: "Remote",
+                urgency: "Hiring now"
+            },
+            {
+                title: "Delivery Driver",
+                company: "QuickShip Logistics",
+                pay: "$20-25/hour + tips",
+                hours: "Flexible scheduling",
+                skills: ["Driving", "Time Management", "Customer Service"],
+                location: "Miami, FL",
+                urgency: "High demand"
+            },
+            {
+                title: "Data Entry Specialist",
+                company: "AdminPro Services",
+                pay: "$16-20/hour",
+                hours: "Part-time/Full-time",
+                skills: ["Typing", "Attention to Detail", "Microsoft Office"],
+                location: "Remote",
+                urgency: "Multiple positions"
+            },
+            {
+                title: "Healthcare Support Worker",
+                company: "Community Health Partners",
+                pay: "$22-28/hour",
+                hours: "Full-time",
+                skills: ["Healthcare", "Communication", "Empathy"],
+                location: "Miami, FL",
+                urgency: "Immediate start"
+            },
+            {
+                title: "Social Media Assistant",
+                company: "Digital Growth Agency",
+                pay: "$17-22/hour",
+                hours: "20-30 hrs/week",
+                skills: ["Social Media", "Writing", "Creativity"],
+                location: "Remote",
+                urgency: "Contract position"
+            }
+        ];
+
+        const trainingPrograms = [
+            {
+                title: "Certified Peer Specialist Training",
+                provider: "IHEP Academy",
+                duration: "8 weeks",
+                commitment: "Part-time (10 hrs/week)",
+                outcome: "State certification + job placement",
+                cost: "Free (grant-funded)"
+            },
+            {
+                title: "Healthcare Navigation Certificate",
+                provider: "Pacific Clinics Training Institute",
+                duration: "40 hours + 4 coaching sessions",
+                commitment: "Self-paced online",
+                outcome: "Health Navigator credential",
+                cost: "Scholarship available"
+            },
+            {
+                title: "Digital Skills Bootcamp",
+                provider: "Tech Forward Program",
+                duration: "12 weeks",
+                commitment: "Evening classes",
+                outcome: "IT support certification",
+                cost: "Income-based sliding scale"
+            },
+            {
+                title: "Community Health Worker Training",
+                provider: "Public Health Institute",
+                duration: "6 weeks",
+                commitment: "Weekends",
+                outcome: "CHW certification + internship",
+                cost: "Free with work commitment"
+            }
+        ];
+
+        const researchStudies = [
+            {
+                title: "Digital Health Engagement Study",
+                institution: "University of Miami School of Medicine",
+                compensation: "$500 stipend",
+                commitment: "3 months (2 hrs/week)",
+                criteria: "Living with chronic condition, smartphone user",
+                description: "Help improve digital health tools through feedback and testing"
+            },
+            {
+                title: "Peer Support Effectiveness Research",
+                institution: "IHEP Research Division",
+                compensation: "$300 gift card",
+                commitment: "6-week program",
+                criteria: "Interested in peer support, willingness to share experiences",
+                description: "Evaluate new peer navigation approaches"
+            },
+            {
+                title: "Community Health Navigator Trial",
+                institution: "Johns Hopkins Bloomberg School",
+                compensation: "$750 + training",
+                commitment: "12 weeks",
+                criteria: "Community connection, basic health knowledge",
+                description: "Test innovative community health navigation model"
+            }
+        ];
+
+        // ML-powered matching algorithm (simplified simulation)
+        function calculateMatchScore(opportunity, profile) {
+            let score = 50; // Base score
+            
+            // Skill matching (40% weight)
+            if (opportunity.skills) {
+                const matchedSkills = opportunity.skills.filter(skill => 
+                    profile.skills.some(userSkill => 
+                        skill.toLowerCase().includes(userSkill.toLowerCase()) ||
+                        userSkill.toLowerCase().includes(skill.toLowerCase())
+                    )
+                );
+                score += (matchedSkills.length / opportunity.skills.length) * 40;
+            }
+            
+            // Location matching (20% weight)
+            if (opportunity.location) {
+                if (opportunity.location === "Remote" || 
+                    opportunity.location.toLowerCase().includes(profile.location.toLowerCase())) {
+                    score += 20;
+                }
+            }
+            
+            // Availability matching (15% weight)
+            if (opportunity.hours) {
+                if ((profile.availability === "full-time" && opportunity.hours.includes("Full")) ||
+                    (profile.availability === "part-time" && opportunity.hours.includes("Part")) ||
+                    (profile.availability === "flexible" && opportunity.hours.includes("Flexible"))) {
+                    score += 15;
+                }
+            }
+            
+            // Interest alignment (15% weight)
+            if (profile.interests && opportunity.title) {
+                const interests = profile.interests.toLowerCase();
+                const title = opportunity.title.toLowerCase();
+                if (interests.split(' ').some(word => title.includes(word))) {
+                    score += 15;
+                }
+            }
+            
+            // Random variation to simulate ML uncertainty
+            score += (Math.random() - 0.5) * 10;
+            
+            return Math.round(Math.min(99, Math.max(50, score)));
+        }
+
+        function assessNavigatorFit(profile) {
+            let score = 60;
+            
+            // Look for relevant keywords in interests
+            const interests = profile.interests.toLowerCase();
+            const navigatorKeywords = ['help', 'support', 'community', 'healthcare', 'peer', 'assist', 'guide', 'navigate'];
+            const matchedKeywords = navigatorKeywords.filter(kw => interests.includes(kw));
+            score += matchedKeywords.length * 5;
+            
+            // Communication skills boost
+            if (profile.skills.some(s => s.toLowerCase().includes('communication') || 
+                                         s.toLowerCase().includes('customer service') ||
+                                         s.toLowerCase().includes('empathy'))) {
+                score += 15;
+            }
+            
+            return Math.round(Math.min(99, Math.max(50, score)));
+        }
+
+        function matchOpportunities() {
+            // Gather profile data
+            const profile = {
+                name: document.getElementById('name').value || 'Participant',
+                location: document.getElementById('location').value || 'Miami, FL',
+                skills: skills,
+                availability: document.getElementById('availability').value,
+                interests: document.getElementById('interests').value,
+                experience: document.getElementById('experience').value
+            };
+
+            // Validate
+            if (skills.length === 0) {
+                alert('Please add at least one skill');
+                return;
+            }
+
+            // Calculate matches
+            const gigMatches = gigOpportunities
+                .map(opp => ({
+                    ...opp,
+                    matchScore: calculateMatchScore(opp, profile)
+                }))
+                .sort((a, b) => b.matchScore - a.matchScore)
+                .slice(0, 5);
+
+            const trainingMatches = trainingPrograms
+                .map(prog => ({
+                    ...prog,
+                    matchScore: calculateMatchScore(prog, profile)
+                }))
+                .sort((a, b) => b.matchScore - a.matchScore);
+
+            const researchMatches = researchStudies
+                .map(study => ({
+                    ...study,
+                    matchScore: calculateMatchScore(study, profile)
+                }))
+                .sort((a, b) => b.matchScore - a.matchScore);
+
+            const navigatorScore = assessNavigatorFit(profile);
+
+            // Render results
+            renderGigResults(gigMatches);
+            renderTrainingResults(trainingMatches);
+            renderResearchResults(researchMatches);
+            renderNavigatorResults(navigatorScore, profile);
+
+            // Show results
+            document.getElementById('results').classList.add('active');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderGigResults(matches) {
+            const container = document.getElementById('gig-results');
+            
+            if (matches.length === 0) {
+                container.innerHTML = '<div class="empty-state">No gig opportunities found. Try adjusting your skills or location.</div>';
+                return;
+            }
+
+            container.innerHTML = matches.map(opp => `
+                <div class="opportunity-item">
+                    <div class="opportunity-title">${opp.title}</div>
+                    <div class="opportunity-details">
+                        <strong>${opp.company}</strong> • ${opp.pay} • ${opp.hours}
+                        <br>${opp.location} • ${opp.urgency}
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <span class="match-score">${opp.matchScore}% Match</span>
+                        ${opp.skills.map(skill => `<span class="tag">${skill}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTrainingResults(matches) {
+            const container = document.getElementById('training-results');
+            
+            container.innerHTML = matches.map(prog => `
+                <div class="opportunity-item">
+                    <div class="opportunity-title">${prog.title}</div>
+                    <div class="opportunity-details">
+                        <strong>${prog.provider}</strong>
+                        <br>Duration: ${prog.duration} • ${prog.commitment}
+                        <br>Cost: ${prog.cost}
+                        <br>Outcome: ${prog.outcome}
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <span class="match-score">${prog.matchScore}% Match</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderResearchResults(matches) {
+            const container = document.getElementById('research-results');
+            
+            container.innerHTML = matches.map(study => `
+                <div class="opportunity-item">
+                    <div class="opportunity-title">${study.title}</div>
+                    <div class="opportunity-details">
+                        <strong>${study.institution}</strong>
+                        <br>Compensation: ${study.compensation}
+                        <br>Time: ${study.commitment}
+                        <br>Eligibility: ${study.criteria}
+                        <br><em>${study.description}</em>
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <span class="match-score">${study.matchScore}% Match</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderNavigatorResults(score, profile) {
+            const container = document.getElementById('navigator-results');
+            
+            let recommendation = '';
+            let pathway = '';
+            
+            if (score >= 80) {
+                recommendation = 'Excellent fit! You have strong potential as a peer navigator.';
+                pathway = 'Recommended: Enroll in Certified Peer Specialist Training immediately. Your profile shows natural alignment with navigator competencies.';
+            } else if (score >= 70) {
+                recommendation = 'Good fit! Consider exploring the peer navigator pathway.';
+                pathway = 'Recommended: Start with Healthcare Navigation Certificate to build foundational skills, then progress to full certification.';
+            } else {
+                recommendation = 'Emerging potential. Navigator role may be a future option.';
+                pathway = 'Recommended: Focus on building communication and healthcare knowledge through Community Health Worker Training first.';
+            }
+
+            container.innerHTML = `
+                <div class="opportunity-item">
+                    <div class="opportunity-title">Peer Navigator Assessment</div>
+                    <div class="opportunity-details">
+                        ${recommendation}
+                        <br><br><strong>Development Pathway:</strong><br>${pathway}
+                        <br><br><strong>Why Become a Navigator?</strong>
+                        <br>• Earn $22-32/hour with certification
+                        <br>• Make meaningful impact in your community
+                        <br>• Career advancement opportunities
+                        <br>• Leverage lived experience professionally
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <span class="match-score">${score}% Navigator Fit</span>
+                        <span class="tag">Career Growth</span>
+                        <span class="tag">Community Impact</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize
+        renderSkills();
+    </script>
+</body>
+</html>
+

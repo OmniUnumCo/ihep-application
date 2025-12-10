@@ -1,0 +1,30 @@
+imports:
+- path: templates/ha-infrastructure.py
+- path: templates/database.py
+- path: templates/monitoring.py
+
+resources:
+- name: health-insight-ha-infrastructure
+  type: templates/ha-infrastructure.py
+  properties:
+    project: ihep-app
+    region: us-central1
+    zones:
+      - us-central1-a
+      - us-central1-b
+    domain: ihep.app
+    
+- name: health-insight-database
+  type: templates/database.py
+  properties:
+    project: ihep-app
+    region: us-central1
+    instanceName: health-insight-postgres
+    databaseVersion: POSTGRES_15
+    tier: db-custom-2-8192
+    
+- name: health-insight-monitoring
+  type: templates/monitoring.py
+  properties:
+    project: ihep-app
+    notificationEmail: admin@ihep.app

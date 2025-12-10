@@ -1,0 +1,11 @@
+# DEPRECATED: This file is no longer maintained
+#
+# For backend Python dependencies, see:
+#   applications/backend/requirements.txt
+#
+# This file previously contained unpinned dependencies and is no longer used
+# in production deployments. All Docker images use the properly maintained
+# requirements.txt in the respective service directories.
+#
+# If you're setting up a development environment, use:
+#   pip install -r applications/backend/requirements.txt

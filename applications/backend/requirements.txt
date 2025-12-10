@@ -1,0 +1,73 @@
+# IHEP Healthcare API - Python Dependencies
+# HIPAA-compliant production requirements
+
+# Flask Web Framework
+Flask==3.1.2
+Werkzeug==3.1.4
+
+# WSGI Server for Production
+gunicorn==23.0.0
+
+# Rate Limiting (Security)
+Flask-Limiter==3.8.0
+
+# Input Validation (Security - prevent injection attacks)
+pydantic==2.10.3
+email-validator==2.2.0
+
+# Redis Client (Caching & Rate Limiting)
+redis==5.2.1
+hiredis==3.0.0  # C-based parser for performance
+
+# PostgreSQL Database
+psycopg2-binary==2.9.10
+
+# Google Cloud Platform
+google-cloud-aiplatform==1.77.0
+google-cloud-logging==3.11.3
+google-cloud-storage==2.19.0
+google-cloud-kms==3.7.0
+google-cloud-secret-manager==2.25.0
+
+# Security & Cryptography
+cryptography==46.0.3
+bcrypt==4.2.1
+
+# HTTP Requests
+requests==2.32.5
+urllib3==2.6.1
+
+# Data Validation & Serialization
+marshmallow==3.23.2
+
+# Environment Variables
+python-dotenv==1.0.1
+
+# Utilities
+python-dateutil==2.9.0.post0
+pytz==2024.2
+
+# Monitoring & Logging
+python-json-logger==3.2.1
+
+# CORS Support
+flask-cors==6.0.1
+
+# Health Checks
+py-healthcheck==1.10.1
+
+# Testing (Development)
+pytest==8.3.4
+pytest-cov==6.0.0
+pytest-mock==3.14.0
+httpx==0.28.1  # For async HTTP testing
+
+# Code Quality (Development)
+black==24.10.0
+flake8==7.1.1
+mypy==1.13.0
+pylint==3.3.2
+
+# Security Scanning (Development)
+bandit==1.8.0
+safety==3.2.11
