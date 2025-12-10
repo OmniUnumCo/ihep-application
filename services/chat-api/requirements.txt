@@ -1,0 +1,6 @@
+# services/chat-api/requirements.txt
+flask==2.3.3
+flask-cors==6.0.1
+google-cloud-aiplatform==1.38.1
+google-cloud-logging==3.7.0
+PyJWT==2.8.0

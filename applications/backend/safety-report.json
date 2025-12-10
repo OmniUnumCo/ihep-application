@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/opt/homebrew/bin//safety", line 3, in <module>
+    from safety.cli import cli
+  File "/opt/homebrew/lib/python3.13/site-packages/safety/cli.py", line 721, in <module>
+    typer.rich_utils.STYLE_HELPTEXT = ""
+    ^^^^^^^^^^^^^^^^
+AttributeError: module 'typer' has no attribute 'rich_utils'

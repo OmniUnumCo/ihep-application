@@ -1,0 +1,129 @@
+# k8s/api-gateway.yaml
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: ihep-api-gateway
+  namespace: ihep
+spec:
+  gatewayClassName: gke-l7-global-external-managed
+  listeners:
+  - name: https
+    protocol: HTTPS
+    port: 443
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: ihep-tls-cert
+    allowedRoutes:
+      namespaces:
+        from: Same
+
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: ihep-api-routes
+  namespace: ihep
+spec:
+  parentRefs:
+  - name: ihep-api-gateway
+  rules:
+  # Authentication Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/auth
+    backendRefs:
+    - name: auth-service
+      port: 8080
+      weight: 100
+  
+  # Health API Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/health
+    backendRefs:
+    - name: health-service
+      port: 8080
+      weight: 100
+  
+  # Chat API Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/chat
+    backendRefs:
+    - name: chat-service
+      port: 8080
+      weight: 100
+  
+  # Finance API Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/finance
+    backendRefs:
+    - name: finance-service
+      port: 8080
+      weight: 100
+  
+  # Digital Twin API Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/twin
+    backendRefs:
+    - name: twin-service
+      port: 8080
+      weight: 100
+  
+  # Calendar API Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/calendar
+    backendRefs:
+    - name: calendar-service
+      port: 8080
+      weight: 100
+  
+  # Notification API Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/notifications
+    backendRefs:
+    - name: notification-service
+      port: 8080
+      weight: 100
+  
+  # Analytics API Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/analytics
+    backendRefs:
+    - name: analytics-service
+      port: 8080
+      weight: 100
+  
+  # Community API Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/community
+    backendRefs:
+    - name: community-service
+      port: 8080
+      weight: 100
+  
+  # Research API Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/research
+    backendRefs:
+    - name: research-service
+      port: 8080
+      weight: 100

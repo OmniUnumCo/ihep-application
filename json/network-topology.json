@@ -1,0 +1,369 @@
+{
+  "title": "Morphogenetic SDN Framework - Network Topology Version",
+  "version": "3.0 - SDN Production Ready",
+  "date": "November 10, 2025",
+  "corrections_applied": {
+    "context_shift": "Browser DOM \u2192 Network graph (switches/routers/links)",
+    "delta_s_fix": "Time-trend \u2192 Spatial difference (S_alt - S_current)",
+    "adjacency_stability": "Degree-normalized Laplacian with spectral cap D \u2264 0.25/deg_max",
+    "field_coupling": "Cross-terms added: \u2202L/\u2202t += \u03ba_LE\u00b7E, \u2202S/\u2202t -= \u03ba_SE\u00b7E",
+    "builder_safety": "Thundering herd prevention via controller-issued budget tokens",
+    "quorum_semantics": "Topological neighbor consensus (\u22652 adjacent nodes hot), E/L/S vote as tie-breaker",
+    "scavenger_release": "Exponential backoff on HALF_OPEN probes + optics/CRC/FEC checklist",
+    "threshold_adaptation": "Percentile-based (p95/p99) for L, per-link baseline for E",
+    "security_upgrade": "mTLS + signed intents (controller verifies), pre/post field snapshots logged",
+    "utf8_cleanup": "All mojibake removed"
+  },
+  "network_topology": {
+    "graph_representation": {
+      "nodes": "V = {switches, routers, endpoints}",
+      "edges": "E = {physical links with capacity, latency, loss characteristics}",
+      "adjacency_matrix": "A[i,j] = 1 if link exists between node i and j, 0 otherwise",
+      "degree_matrix": "D[i,i] = \u03a3_j A[i,j] (node degree)",
+      "normalized_laplacian": "L_norm = I - D^(-1/2) \u00b7 A \u00b7 D^(-1/2)"
+    },
+    "telemetry_sources": {
+      "sflow_netflow_ipfix": "Flow-level metrics: packets, bytes, drops, retransmits",
+      "int_inband": "In-band Network Telemetry: per-packet queue depth, hop latency",
+      "gnmi_grpc": "gNMI/gRPC streaming counters: interface stats, CRC errors, FEC corrections",
+      "controller_northbound": "SDN controller API: ECMP weights, routing tables, LSP stats",
+      "optics_monitoring": "DOM (Digital Optical Monitoring): RX power, TX power, temperature"
+    },
+    "signal_sources_per_link": {
+      "error_signal_E": {
+        "raw_measurement": "E_raw = (crc_errors + packet_drops + retransmits) / total_packets",
+        "baseline_per_link": "E_baseline = EWMA(E_raw) over 1-hour window",
+        "normalization": "E = (E_raw - E_baseline) / (p95_E_baseline)",
+        "range": "[0, \u221e) clamped to [0, 3] (3\u03c3 outlier protection)",
+        "adaptive": "E_baseline recalculates every 10 minutes to adapt to optics degradation"
+      },
+      "latency_signal_L": {
+        "raw_measurement": "L_raw = queue_delay_ms (from INT) OR RTT/2 (from ICMP/TCP)",
+        "slo_per_link": "L_SLO = p50(L_raw) over stable periods",
+        "normalization": "L = L_raw / L_SLO",
+        "range": "[0, \u221e) clamped to [0, 5] (5\u00d7 SLO = unacceptable)",
+        "percentile_based": "Use p95 and p99 for threshold triggers instead of mean"
+      },
+      "spare_capacity_S": {
+        "raw_measurement": "S_raw = 1 - (current_utilization_bps / link_capacity_bps)",
+        "capacity_weighted": "S_weighted = S_raw \u00d7 (link_capacity / max_capacity_in_network)",
+        "normalization": "S = S_weighted (already [0,1])",
+        "range": "[0, 1]",
+        "note": "High-capacity links weighted more in routing decisions"
+      }
+    }
+  },
+  "field_dynamics_sdn": {
+    "discrete_update_rule": {
+      "equation": "\u03c6(t+1) = (1-\u03b2)\u00b7\u03c6(t) + \u03b1\u00b7source(t) + D\u00b7L_norm\u00b7\u03c6(t) + C\u00b7X(\u03c6)",
+      "components": {
+        "persistence": "(1-\u03b2)\u00b7\u03c6(t) where \u03b2=0.2 (decay factor)",
+        "injection": "\u03b1\u00b7source(t) where \u03b1 = k_inject (signal-specific gain)",
+        "diffusion": "D\u00b7L_norm\u00b7\u03c6(t) where D \u2264 0.25/deg_max (spectral stability cap)",
+        "cross_coupling": "C\u00b7X(\u03c6) where X holds cross-influence terms"
+      }
+    },
+    "injection_gains": {
+      "k_inject_E": 1.0,
+      "k_inject_L": 0.8,
+      "k_inject_S": 0.6,
+      "rationale": "E most critical for failure detection, S most damped (prevents oscillation)"
+    },
+    "diffusion_coefficient_spectral_cap": {
+      "base_diffusion": {
+        "D_E": 0.15,
+        "D_L": 0.2,
+        "D_S": 0.1
+      },
+      "stability_constraint": "D_actual = min(D_base, 0.25 / deg_max)",
+      "deg_max": "Maximum node degree in current network graph",
+      "rationale": "Degree-normalized Laplacian has eigenvalues \u03bb \u2208 [0, 2]. D \u2264 0.25/deg_max ensures |\u03bb| < 1 for discrete stability",
+      "safe_fast_toggle": {
+        "safe_mode": "D = 0.15 / deg_max (slower diffusion, more stable)",
+        "fast_mode": "D = 0.25 / deg_max (faster response, near stability limit)"
+      }
+    },
+    "decay_rates": {
+      "lambda_E": 0.05,
+      "lambda_L": 0.08,
+      "lambda_S": 0.03,
+      "implementation": "\u03c6_decay = \u03c6 \u00b7 exp(-\u03bb\u00b7\u0394t) where \u0394t = 1s",
+      "note": "Decay encoded in (1-\u03b2) term; \u03b2 = 1 - exp(-\u03bb\u00b7\u0394t)"
+    },
+    "cross_coupling_morphogenetic": {
+      "description": "Signals influence each other to anticipate cascades",
+      "equations": {
+        "latency_coupling": "\u2202L/\u2202t += \u03ba_LE \u00b7 E (errors raise latency via retransmits)",
+        "capacity_consumption": "\u2202S/\u2202t -= \u03ba_SE \u00b7 E (errors consume spare capacity via retries)"
+      },
+      "coupling_constants": {
+        "\u03ba_LE": 0.15,
+        "\u03ba_SE": 0.1,
+        "constraint": "\u03ba \u2248 0.1-0.2 of base inject gain for stability"
+      },
+      "matrix_form": "X(\u03c6) = [[0, \u03ba_LE, 0], [0, 0, 0], [-\u03ba_SE, 0, 0]] \u00b7 [E, L, S]^T",
+      "benefit": "System anticipates secondary effects (error storm \u2192 latency spike \u2192 capacity exhaustion)"
+    },
+    "normalized_laplacian_construction": {
+      "steps": [
+        "1. Construct adjacency matrix A from network graph",
+        "2. Compute degree matrix D where D[i,i] = \u03a3_j A[i,j]",
+        "3. Form D^(-1/2) (diagonal matrix with 1/\u221a(degree) entries)",
+        "4. Compute L_norm = I - D^(-1/2) \u00b7 A \u00b7 D^(-1/2)",
+        "5. Verify eigenvalues: \u03bb \u2208 [0, 2] (must hold for stability)"
+      ],
+      "properties": {
+        "symmetry": "L_norm is symmetric",
+        "spectrum": "Eigenvalues in [0, 2]",
+        "null_space": "All-ones vector is eigenvector with \u03bb=0",
+        "stability": "Diffusion stable if D\u00b7\u03bb_max < 1, hence D < 1/\u03bb_max \u2264 0.5"
+      }
+    }
+  },
+  "agent_triggers_sdn": {
+    "threshold_adaptation": {
+      "latency_thresholds": {
+        "\u03b8_L_base": "p95(L) over last 1-hour window",
+        "\u03b8_L_hot": "p99(L) over last 1-hour window",
+        "dynamic_adjustment": "Recalculate every 10 minutes",
+        "per_link_variation": "High-priority links have tighter SLOs"
+      },
+      "error_thresholds": {
+        "\u03b8_E_base": "3\u03c3 above per-link EWMA baseline",
+        "\u03b8_E_hot": "5\u03c3 above baseline",
+        "adaptive": "Noisy WANs have higher baseline than pristine DCs",
+        "example": "DC fiber: \u03b8_E=0.0001 (0.01%), WAN: \u03b8_E=0.005 (0.5%)"
+      },
+      "capacity_thresholds": {
+        "\u03b8_S_low": 0.2,
+        "\u03b8_S_high": 0.7,
+        "note": "More universal; capacity thresholds less variable across link types"
+      }
+    },
+    "detection_windows": {
+      "consecutive_ticks_hot": 3,
+      "consecutive_ticks_very_hot": 2,
+      "sliding_window_length": "10 ticks (10s)",
+      "percentile_calculation": "Computed over sliding window, not global history"
+    }
+  },
+  "weaver_sdn": {
+    "title": "Weaver (SDN Traffic Engineering)",
+    "role": "Dynamically reroute flows to lower-latency paths",
+    "trigger_corrected": {
+      "condition": "L_current > \u03b8_L_hot AND (S_alt - S_current) \u2265 0.1",
+      "explanation_spatial_delta_s": "S_alt = spare capacity on alternative path, S_current = spare capacity on current path",
+      "rationale": "Only reroute if alternative path has \u226510% more headroom",
+      "fixes_bug": "Original used time-trend \u0394S (capacity increase over 5 ticks), which is wrong for routing decisions"
+    },
+    "action": {
+      "primary": "Adjust ECMP weight distribution: shift 10-20% traffic to lower-latency path",
+      "implementation": "Controller API: POST /sdn/ecmp_weights {flow_hash_range: [0.7, 0.9], new_path: path_alt}",
+      "weight_formula": "w_alt = w_alt \u00d7 1.15, w_current = w_current \u00d7 0.85 (normalize after)",
+      "gradual_shift": "Shift in 5% increments every 2 ticks to avoid oscillation"
+    },
+    "hysteresis": {
+      "cooldown": "10 ticks (10s) after action before retriggering",
+      "revert_condition": "L_current < \u03b8_L_hot - \u03b5 for 5 consecutive ticks, where \u03b5 = 0.05",
+      "rationale": "Prevents ping-pong between paths due to measurement noise"
+    },
+    "spatial_gradient_following": {
+      "description": "Agent follows gradient of L field toward lower latency",
+      "gradient_calculation": "\u2207L = [L_neighbor1 - L_current, L_neighbor2 - L_current, ...]",
+      "path_selection": "Choose neighbor with most negative gradient (steepest descent)",
+      "benefit": "Smooth load redistribution rather than hard cutover"
+    },
+    "parameters": {
+      "shift_fraction": "0.10 - 0.20 (10-20%)",
+      "increment_per_tick": "0.05 (5%)",
+      "min_delta_S_spatial": 0.1,
+      "epsilon_hysteresis": 0.05,
+      "cooldown_ticks": 10
+    }
+  },
+  "builder_sdn": {
+    "title": "Builder (SDN Capacity Expansion)",
+    "role": "Bring up additional capacity or upgrade QoS when errors occur with spare headroom",
+    "trigger_with_quorum": {
+      "condition": "E_current > \u03b8_E_hot AND S_current > \u03b8_S_high AND neighbor_quorum \u2265 threshold",
+      "neighbor_quorum_definition": {
+        "topology_based": "Count adjacent nodes/links where E > \u03b8_E_hot",
+        "quorum_formula": "q_topo = (# hot neighbors) / (# total neighbors)",
+        "threshold": "q_topo \u2265 0.6 (60% of neighbors also hot) OR absolute count \u2265 2",
+        "tie_breaker": "If q_topo \u2208 [0.5, 0.7], use signal vote: q_signal = 0.5\u00b7E + 0.3\u00b7L + 0.2\u00b7S",
+        "rationale": "Topological quorum avoids acting on local sensor bias; requires consensus"
+      }
+    },
+    "action_with_budget": {
+      "primary": "Request capacity token from controller, then bring up LAG member OR open secondary path OR bump queue QoS",
+      "controller_budget_lease": {
+        "mechanism": "Controller issues time-limited token (60s validity)",
+        "rate_limit": "1 token per node per minute",
+        "backpressure": "If controller denies token (global congestion), Builder waits 30s and retries",
+        "thundering_herd_prevention": "Only X% of nodes granted tokens simultaneously (X=20%)"
+      },
+      "actions_by_priority": [
+        "1. Bring up LAG member (Link Aggregation Group) if available",
+        "2. Activate secondary equal-cost path",
+        "3. Increase QoS priority for affected flows",
+        "4. If all exhausted, emit alert for operator intervention"
+      ]
+    },
+    "rate_limits": {
+      "per_node": "1 expansion per minute",
+      "global_budget": "Max 20% of nodes expanding simultaneously",
+      "cooldown_after_5": "30 ticks (30s) after 5 expansions in 60s window",
+      "token_bucket": "Controller maintains global token bucket with refill rate"
+    },
+    "hysteresis": {
+      "cooldown": "30 ticks after max rate limit hit",
+      "revert_condition": "E < \u03b8_E_hot - \u03b5 AND utilization < 60% for 20 ticks \u2192 deactivate extra capacity"
+    },
+    "parameters": {
+      "capacity_increment": "+1 LAG member OR +1 equal-cost path",
+      "quorum_threshold_topology": 0.6,
+      "quorum_threshold_signal": 0.67,
+      "budget_lease_duration": "60s",
+      "global_expansion_cap": "20% of nodes"
+    }
+  },
+  "scavenger_sdn": {
+    "title": "Scavenger (SDN Link Isolation / Circuit Breaker)",
+    "role": "Drain and disable failing links with exponential backoff recovery",
+    "trigger": {
+      "condition": "E_current > 2\u00b7\u03b8_E_hot AND S_current < \u03b8_S_low",
+      "rationale": "Very high errors + low capacity = link in crisis, isolate immediately"
+    },
+    "action_drain_disable": {
+      "phase_1_drain": "Controller marks link weight \u2192 0, drains existing flows over 5s",
+      "phase_2_disable": "Link administratively disabled, circuit breaker state \u2192 OPEN",
+      "bgp_withdrawal": "If inter-AS link, withdraw BGP routes",
+      "lsp_teardown": "If MPLS, tear down LSPs using this link"
+    },
+    "circuit_breaker_fsm": {
+      "states": {
+        "CLOSED": "Normal operation, link active",
+        "OPEN": "Link quarantined, no traffic",
+        "HALF_OPEN": "Testing phase, limited probes"
+      },
+      "transitions": {
+        "CLOSED_to_OPEN": "E > 2\u00b7\u03b8_E_hot AND S < \u03b8_S_low",
+        "OPEN_to_HALF_OPEN": "After initial_backoff (30s), enter HALF_OPEN",
+        "HALF_OPEN_to_CLOSED": "E < \u03b8_E_low for 10 consecutive probes AND optics/CRC self-test PASS",
+        "HALF_OPEN_to_OPEN": "Any probe fails E > \u03b8_E_hot OR optics degraded \u2192 back to OPEN, double backoff"
+      }
+    },
+    "exponential_backoff_probes": {
+      "initial_backoff": "30s",
+      "probe_spacing": "t_probe = initial_backoff \u00d7 2^(attempt_count)",
+      "max_backoff": "300s (5 minutes)",
+      "example_sequence": "30s, 60s, 120s, 240s, 300s, 300s, ...",
+      "rationale": "Prevents oscillation from repeatedly probing unstable link"
+    },
+    "optics_crc_fec_checklist": {
+      "pre_release_checks": [
+        "1. RX optical power within spec (DOM API)",
+        "2. TX optical power within spec",
+        "3. Temperature < 70\u00b0C",
+        "4. CRC error rate < \u03b8_E_low for 10 consecutive probes (1 probe per backoff interval)",
+        "5. FEC (Forward Error Correction) uncorrectable count = 0",
+        "6. Manual operator approval if link was critical (optional gate)"
+      ],
+      "probe_mechanism": "Send 100 ICMP/BFD probes at 10ms intervals, measure loss/latency/jitter"
+    },
+    "reintegration_gradual": {
+      "step_1": "Circuit breaker \u2192 CLOSED, but link weight = 0.1 (10% traffic)",
+      "step_2": "If stable for 60s, increase weight to 0.5",
+      "step_3": "If stable for 120s, increase weight to 1.0 (full traffic)",
+      "rollback": "At any step, if E > \u03b8_E_hot, immediately return to OPEN with doubled backoff"
+    },
+    "parameters": {
+      "initial_backoff_s": 30,
+      "backoff_multiplier": 2.0,
+      "max_backoff_s": 300,
+      "probe_count_threshold": 10,
+      "reintegration_weight_schedule": [
+        0.1,
+        0.5,
+        1.0
+      ],
+      "reintegration_stability_durations": [
+        60,
+        120
+      ]
+    }
+  },
+  "stability_analysis_corrected": {
+    "lyapunov_stability_spectrum_based": {
+      "claim": "System converges to stable equilibrium under bounded disturbances",
+      "lyapunov_function": "V(\u03c6) = ||\u03c6||^2 = \u03a3_i \u03c6_i^2",
+      "derivative": "dV/dt = 2\u03c6^T \u00b7 (D\u00b7L_norm\u00b7\u03c6 - \u03bb\u00b7\u03c6 + injection_bounded)",
+      "spectrum_condition": "If D\u00b7\u03bb_max(L_norm) < 1, then dV/dt \u2264 -2\u03bb\u00b7V + C",
+      "conclusion": "Exponential decay to bounded region with time constant \u03c4 = 1/(2\u03bb - D\u00b7\u03bb_max)",
+      "practical_cap": "L_norm has \u03bb_max \u2264 2, so require D < 1/2. Use D \u2264 0.25/deg_max for safety margin",
+      "note": "Original sketch was correct in spirit; this version ties stability to actual graph Laplacian spectrum"
+    },
+    "discrete_stability_z_transform": {
+      "discrete_update": "\u03c6[k+1] = (I + D\u00b7L_norm)\u00b7\u03c6[k] + bounded_source",
+      "stability_condition": "All eigenvalues of (I + D\u00b7L_norm) must satisfy |\u03bb| < 1",
+      "eigenvalue_check": "\u03bb(I + D\u00b7L_norm) = 1 + D\u00b7\u03bb(L_norm) where \u03bb(L_norm) \u2208 [0, 2]",
+      "constraint": "1 + D\u00b72 < 1 is impossible; correct form: (1-\u03b2)\u00b7I + D\u00b7L_norm",
+      "corrected_bound": "|(1-\u03b2) + D\u00b7\u03bb_max| < 1 \u2192 \u03b2 > D\u00b7\u03bb_max",
+      "practical_choice": "\u03b2=0.2, D=0.15/deg_max \u2192 stable for deg_max \u2264 0.75/0.15 \u2248 5 (typical)"
+    }
+  },
+  "security_sdn_production": {
+    "mtls_signed_intents": {
+      "authentication": "Agents authenticate to controller via mTLS (mutual TLS)",
+      "intent_signing": "Each action (ECMP shift, LAG bringup, link disable) includes cryptographic signature",
+      "verification": "Controller verifies signature before executing intent",
+      "key_rotation": "Agent keys rotated every 7 days via PKI",
+      "revocation": "Compromised agent certificates immediately revoked via CRL"
+    },
+    "audit_logging_forensic": {
+      "pre_action_snapshot": "Log \u03c6_E, \u03c6_L, \u03c6_S fields across all nodes BEFORE action",
+      "post_action_snapshot": "Log fields AFTER action (t+5 ticks)",
+      "action_metadata": "Agent ID, timestamp, trigger condition, action taken, signature",
+      "storage": "Immutable append-only log (Kafka, Splunk, or similar)",
+      "retention": "30 days hot, 1 year archive",
+      "forensic_queries": "Enable post-incident analysis: 'What was field state when link X was quarantined?'"
+    },
+    "least_privilege_enforcement": {
+      "weaver": "Can only adjust ECMP weights, not disable links or change QoS",
+      "builder": "Can only request capacity tokens, controller decides approval",
+      "scavenger": "Can only drain/disable links, cannot reroute traffic",
+      "policy_engine": "Controller enforces RBAC (Role-Based Access Control) on all intents"
+    }
+  },
+  "telemetry_integration_sdn": {
+    "data_pipeline": {
+      "collectors": "sFlow/NetFlow/IPFIX agents on all switches",
+      "int_capable": "P4-programmable switches with INT (In-band Network Telemetry)",
+      "streaming": "gNMI/gRPC subscriptions for real-time counter updates (1s cadence)",
+      "aggregation": "Time-series DB (InfluxDB, Prometheus) stores per-link metrics",
+      "field_computation": "Background service computes \u03c6_E, \u03c6_L, \u03c6_S fields from raw telemetry"
+    },
+    "controller_integration": {
+      "northbound_api": "RESTful + gRPC API for agent intent submission",
+      "southbound_protocols": "OpenFlow, P4Runtime, NETCONF for device configuration",
+      "telemetry_exposure": "Controller exposes network graph + current field states via API",
+      "intent_execution": "Controller translates high-level intents (shift 15%) into device-specific rules"
+    }
+  },
+  "simulation_harness_mininet": {
+    "setup": "Mininet topology with 10-50 nodes, Ryu or ONOS controller",
+    "fault_injection": [
+      "Link failure: Set link down, observe Scavenger quarantine",
+      "Latency spike: tc qdisc add delay 500ms, observe Weaver reroute",
+      "Packet loss: tc qdisc add loss 5%, observe field \u03c6_E diffusion",
+      "Cascade: Fail 3 links simultaneously, observe cross-coupled response"
+    ],
+    "visualization": "Real-time heatmap of \u03c6_E, \u03c6_L, \u03c6_S gradients across topology",
+    "validation_metrics": [
+      "Convergence time: How long until fields stabilize after fault?",
+      "False positive rate: % of unnecessary actions",
+      "Coverage: % of faults correctly detected and mitigated",
+      "Stability: Does system exhibit oscillation or smooth response?"
+    ]
+  }
+}

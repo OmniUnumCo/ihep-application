@@ -1,0 +1,54 @@
+name: terraform-staging
+
+on:
+  push:
+    branches: [ "CI" ]
+
+jobs:
+  apply-staging:
+    runs-on: [self-hosted]
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      TF_IN_AUTOMATION: "true"
+      WIF_PROVIDER: ${{ secrets.WIF_PROVIDER }}
+      GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Auth to Google Cloud (OIDC)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.GCP_SA_EMAIL }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform init (uses backend if present)
+        working-directory: terraform
+        run: terraform init -input=false
+
+      - name: Terraform workspace (staging)
+        working-directory: terraform
+        run: |
+          terraform workspace select staging || terraform workspace new staging
+
+      - name: Terraform plan (staging)
+        working-directory: terraform
+        run: |
+          terraform plan -out=tfplan \
+            -var enable_network=true \
+            -var enable_service_account=true
+
+      - name: Terraform apply (staging)
+        working-directory: terraform
+        run: terraform apply tfplan
+
