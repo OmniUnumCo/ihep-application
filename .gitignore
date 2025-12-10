@@ -47,3 +47,13 @@ __pycache__/
 /.local/
 .replit
 cookies.txt
+
+# Training libraries (cloned repos)
+/training/DeepSpeed/
+/training/bitsandbytes/
+/training/datasets/
+/training/accelerate/
+/training/evaluate/
+/training/peft/
+/training/transformers/
+/training/trl/
