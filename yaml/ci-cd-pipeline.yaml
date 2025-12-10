@@ -3,7 +3,7 @@
 
 steps:
   # Step 1: Install dependencies and run tests for frontend
-  - name: 'node:18'
+  - name: 'node:22'
     id: 'frontend-test'
     entrypoint: 'bash'
     args:

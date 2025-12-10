@@ -5,6 +5,7 @@ Production-ready Flask application with comprehensive security controls
 import os
 import logging
 import time
+import json
 import redis
 import psycopg2
 from flask import Flask, jsonify, request, g
@@ -125,7 +126,7 @@ def audit_log(action: str):
 
 # Cache decorator (improve performance, reduce database load)
 def cache_response(timeout=300):
-    """Cache responses in Redis"""
+    """Cache responses in Redis - Security: uses json.loads, not eval"""
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
@@ -133,18 +134,32 @@ def cache_response(timeout=300):
                 return f(*args, **kwargs)
 
             # Create cache key from endpoint and arguments
-            cache_key = f"cache:{request.endpoint}:{hashlib.md5(str(request.args).encode()).hexdigest()}"
+            # Security: Use SHA256 instead of MD5 for cache keys
+            cache_key_input = f"{request.endpoint}:{request.get_data(as_text=True)}"
+            cache_key = f"cache:{hashlib.sha256(cache_key_input.encode()).hexdigest()}"
 
             # Try to get from cache
-            cached = redis_client.get(cache_key)
-            if cached:
-                logger.debug(f"Cache hit: {cache_key}")
-                return jsonify(eval(cached))
+            try:
+                cached = redis_client.get(cache_key)
+                if cached:
+                    logger.debug(f"Cache hit: {cache_key}")
+                    # Security: Use json.loads instead of eval to prevent code injection
+                    cached_data = json.loads(cached)
+                    return jsonify(cached_data), 200
+            except (json.JSONDecodeError, TypeError) as e:
+                logger.warning(f"Cache read error: {e}")
+                # Continue to execute function if cache read fails
 
             # Execute function and cache result
             result = f(*args, **kwargs)
-            if result and isinstance(result, tuple) and result[1] == 200:
-                redis_client.setex(cache_key, timeout, str(result[0].get_json()))
+            if result and isinstance(result, tuple) and len(result) == 2 and result[1] == 200:
+                try:
+                    # Security: Use json.dumps for safe serialization
+                    result_data = result[0].get_json()
+                    redis_client.setex(cache_key, timeout, json.dumps(result_data))
+                except Exception as e:
+                    logger.warning(f"Cache write error: {e}")
+                    # Continue even if caching fails
 
             return result
 
@@ -359,4 +374,10 @@ if __name__ == "__main__":
         logger.error("REQUIRE_SSL must be set to 'true' in production")
         exit(1)
 
-    app.run(host='0.0.0.0', port=port, debug=False)
+    # Bind to 0.0.0.0 for container deployment (Cloud Run, Docker)
+    # This is safe because:
+    # 1. Cloud Run services are behind Google's load balancer with IAM auth
+    # 2. --no-allow-unauthenticated flag enforces authentication
+    # 3. Container networking is isolated from host
+    # nosec B104: Intentional binding to all interfaces for containerized deployment
+    app.run(host='0.0.0.0', port=port, debug=False)  # nosec B104

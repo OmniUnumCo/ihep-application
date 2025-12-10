@@ -35,7 +35,7 @@ bcrypt==4.2.1
 
 # HTTP Requests
 requests==2.32.5
-urllib3==2.6.0
+urllib3==2.6.1
 
 # Data Validation & Serialization
 marshmallow==3.23.2

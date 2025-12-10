@@ -2,17 +2,17 @@
 
 steps:
   # Step 1: Install dependencies
-  - name: 'node:18'
+  - name: 'node:22'
     entrypoint: npm
     args: ['ci']
-    
+
   # Step 2: Run tests
-  - name: 'node:18'
+  - name: 'node:22'
     entrypoint: npm
     args: ['test']
-    
+
   # Step 3: Build Next.js application
-  - name: 'node:18'
+  - name: 'node:22'
     entrypoint: npm
     args: ['run', 'build']
     

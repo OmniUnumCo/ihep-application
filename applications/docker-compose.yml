@@ -83,20 +83,15 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      target: base
+      target: runner
     ports:
-      - "3000:3000"
+      - "3001:3001"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000
       - NEXT_PUBLIC_GCP_PROJECT=${GCP_PROJECT}
     depends_on:
       - healthcare-api
       - auth-service
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
-    command: npm run dev
 
 volumes:
   postgres_data:
