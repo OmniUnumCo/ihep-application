@@ -10,3 +10,23 @@
 	path = training/datasets
 	url = https://github.com/huggingface/datasets.git
 	ignore = dirty
+[submodule "training/accelerate"]
+	path = training/accelerate
+	url = https://github.com/huggingface/accelerate.git
+	ignore = dirty
+[submodule "training/evaluate"]
+	path = training/evaluate
+	url = https://github.com/huggingface/evaluate.git
+	ignore = dirty
+[submodule "training/peft"]
+	path = training/peft
+	url = https://github.com/huggingface/peft.git
+	ignore = dirty
+[submodule "training/transformers"]
+	path = training/transformers
+	url = https://github.com/huggingface/transformers.git
+	ignore = dirty
+[submodule "training/trl"]
+	path = training/trl
+	url = https://github.com/huggingface/trl.git
+	ignore = dirty
