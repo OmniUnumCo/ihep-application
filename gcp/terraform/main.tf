@@ -1,40 +1,8 @@
-# Terraform configuration for Health Insight Ventures GCP infrastructure
+# Main infrastructure configuration for IHEP Healthcare Platform
+# This file contains core resources: APIs, BigQuery, Storage, and Secrets
 
-terraform {
-  required_version = ">= 1.0"
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "~> 4.84"
-    }
-  }
-}
-
-# Variables
-variable "project_id" {
-  description = "GCP Project ID"
-  type        = string
-  default     = "ihep-app"
-}
-
-variable "region" {
-  description = "GCP Region"
-  type        = string
-  default     = "us-central1"
-}
-
-variable "zone" {
-  description = "GCP Zone"
-  type        = string
-  default     = "us-central1-a"
-}
-
-# Provider configuration
-provider "google" {
-  project = var.project_id
-  region  = var.region
-  zone    = var.zone
-}
+# Get current GCP client config
+data "google_client_config" "current" {}
 
 # Enable required APIs
 resource "google_project_service" "required_apis" {
@@ -47,7 +15,18 @@ resource "google_project_service" "required_apis" {
     "firebase.googleapis.com",
     "firestore.googleapis.com",
     "monitoring.googleapis.com",
-    "logging.googleapis.com"
+    "logging.googleapis.com",
+    "compute.googleapis.com",
+    "servicenetworking.googleapis.com",
+    "vpcaccess.googleapis.com",
+    "redis.googleapis.com",
+    "sqladmin.googleapis.com",
+    "healthcare.googleapis.com",
+    "pubsub.googleapis.com",
+    "run.googleapis.com",
+    "dns.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
+    "iam.googleapis.com"
   ])
 
   service = each.value
@@ -109,9 +88,6 @@ resource "google_storage_bucket" "backend_assets" {
 
   depends_on = [google_project_service.required_apis]
 }
-
-# Get current GCP client config
-data "google_client_config" "current" {}
 
 # Secret Manager secrets
 resource "google_secret_manager_secret" "database_url" {

@@ -6,12 +6,14 @@ on:
 
 jobs:
   apply-staging:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
     permissions:
       id-token: write
       contents: read
     env:
       TF_IN_AUTOMATION: "true"
+      WIF_PROVIDER: ${{ secrets.WIF_PROVIDER }}
+      GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,8 +21,8 @@ jobs:
       - name: Auth to Google Cloud (OIDC)
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
-          service_account: ${{ vars.GCP_SA_EMAIL }}
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.GCP_SA_EMAIL }}
 
       - name: Setup gcloud
         uses: google-github-actions/setup-gcloud@v2
@@ -39,10 +41,14 @@ jobs:
         run: |
           terraform workspace select staging || terraform workspace new staging
 
-      - name: Terraform apply (staging)
+      - name: Terraform plan (staging)
         working-directory: terraform
         run: |
-          terraform apply -auto-approve \
+          terraform plan -out=tfplan \
             -var enable_network=true \
             -var enable_service_account=true
+
+      - name: Terraform apply (staging)
+        working-directory: terraform
+        run: terraform apply tfplan
 

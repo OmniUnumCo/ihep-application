@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<!-- saved from url=(0152)https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/c5aa3a84efe26c00ecd724f4dbf0bcfb/09477e4c-316c-4526-b8fb-89e3e2d16b21/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IHEP Financial Dashboard - Investor Report</title>
+    <style>
+        :root {
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-error: var(--color-red-400);
+    --color-success: var(--color-teal-300);
+    --color-warning: var(--color-orange-400);
+    --color-info: var(--color-gray-300);
+    --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+    --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    --button-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+    --color-success-rgb: var(--color-teal-300-rgb);
+    --color-error-rgb: var(--color-red-400-rgb);
+    --color-warning-rgb: var(--color-orange-400-rgb);
+    --color-info-rgb: var(--color-gray-300-rgb);
+  }
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2') format('woff2');
+}
+
+html {
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-24);
+}
+
+.header {
+  margin-bottom: var(--space-32);
+}
+
+.header h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 var(--space-8) 0;
+  color: var(--color-text);
+}
+
+.header p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-lg);
+  margin: 0 0 var(--space-24) 0;
+}
+
+.year-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  margin-bottom: var(--space-24);
+}
+
+.year-selector label {
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-lg);
+}
+
+.year-selector select {
+  padding: var(--space-10) var(--space-16);
+  font-size: var(--font-size-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: var(--select-caret-light);
+  background-repeat: no-repeat;
+  background-position: right var(--space-12) center;
+  background-size: 16px;
+  padding-right: var(--space-32);
+}
+
+@media (prefers-color-scheme: dark) {
+  .year-selector select {
+    background-image: var(--select-caret-dark);
+  }
+}
+
+.year-selector select:focus {
+  outline: var(--focus-outline);
+  border-color: var(--color-primary);
+}
+
+.navigation {
+  display: flex;
+  gap: var(--space-8);
+  margin-bottom: var(--space-32);
+  border-bottom: 1px solid var(--color-border);
+  overflow-x: auto;
+  flex-wrap: wrap;
+}
+
+.nav-button {
+  padding: var(--space-12) var(--space-20);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  white-space: nowrap;
+}
+
+.nav-button:hover {
+  color: var(--color-text);
+  background-color: var(--color-secondary);
+}
+
+.nav-button.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+.metric-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-20);
+  margin-bottom: var(--space-32);
+}
+
+.metric-card {
+  padding: var(--space-24);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.metric-card.blue {
+  background-color: var(--color-bg-1);
+}
+
+.metric-card.green {
+  background-color: var(--color-bg-3);
+}
+
+.metric-card.purple {
+  background-color: var(--color-bg-5);
+}
+
+.metric-card.orange {
+  background-color: var(--color-bg-6);
+}
+
+.metric-card.red {
+  background-color: var(--color-bg-4);
+}
+
+.metric-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: var(--font-weight-medium);
+}
+
+.metric-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+.section-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-20);
+  color: var(--color-text);
+}
+
+.table-container {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: var(--space-24);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-16);
+  border-bottom: 1px solid var(--color-card-border-inner);
+}
+
+.table-header h3 {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.copy-button {
+  padding: var(--space-6) var(--space-12);
+  background-color: var(--color-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.copy-button:hover {
+  background-color: var(--color-secondary-hover);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: var(--color-secondary);
+}
+
+th {
+  padding: var(--space-12) var(--space-16);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-card-border-inner);
+}
+
+th.text-right,
+td.text-right {
+  text-align: right;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--color-card-border-inner);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background-color: var(--color-secondary);
+}
+
+td {
+  padding: var(--space-12) var(--space-16);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+}
+
+tfoot tr {
+  background-color: var(--color-secondary);
+  font-weight: var(--font-weight-semibold);
+}
+
+tfoot td {
+  padding: var(--space-12) var(--space-16);
+  border-top: 2px solid var(--color-border);
+}
+
+.chart-container {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  margin-bottom: var(--space-24);
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 400px;
+}
+
+.sensitivity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-20);
+  margin-top: var(--space-24);
+}
+
+.sensitivity-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+}
+
+.sensitivity-card h3 {
+  margin: 0 0 var(--space-16) 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.sensitivity-metric {
+  margin-bottom: var(--space-12);
+}
+
+.sensitivity-metric .label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.sensitivity-metric .value {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+.roi-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-20);
+  margin-bottom: var(--space-24);
+}
+
+.roi-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-20);
+}
+
+.roi-card .label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+}
+
+.roi-card .value {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+.positive {
+  color: var(--color-success);
+}
+
+.negative {
+  color: var(--color-error);
+}
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>IHEP Financial Dashboard</h1>
+            <p>Comprehensive Financial Impact Analysis &amp; Investment Overview</p>
+            
+            <div class="year-selector">
+                <label for="yearSelect">Select Year:</label>
+                <select id="yearSelect">
+                    <option value="0">Year 1</option>
+                    <option value="1">Year 2</option>
+                    <option value="2">Year 3</option>
+                    <option value="3">Year 4</option>
+                    <option value="4">Year 5</option>
+                    <option value="5">Year 6</option>
+                    <option value="6">Year 7</option>
+                    <option value="7">Year 8</option>
+                    <option value="8">Year 9</option>
+                    <option value="9">Year 10</option>
+                </select>
+            </div>
+        </div>
+
+        <nav class="navigation">
+            <button class="nav-button active" data-section="overview">Overview</button>
+            <button class="nav-button" data-section="income">Income Streams</button>
+            <button class="nav-button" data-section="impact">Financial Impact</button>
+            <button class="nav-button" data-section="costs">Operating Costs</button>
+            <button class="nav-button" data-section="funding">Funding Model</button>
+            <button class="nav-button" data-section="roi">ROI Analysis</button>
+            <button class="nav-button" data-section="sensitivity">Sensitivity Analysis</button>
+        </nav>
+
+        <!-- SECTION 1: OVERVIEW -->
+        <section id="overview" class="section active">
+            <h2 class="section-title">Overview Dashboard</h2>
+            <div class="metric-cards">
+                <div class="metric-card blue">
+                    <div class="metric-label">Total Direct Participant Income</div>
+                    <div class="metric-value" id="overviewDirectIncome">$3675K</div>
+                </div>
+                <div class="metric-card green">
+                    <div class="metric-label">Total Indirect Benefits</div>
+                    <div class="metric-value" id="overviewIndirectBenefits">$3396K</div>
+                </div>
+                <div class="metric-card purple">
+                    <div class="metric-label">Total Financial Impact</div>
+                    <div class="metric-value" id="overviewTotalImpact">$7071K</div>
+                </div>
+                <div class="metric-card orange">
+                    <div class="metric-label">Active Participants</div>
+                    <div class="metric-value" id="overviewParticipants">2,500</div>
+                </div>
+                <div class="metric-card red">
+                    <div class="metric-label">Cost Per Participant</div>
+                    <div class="metric-value" id="overviewCostPer">$1,222</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: INCOME STREAMS -->
+        <section id="income" class="section">
+            <h2 class="section-title">Income Streams Breakdown</h2>
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Participant Income Sources</h3>
+                    <button class="copy-button" onclick="copyTable(&#39;incomeTable&#39;)">Copy Table</button>
+                </div>
+                <table id="incomeTable">
+                    <thead>
+                        <tr>
+                            <th>Stream Name</th>
+                            <th class="text-right">Participant Count</th>
+                            <th class="text-right">Avg Earnings</th>
+                            <th class="text-right">Total Annual</th>
+                        </tr>
+                    </thead>
+                    <tbody id="incomeTableBody"><tr>
+                    <td>Peer Navigator</td>
+                    <td class="text-right">120</td>
+                    <td class="text-right">$3,000</td>
+                    <td class="text-right">$360,000</td>
+                </tr><tr>
+                    <td>Training Stipends</td>
+                    <td class="text-right">190</td>
+                    <td class="text-right">$500</td>
+                    <td class="text-right">$95,000</td>
+                </tr><tr>
+                    <td>Research Participation</td>
+                    <td class="text-right">250</td>
+                    <td class="text-right">$1,529</td>
+                    <td class="text-right">$382,150</td>
+                </tr><tr>
+                    <td>Gig Tasks/Marketplace</td>
+                    <td class="text-right">370</td>
+                    <td class="text-right">$1,300</td>
+                    <td class="text-right">$481,000</td>
+                </tr><tr>
+                    <td>Career Employment</td>
+                    <td class="text-right">290</td>
+                    <td class="text-right">$7,266</td>
+                    <td class="text-right">$2,107,000</td>
+                </tr><tr>
+                    <td>Career Training</td>
+                    <td class="text-right">500</td>
+                    <td class="text-right">$500</td>
+                    <td class="text-right">$250,000</td>
+                </tr></tbody>
+                    <tfoot>
+                        <tr>
+                            <td><strong>TOTAL</strong></td>
+                            <td class="text-right" id="incomeTotalParticipants">1,720</td>
+                            <td class="text-right">—</td>
+                            <td class="text-right" id="incomeTotalAmount">$3,675,000</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 3: FINANCIAL IMPACT -->
+        <section id="impact" class="section">
+            <h2 class="section-title">Consolidated Financial Impact Analysis</h2>
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>10-Year Financial Impact Projection</h3>
+                    <button class="copy-button" onclick="copyTable(&#39;impactTable&#39;)">Copy Table</button>
+                </div>
+                <table id="impactTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th class="text-right">Direct Income</th>
+                            <th class="text-right">Indirect Benefits</th>
+                            <th class="text-right">Total Impact</th>
+                            <th class="text-right">Active Participants</th>
+                            <th class="text-right">Per Participant</th>
+                        </tr>
+                    </thead>
+                    <tbody id="impactTableBody"><tr>
+                    <td>Year 1</td>
+                    <td class="text-right">$3,675,000</td>
+                    <td class="text-right">$3,396,000</td>
+                    <td class="text-right">$7,071,000</td>
+                    <td class="text-right">2,500</td>
+                    <td class="text-right">$2,829</td>
+                </tr><tr>
+                    <td>Year 2</td>
+                    <td class="text-right">$7,616,000</td>
+                    <td class="text-right">$6,072,000</td>
+                    <td class="text-right">$13,688,000</td>
+                    <td class="text-right">4,500</td>
+                    <td class="text-right">$3,042</td>
+                </tr><tr>
+                    <td>Year 3</td>
+                    <td class="text-right">$12,599,000</td>
+                    <td class="text-right">$15,975,000</td>
+                    <td class="text-right">$28,574,000</td>
+                    <td class="text-right">8,500</td>
+                    <td class="text-right">$3,361</td>
+                </tr><tr>
+                    <td>Year 4</td>
+                    <td class="text-right">$18,783,000</td>
+                    <td class="text-right">$26,430,000</td>
+                    <td class="text-right">$45,213,000</td>
+                    <td class="text-right">13,000</td>
+                    <td class="text-right">$3,478</td>
+                </tr><tr>
+                    <td>Year 5</td>
+                    <td class="text-right">$25,503,000</td>
+                    <td class="text-right">$44,000,000</td>
+                    <td class="text-right">$69,503,000</td>
+                    <td class="text-right">25,000</td>
+                    <td class="text-right">$2,780</td>
+                </tr><tr>
+                    <td>Year 6</td>
+                    <td class="text-right">$31,990,000</td>
+                    <td class="text-right">$58,930,000</td>
+                    <td class="text-right">$90,920,000</td>
+                    <td class="text-right">35,000</td>
+                    <td class="text-right">$2,598</td>
+                </tr><tr>
+                    <td>Year 7</td>
+                    <td class="text-right">$39,170,000</td>
+                    <td class="text-right">$73,860,000</td>
+                    <td class="text-right">$113,030,000</td>
+                    <td class="text-right">45,000</td>
+                    <td class="text-right">$2,512</td>
+                </tr><tr>
+                    <td>Year 8</td>
+                    <td class="text-right">$47,250,000</td>
+                    <td class="text-right">$88,790,000</td>
+                    <td class="text-right">$136,040,000</td>
+                    <td class="text-right">55,000</td>
+                    <td class="text-right">$2,473</td>
+                </tr><tr>
+                    <td>Year 9</td>
+                    <td class="text-right">$57,010,000</td>
+                    <td class="text-right">$103,720,000</td>
+                    <td class="text-right">$160,730,000</td>
+                    <td class="text-right">65,000</td>
+                    <td class="text-right">$2,472</td>
+                </tr><tr>
+                    <td>Year 10</td>
+                    <td class="text-right">$64,060,000</td>
+                    <td class="text-right">$158,650,000</td>
+                    <td class="text-right">$222,710,000</td>
+                    <td class="text-right">75,000</td>
+                    <td class="text-right">$2,970</td>
+                </tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 4: OPERATING COSTS -->
+        <section id="costs" class="section">
+            <h2 class="section-title">Operating Costs Analysis</h2>
+            
+            <div class="chart-container">
+                <h3>Cost Breakdown by Category</h3>
+                <div class="chart-wrapper">
+                    <canvas id="costPieChart" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" height="0" width="0"></canvas>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Operating Budget &amp; Efficiency</h3>
+                    <button class="copy-button" onclick="copyTable(&#39;costsTable&#39;)">Copy Table</button>
+                </div>
+                <table id="costsTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th class="text-right">Operating Budget</th>
+                            <th class="text-right">Active Participants</th>
+                            <th class="text-right">Cost Per Participant</th>
+                        </tr>
+                    </thead>
+                    <tbody id="costsTableBody"><tr>
+                    <td>Year 1</td>
+                    <td class="text-right">$3,054,500</td>
+                    <td class="text-right">2,500</td>
+                    <td class="text-right">$1,222</td>
+                </tr><tr>
+                    <td>Year 2</td>
+                    <td class="text-right">$5,200,000</td>
+                    <td class="text-right">4,500</td>
+                    <td class="text-right">$1,156</td>
+                </tr><tr>
+                    <td>Year 3</td>
+                    <td class="text-right">$7,850,000</td>
+                    <td class="text-right">8,500</td>
+                    <td class="text-right">$923</td>
+                </tr><tr>
+                    <td>Year 4</td>
+                    <td class="text-right">$11,200,000</td>
+                    <td class="text-right">13,000</td>
+                    <td class="text-right">$862</td>
+                </tr><tr>
+                    <td>Year 5</td>
+                    <td class="text-right">$15,500,000</td>
+                    <td class="text-right">25,000</td>
+                    <td class="text-right">$620</td>
+                </tr><tr>
+                    <td>Year 6</td>
+                    <td class="text-right">$19,200,000</td>
+                    <td class="text-right">35,000</td>
+                    <td class="text-right">$549</td>
+                </tr><tr>
+                    <td>Year 7</td>
+                    <td class="text-right">$22,800,000</td>
+                    <td class="text-right">45,000</td>
+                    <td class="text-right">$507</td>
+                </tr><tr>
+                    <td>Year 8</td>
+                    <td class="text-right">$26,500,000</td>
+                    <td class="text-right">55,000</td>
+                    <td class="text-right">$482</td>
+                </tr><tr>
+                    <td>Year 9</td>
+                    <td class="text-right">$30,200,000</td>
+                    <td class="text-right">65,000</td>
+                    <td class="text-right">$465</td>
+                </tr><tr>
+                    <td>Year 10</td>
+                    <td class="text-right">$34,500,000</td>
+                    <td class="text-right">75,000</td>
+                    <td class="text-right">$460</td>
+                </tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 5: FUNDING MODEL -->
+        <section id="funding" class="section">
+            <h2 class="section-title">Funding Model &amp; Revenue Sources</h2>
+            
+            <div class="chart-container">
+                <h3>Funding Sources by Year</h3>
+                <div class="chart-wrapper">
+                    <canvas id="fundingChart" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" height="0" width="0"></canvas>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Detailed Funding Breakdown</h3>
+                    <button class="copy-button" onclick="copyTable(&#39;fundingTable&#39;)">Copy Table</button>
+                </div>
+                <table id="fundingTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th class="text-right">IHEP Core</th>
+                            <th class="text-right">Grants</th>
+                            <th class="text-right">Research</th>
+                            <th class="text-right">CSR</th>
+                            <th class="text-right">Foundation</th>
+                            <th class="text-right">Commercial</th>
+                            <th class="text-right">Total</th>
+                            <th class="text-right">Surplus/Deficit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fundingTableBody"><tr>
+                    <td>Year 1</td>
+                    <td class="text-right">$1,225,000</td>
+                    <td class="text-right">$500,000</td>
+                    <td class="text-right">$300,000</td>
+                    <td class="text-right">$625,000</td>
+                    <td class="text-right">$400,000</td>
+                    <td class="text-right">$0</td>
+                    <td class="text-right">$3,050,000</td>
+                    <td class="text-right negative">$-4,500</td>
+                </tr><tr>
+                    <td>Year 2</td>
+                    <td class="text-right">$1,900,000</td>
+                    <td class="text-right">$800,000</td>
+                    <td class="text-right">$550,000</td>
+                    <td class="text-right">$1,000,000</td>
+                    <td class="text-right">$700,000</td>
+                    <td class="text-right">$50,000</td>
+                    <td class="text-right">$5,000,000</td>
+                    <td class="text-right negative">$-200,000</td>
+                </tr><tr>
+                    <td>Year 3</td>
+                    <td class="text-right">$3,150,000</td>
+                    <td class="text-right">$1,500,000</td>
+                    <td class="text-right">$800,000</td>
+                    <td class="text-right">$1,750,000</td>
+                    <td class="text-right">$1,000,000</td>
+                    <td class="text-right">$0</td>
+                    <td class="text-right">$8,200,000</td>
+                    <td class="text-right positive">$350,000</td>
+                </tr><tr>
+                    <td>Year 4</td>
+                    <td class="text-right">$4,800,000</td>
+                    <td class="text-right">$2,400,000</td>
+                    <td class="text-right">$1,200,000</td>
+                    <td class="text-right">$2,600,000</td>
+                    <td class="text-right">$1,500,000</td>
+                    <td class="text-right">$500,000</td>
+                    <td class="text-right">$12,100,000</td>
+                    <td class="text-right positive">$900,000</td>
+                </tr><tr>
+                    <td>Year 5</td>
+                    <td class="text-right">$6,300,000</td>
+                    <td class="text-right">$2,500,000</td>
+                    <td class="text-right">$1,500,000</td>
+                    <td class="text-right">$3,000,000</td>
+                    <td class="text-right">$1,500,000</td>
+                    <td class="text-right">$1,000,000</td>
+                    <td class="text-right">$15,800,000</td>
+                    <td class="text-right positive">$300,000</td>
+                </tr><tr>
+                    <td>Year 6</td>
+                    <td class="text-right">$7,920,000</td>
+                    <td class="text-right">$3,200,000</td>
+                    <td class="text-right">$1,850,000</td>
+                    <td class="text-right">$3,600,000</td>
+                    <td class="text-right">$1,900,000</td>
+                    <td class="text-right">$730,000</td>
+                    <td class="text-right">$19,800,000</td>
+                    <td class="text-right positive">$600,000</td>
+                </tr><tr>
+                    <td>Year 7</td>
+                    <td class="text-right">$9,360,000</td>
+                    <td class="text-right">$4,000,000</td>
+                    <td class="text-right">$2,300,000</td>
+                    <td class="text-right">$4,300,000</td>
+                    <td class="text-right">$2,300,000</td>
+                    <td class="text-right">$1,640,000</td>
+                    <td class="text-right">$23,900,000</td>
+                    <td class="text-right positive">$1,100,000</td>
+                </tr><tr>
+                    <td>Year 8</td>
+                    <td class="text-right">$11,000,000</td>
+                    <td class="text-right">$4,800,000</td>
+                    <td class="text-right">$2,800,000</td>
+                    <td class="text-right">$5,000,000</td>
+                    <td class="text-right">$2,700,000</td>
+                    <td class="text-right">$1,200,000</td>
+                    <td class="text-right">$27,500,000</td>
+                    <td class="text-right positive">$1,000,000</td>
+                </tr><tr>
+                    <td>Year 9</td>
+                    <td class="text-right">$12,500,000</td>
+                    <td class="text-right">$5,500,000</td>
+                    <td class="text-right">$3,200,000</td>
+                    <td class="text-right">$5,500,000</td>
+                    <td class="text-right">$3,000,000</td>
+                    <td class="text-right">$1,500,000</td>
+                    <td class="text-right">$31,200,000</td>
+                    <td class="text-right positive">$1,000,000</td>
+                </tr><tr>
+                    <td>Year 10</td>
+                    <td class="text-right">$14,000,000</td>
+                    <td class="text-right">$4,000,000</td>
+                    <td class="text-right">$3,000,000</td>
+                    <td class="text-right">$5,000,000</td>
+                    <td class="text-right">$3,500,000</td>
+                    <td class="text-right">$6,000,000</td>
+                    <td class="text-right">$36,500,000</td>
+                    <td class="text-right positive">$2,000,000</td>
+                </tr></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 6: ROI ANALYSIS -->
+        <section id="roi" class="section">
+            <h2 class="section-title">Return on Investment Analysis</h2>
+            
+            <div class="roi-cards">
+                <div class="roi-card">
+                    <div class="label">Cost per Participant</div>
+                    <div class="value" id="roiCost">$1,222</div>
+                </div>
+                <div class="roi-card">
+                    <div class="label">Benefit per Participant</div>
+                    <div class="value positive" id="roiBenefit">$2,829</div>
+                </div>
+                <div class="roi-card">
+                    <div class="label">ROI Percentage</div>
+                    <div class="value positive" id="roiPercent">131.6%</div>
+                </div>
+                <div class="roi-card">
+                    <div class="label">Return per $1 Invested</div>
+                    <div class="value positive" id="roiPerDollar">$2.32</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>ROI Trend Over 10 Years</h3>
+                <div class="chart-wrapper">
+                    <canvas id="roiChart" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" height="0" width="0"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: SENSITIVITY ANALYSIS -->
+        <section id="sensitivity" class="section">
+            <h2 class="section-title">Sensitivity Analysis</h2>
+            <p style="color: var(--color-text-secondary); margin-bottom: var(--space-24);">Impact projections under different scenarios for the selected year</p>
+            
+            <div class="sensitivity-grid">
+                <div class="sensitivity-card">
+                    <h3>Conservative Scenario (70%)</h3>
+                    <div class="sensitivity-metric">
+                        <div class="label">Total Benefit</div>
+                        <div class="value" id="sensConservativeBenefit">$4,949,700</div>
+                    </div>
+                    <div class="sensitivity-metric">
+                        <div class="label">ROI Percentage</div>
+                        <div class="value positive" id="sensConservativeROI">62.1%</div>
+                    </div>
+                </div>
+
+                <div class="sensitivity-card">
+                    <h3>Base Case (100%)</h3>
+                    <div class="sensitivity-metric">
+                        <div class="label">Total Benefit</div>
+                        <div class="value" id="sensBaseBenefit">$7,071,000</div>
+                    </div>
+                    <div class="sensitivity-metric">
+                        <div class="label">ROI Percentage</div>
+                        <div class="value positive" id="sensBaseROI">131.6%</div>
+                    </div>
+                </div>
+
+                <div class="sensitivity-card">
+                    <h3>Aggressive Scenario (115%)</h3>
+                    <div class="sensitivity-metric">
+                        <div class="label">Total Benefit</div>
+                        <div class="value" id="sensAggressiveBenefit">$8,131,650</div>
+                    </div>
+                    <div class="sensitivity-metric">
+                        <div class="label">ROI Percentage</div>
+                        <div class="value positive" id="sensAggressiveROI">166.2%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="./IHEP Financial Dashboard - Investor Report_files/chart.js"></script>
+    <script>
+        // Financial Data
+        const financialData = {
+            peer_navigator_income: [360000, 1320000, 2820000, 5080000, 7220000, 8900000, 10660000, 12830000, 15300000, 18070000],
+            training_stipends: [95000, 162000, 241000, 333000, 432000, 520000, 610000, 708000, 815000, 668000],
+            research_participation: [382150, 843000, 1320000, 1890000, 2560000, 3240000, 4080000, 5120000, 6400000, 6250000],
+            gig_marketplace: [481000, 1060000, 2030000, 3220000, 4390000, 5900000, 7520000, 9600000, 12100000, 14120000],
+            career_employment: [2107000, 3800000, 5600000, 7500000, 9800000, 12100000, 14800000, 17500000, 20200000, 22500000],
+            career_training: [250000, 431000, 589000, 768000, 1030000, 1250000, 1520000, 1820000, 2180000, 2440000],
+            direct_income_totals: [3675000, 7616000, 12599000, 18783000, 25503000, 31990000, 39170000, 47250000, 57010000, 64060000],
+            indirect_benefits_totals: [3396000, 6072000, 15975000, 26430000, 44000000, 58930000, 73860000, 88790000, 103720000, 158650000],
+            total_participant_impact: [7071000, 13688000, 28574000, 45213000, 69503000, 90920000, 113030000, 136040000, 160730000, 222710000],
+            active_participants: [2500, 4500, 8500, 13000, 25000, 35000, 45000, 55000, 65000, 75000],
+            impact_per_participant: [2829, 3042, 3361, 3478, 2780, 2598, 2512, 2473, 2472, 2970],
+            operating_budget: [3054500, 5200000, 7850000, 11200000, 15500000, 19200000, 22800000, 26500000, 30200000, 34500000],
+            cost_per_participant: [1222, 1156, 923, 862, 620, 549, 507, 482, 465, 460],
+            funding_core: [1225000, 1900000, 3150000, 4800000, 6300000, 7920000, 9360000, 11000000, 12500000, 14000000],
+            funding_workforce: [500000, 800000, 1500000, 2400000, 2500000, 3200000, 4000000, 4800000, 5500000, 4000000],
+            funding_research: [300000, 550000, 800000, 1200000, 1500000, 1850000, 2300000, 2800000, 3200000, 3000000],
+            funding_csr: [625000, 1000000, 1750000, 2600000, 3000000, 3600000, 4300000, 5000000, 5500000, 5000000],
+            funding_foundation: [400000, 700000, 1000000, 1500000, 1500000, 1900000, 2300000, 2700000, 3000000, 3500000],
+            funding_commercial: [0, 50000, 0, 500000, 1000000, 730000, 1640000, 1200000, 1500000, 6000000],
+            funding_totals: [3050000, 5000000, 8200000, 12100000, 15800000, 19800000, 23900000, 27500000, 31200000, 36500000],
+            roi_percent_trend: [131.6, 163.2, 264.1, 303.1, 348.4, 373.0, 395.9, 412.9, 431.8, 545.7],
+            per_dollar_invested: [2.32, 2.63, 3.64, 4.03, 4.48, 4.73, 4.96, 5.13, 5.32, 6.46],
+            sensitivity_conservative_benefit: [4949700, 9581600, 20001800, 31649100, 48651900, 63644000, 79121000, 95228000, 112511000, 155897000],
+            sensitivity_conservative_roi: [62.1, 84.4, 155.3, 182.2, 214.0, 231.1, 247.1, 259.8, 272.6, 352.5],
+            sensitivity_aggressive_benefit: [8131650, 15741200, 32860100, 52045000, 79978450, 104558000, 130034500, 156446000, 184840500, 256317000],
+            sensitivity_aggressive_roi: [166.2, 203.2, 318.5, 364.3, 415.7, 444.5, 470.2, 489.6, 511.4, 643.2]
+        };
+
+        const incomeStreams = [
+            { name: 'Peer Navigator', data: financialData.peer_navigator_income, participants: [120, 220, 470, 800, 1200, 1400, 1700, 2000, 2400, 2800] },
+            { name: 'Training Stipends', data: financialData.training_stipends, participants: [190, 270, 362, 480, 600, 720, 850, 1000, 1150, 920] },
+            { name: 'Research Participation', data: financialData.research_participation, participants: [250, 450, 600, 800, 1000, 1200, 1500, 1800, 2200, 2000] },
+            { name: 'Gig Tasks/Marketplace', data: financialData.gig_marketplace, participants: [370, 530, 870, 1300, 1700, 2200, 2600, 3200, 3900, 4400] },
+            { name: 'Career Employment', data: financialData.career_employment, participants: [290, 450, 650, 850, 1100, 1350, 1600, 1900, 2200, 2400] },
+            { name: 'Career Training', data: financialData.career_training, participants: [500, 862, 1178, 1536, 1800, 2000, 2400, 2800, 3200, 3500] }
+        ];
+
+        let currentYear = 0;
+        let charts = {};
+
+        // Navigation
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                
+                document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Year selector
+        document.getElementById('yearSelect').addEventListener('change', function() {
+            currentYear = parseInt(this.value);
+            updateAllData();
+        });
+
+        // Format currency
+        function formatCurrency(value, compact = false) {
+            if (compact && value >= 1000) {
+                return '$' + (value / 1000).toFixed(0) + 'K';
+            }
+            return '$' + value.toLocaleString('en-US', { maximumFractionDigits: 0 });
+        }
+
+        function formatNumber(value) {
+            return value.toLocaleString('en-US');
+        }
+
+        // Update all data
+        function updateAllData() {
+            updateOverview();
+            updateIncomeTable();
+            updateImpactTable();
+            updateCostsTable();
+            updateFundingTable();
+            updateROI();
+            updateSensitivity();
+            updateCharts();
+        }
+
+        // Update Overview
+        function updateOverview() {
+            document.getElementById('overviewDirectIncome').textContent = formatCurrency(financialData.direct_income_totals[currentYear], true);
+            document.getElementById('overviewIndirectBenefits').textContent = formatCurrency(financialData.indirect_benefits_totals[currentYear], true);
+            document.getElementById('overviewTotalImpact').textContent = formatCurrency(financialData.total_participant_impact[currentYear], true);
+            document.getElementById('overviewParticipants').textContent = formatNumber(financialData.active_participants[currentYear]);
+            document.getElementById('overviewCostPer').textContent = formatCurrency(financialData.cost_per_participant[currentYear]);
+        }
+
+        // Update Income Table
+        function updateIncomeTable() {
+            const tbody = document.getElementById('incomeTableBody');
+            tbody.innerHTML = '';
+            
+            let totalParticipants = 0;
+            
+            incomeStreams.forEach(stream => {
+                const row = document.createElement('tr');
+                const total = stream.data[currentYear];
+                const participants = stream.participants[currentYear];
+                const avg = participants > 0 ? total / participants : 0;
+                
+                totalParticipants += participants;
+                
+                row.innerHTML = `
+                    <td>${stream.name}</td>
+                    <td class="text-right">${formatNumber(participants)}</td>
+                    <td class="text-right">${formatCurrency(avg)}</td>
+                    <td class="text-right">${formatCurrency(total)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            document.getElementById('incomeTotalParticipants').textContent = formatNumber(totalParticipants);
+            document.getElementById('incomeTotalAmount').textContent = formatCurrency(financialData.direct_income_totals[currentYear]);
+        }
+
+        // Update Impact Table
+        function updateImpactTable() {
+            const tbody = document.getElementById('impactTableBody');
+            tbody.innerHTML = '';
+            
+            for (let i = 0; i < 10; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>Year ${i + 1}</td>
+                    <td class="text-right">${formatCurrency(financialData.direct_income_totals[i])}</td>
+                    <td class="text-right">${formatCurrency(financialData.indirect_benefits_totals[i])}</td>
+                    <td class="text-right">${formatCurrency(financialData.total_participant_impact[i])}</td>
+                    <td class="text-right">${formatNumber(financialData.active_participants[i])}</td>
+                    <td class="text-right">${formatCurrency(financialData.impact_per_participant[i])}</td>
+                `;
+                tbody.appendChild(row);
+            }
+        }
+
+        // Update Costs Table
+        function updateCostsTable() {
+            const tbody = document.getElementById('costsTableBody');
+            tbody.innerHTML = '';
+            
+            for (let i = 0; i < 10; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>Year ${i + 1}</td>
+                    <td class="text-right">${formatCurrency(financialData.operating_budget[i])}</td>
+                    <td class="text-right">${formatNumber(financialData.active_participants[i])}</td>
+                    <td class="text-right">${formatCurrency(financialData.cost_per_participant[i])}</td>
+                `;
+                tbody.appendChild(row);
+            }
+        }
+
+        // Update Funding Table
+        function updateFundingTable() {
+            const tbody = document.getElementById('fundingTableBody');
+            tbody.innerHTML = '';
+            
+            for (let i = 0; i < 10; i++) {
+                const surplus = financialData.funding_totals[i] - financialData.operating_budget[i];
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>Year ${i + 1}</td>
+                    <td class="text-right">${formatCurrency(financialData.funding_core[i])}</td>
+                    <td class="text-right">${formatCurrency(financialData.funding_workforce[i])}</td>
+                    <td class="text-right">${formatCurrency(financialData.funding_research[i])}</td>
+                    <td class="text-right">${formatCurrency(financialData.funding_csr[i])}</td>
+                    <td class="text-right">${formatCurrency(financialData.funding_foundation[i])}</td>
+                    <td class="text-right">${formatCurrency(financialData.funding_commercial[i])}</td>
+                    <td class="text-right">${formatCurrency(financialData.funding_totals[i])}</td>
+                    <td class="text-right ${surplus >= 0 ? 'positive' : 'negative'}">${formatCurrency(surplus)}</td>
+                `;
+                tbody.appendChild(row);
+            }
+        }
+
+        // Update ROI
+        function updateROI() {
+            document.getElementById('roiCost').textContent = formatCurrency(financialData.cost_per_participant[currentYear]);
+            document.getElementById('roiBenefit').textContent = formatCurrency(financialData.impact_per_participant[currentYear]);
+            document.getElementById('roiPercent').textContent = financialData.roi_percent_trend[currentYear].toFixed(1) + '%';
+            document.getElementById('roiPerDollar').textContent = '$' + financialData.per_dollar_invested[currentYear].toFixed(2);
+        }
+
+        // Update Sensitivity
+        function updateSensitivity() {
+            document.getElementById('sensConservativeBenefit').textContent = formatCurrency(financialData.sensitivity_conservative_benefit[currentYear]);
+            document.getElementById('sensConservativeROI').textContent = financialData.sensitivity_conservative_roi[currentYear].toFixed(1) + '%';
+            
+            document.getElementById('sensBaseBenefit').textContent = formatCurrency(financialData.total_participant_impact[currentYear]);
+            document.getElementById('sensBaseROI').textContent = financialData.roi_percent_trend[currentYear].toFixed(1) + '%';
+            
+            document.getElementById('sensAggressiveBenefit').textContent = formatCurrency(financialData.sensitivity_aggressive_benefit[currentYear]);
+            document.getElementById('sensAggressiveROI').textContent = financialData.sensitivity_aggressive_roi[currentYear].toFixed(1) + '%';
+        }
+
+        // Update Charts
+        function updateCharts() {
+            createCostPieChart();
+            createFundingChart();
+            createROIChart();
+        }
+
+        // Create Cost Pie Chart
+        function createCostPieChart() {
+            const ctx = document.getElementById('costPieChart');
+            if (charts.costPie) charts.costPie.destroy();
+            
+            charts.costPie = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Personnel (48%)', 'Technology (16%)', 'Support Services (25%)', 'Partnerships (6%)', 'Administration (5%)'],
+                    datasets: [{
+                        data: [48, 16, 25, 6, 5],
+                        backgroundColor: ['#1FB8CD', '#FFC185', '#B4413C', '#ECEBD5', '#5D878F']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create Funding Chart
+        function createFundingChart() {
+            const ctx = document.getElementById('fundingChart');
+            if (charts.funding) charts.funding.destroy();
+            
+            charts.funding = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Year 9', 'Year 10'],
+                    datasets: [
+                        {
+                            label: 'IHEP Core',
+                            data: financialData.funding_core,
+                            backgroundColor: '#1FB8CD'
+                        },
+                        {
+                            label: 'Workforce Grants',
+                            data: financialData.funding_workforce,
+                            backgroundColor: '#FFC185'
+                        },
+                        {
+                            label: 'Research Grants',
+                            data: financialData.funding_research,
+                            backgroundColor: '#B4413C'
+                        },
+                        {
+                            label: 'CSR Partnerships',
+                            data: financialData.funding_csr,
+                            backgroundColor: '#ECEBD5'
+                        },
+                        {
+                            label: 'Foundation',
+                            data: financialData.funding_foundation,
+                            backgroundColor: '#5D878F'
+                        },
+                        {
+                            label: 'Commercial',
+                            data: financialData.funding_commercial,
+                            backgroundColor: '#DB4545'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true },
+                        y: {
+                            stacked: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + (value / 1000000).toFixed(1) + 'M';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Create ROI Chart
+        function createROIChart() {
+            const ctx = document.getElementById('roiChart');
+            if (charts.roi) charts.roi.destroy();
+            
+            charts.roi = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5', 'Year 6', 'Year 7', 'Year 8', 'Year 9', 'Year 10'],
+                    datasets: [{
+                        label: 'ROI %',
+                        data: financialData.roi_percent_trend,
+                        borderColor: '#1FB8CD',
+                        backgroundColor: 'rgba(31, 184, 205, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Copy table function
+        function copyTable(tableId) {
+            const table = document.getElementById(tableId);
+            let text = '';
+            
+            table.querySelectorAll('tr').forEach(row => {
+                const cells = row.querySelectorAll('th, td');
+                const rowText = Array.from(cells).map(cell => cell.textContent.trim()).join('\t');
+                text += rowText + '\n';
+            });
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Initialize
+        updateAllData();
+    </script>
+
+</body></html>

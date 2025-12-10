@@ -1,0 +1,208 @@
+======================================================================
+MEDGEMMA TRAINING DATA VALIDATION REPORT
+Generated: 2025-12-10T06:08:07.861847
+======================================================================
+
+SUMMARY
+----------------------------------------
+Total Datasets: 15
+Total Examples: 1716
+Valid Examples: 1716 (100.0%)
+Invalid Examples: 0
+PHI Risks Found: 0
+Bias Indicators: 944
+
+DATASET DETAILS
+----------------------------------------
+
+chronic_disease_management.jsonl:
+  Examples: 24
+  Valid: 24
+  Invalid: 0
+  Errors: 0
+  Warnings: 16
+  PHI Risks: 0
+  Bias Indicators: 26
+  Categories: {'clinical': 24}
+  Quality Metrics: {'avg_input_length': 178.42, 'avg_output_length': 3350.67, 'valid_percentage': 100.0}
+
+hiv_care_continuum.jsonl:
+  Examples: 36
+  Valid: 36
+  Invalid: 0
+  Errors: 0
+  Warnings: 26
+  PHI Risks: 0
+  Bias Indicators: 38
+  Categories: {'clinical': 36}
+  Quality Metrics: {'avg_input_length': 165.0, 'avg_output_length': 1776.28, 'valid_percentage': 100.0}
+
+clinical_training.jsonl:
+  Examples: 400
+  Valid: 400
+  Invalid: 0
+  Errors: 0
+  Warnings: 800
+  PHI Risks: 0
+  Bias Indicators: 104
+  Categories: {'clinical': 400}
+  Quality Metrics: {'avg_input_length': 178.84, 'avg_output_length': 61.0, 'valid_percentage': 100.0}
+
+medication_adherence_patterns.jsonl:
+  Examples: 26
+  Valid: 26
+  Invalid: 0
+  Errors: 0
+  Warnings: 2
+  PHI Risks: 0
+  Bias Indicators: 26
+  Categories: {'adherence': 26}
+  Quality Metrics: {'avg_input_length': 141.38, 'avg_output_length': 2871.88, 'valid_percentage': 100.0}
+
+adherence_training.jsonl:
+  Examples: 400
+  Valid: 400
+  Invalid: 0
+  Errors: 0
+  Warnings: 438
+  PHI Risks: 0
+  Bias Indicators: 0
+  Categories: {'adherence': 400}
+  Quality Metrics: {'avg_input_length': 101.0, 'avg_output_length': 63.0, 'valid_percentage': 100.0}
+
+mental_health_assessments.jsonl:
+  Examples: 24
+  Valid: 24
+  Invalid: 0
+  Errors: 0
+  Warnings: 0
+  PHI Risks: 0
+  Bias Indicators: 42
+  Categories: {'mental_health': 24}
+  Quality Metrics: {'avg_input_length': 151.0, 'avg_output_length': 4319.08, 'valid_percentage': 100.0}
+
+mental_health_training.jsonl:
+  Examples: 300
+  Valid: 300
+  Invalid: 0
+  Errors: 0
+  Warnings: 300
+  PHI Risks: 0
+  Bias Indicators: 300
+  Categories: {'mental_health': 300}
+  Quality Metrics: {'avg_input_length': 61.03, 'avg_output_length': 71.0, 'valid_percentage': 100.0}
+
+sdoh_interventions.jsonl:
+  Examples: 22
+  Valid: 22
+  Invalid: 0
+  Errors: 0
+  Warnings: 0
+  PHI Risks: 0
+  Bias Indicators: 22
+  Categories: {'social_determinants': 22}
+  Quality Metrics: {'avg_input_length': 151.68, 'avg_output_length': 5454.45, 'valid_percentage': 100.0}
+
+sdoh_training.jsonl:
+  Examples: 24
+  Valid: 24
+  Invalid: 0
+  Errors: 0
+  Warnings: 24
+  PHI Risks: 0
+  Bias Indicators: 24
+  Categories: {'social_determinants': 24}
+  Quality Metrics: {'avg_input_length': 78.58, 'avg_output_length': 68.0, 'valid_percentage': 100.0}
+
+risk_stratification_training.jsonl:
+  Examples: 16
+  Valid: 16
+  Invalid: 0
+  Errors: 0
+  Warnings: 0
+  PHI Risks: 0
+  Bias Indicators: 21
+  Categories: {'risk_prediction': 16}
+  Quality Metrics: {'avg_input_length': 591.81, 'avg_output_length': 6751.81, 'valid_percentage': 100.0}
+
+risk_training.jsonl:
+  Examples: 200
+  Valid: 200
+  Invalid: 0
+  Errors: 0
+  Warnings: 200
+  PHI Risks: 0
+  Bias Indicators: 94
+  Categories: {'risk_prediction': 200}
+  Quality Metrics: {'avg_input_length': 303.58, 'avg_output_length': 66.0, 'valid_percentage': 100.0}
+
+patient_dialogues.jsonl:
+  Examples: 24
+  Valid: 24
+  Invalid: 0
+  Errors: 0
+  Warnings: 0
+  PHI Risks: 0
+  Bias Indicators: 25
+  Categories: {'conversational': 24}
+  Quality Metrics: {'avg_input_length': 0.0, 'avg_output_length': 0.0, 'valid_percentage': 100.0}
+
+wearable_data_interpretation.jsonl:
+  Examples: 10
+  Valid: 10
+  Invalid: 0
+  Errors: 0
+  Warnings: 0
+  PHI Risks: 0
+  Bias Indicators: 12
+  Categories: {'wearables': 10}
+  Quality Metrics: {'avg_input_length': 144.4, 'avg_output_length': 4605.8, 'valid_percentage': 100.0}
+
+wearables_training.jsonl:
+  Examples: 200
+  Valid: 200
+  Invalid: 0
+  Errors: 0
+  Warnings: 200
+  PHI Risks: 0
+  Bias Indicators: 200
+  Categories: {'wearables': 200}
+  Quality Metrics: {'avg_input_length': 145.68, 'avg_output_length': 77.0, 'valid_percentage': 100.0}
+
+financial_navigation.jsonl:
+  Examples: 10
+  Valid: 10
+  Invalid: 0
+  Errors: 0
+  Warnings: 0
+  PHI Risks: 0
+  Bias Indicators: 10
+  Categories: {'financial_health': 10}
+  Quality Metrics: {'avg_input_length': 130.4, 'avg_output_length': 5303.0, 'valid_percentage': 100.0}
+
+BIAS INDICATORS (Requires Review)
+----------------------------------------
+  Line 1: gender_imbalance
+  Line 2: gender_imbalance
+  Line 3: gender_imbalance
+  Line 4: gender_imbalance
+  Line 5: gender_imbalance
+  Line 1: gender_imbalance
+  Line 2: gender_imbalance
+  Line 3: gender_imbalance
+  Line 4: gender_imbalance
+  Line 5: gender_imbalance
+  Line 5: gender_imbalance
+  Line 6: gender_imbalance
+  Line 41: gender_imbalance
+  Line 42: gender_imbalance
+  Line 45: gender_imbalance
+  Line 3: gender_imbalance
+  Line 4: gender_imbalance
+  Line 5: gender_imbalance
+  Line 6: gender_imbalance
+  Line 7: gender_imbalance
+
+======================================================================
+END OF REPORT
+======================================================================

@@ -1,0 +1,21 @@
+# OSSAR is deprecated and does not support this repository's stack (JavaScript/TypeScript and Python).
+# Keep this workflow as a no-op so manual runs succeed without surfacing tool errors in the Security tab.
+# CodeQL at .github/workflows/codeql-analysis.yml is the supported static analysis workflow.
+
+name: OSSAR (Disabled)
+
+on:
+  workflow_dispatch:  # Manual trigger only; no scheduled or push triggers to avoid noise.
+
+permissions:
+  contents: read
+
+jobs:
+  skip-ossar:
+    name: OSSAR deprecated (use CodeQL)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notice
+        run: |
+          echo "OSSAR has been retired for this repository."
+          echo "Use CodeQL (.github/workflows/codeql-analysis.yml) for static analysis."

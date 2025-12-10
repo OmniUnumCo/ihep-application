@@ -1,0 +1,30 @@
+{
+  "title": "Research Team - Threshold Optimization Agents",
+  "version": "1.0",
+  "date": "November 10, 2025",
+  "purpose": "A/B test threshold parameters and field constants to optimize morphogenetic framework performance",
+  "overview": {
+    "concept": "Operational Team (Weaver, Builder, Scavenger) executes known-good policies. Research Team (Theorist, Experimenter, Analyst) tests variations, measures outcomes, and recommends parameter improvements.",
+    "architecture": "Dual-layer morphogenetic framework with feedback loop",
+    "update_cycle": "Experiment runs: 1 hour (3600 ticks), Analysis cycle: every hour, Recommendations: daily"
+  },
+  "three_research_agents": {
+    "theorist": {
+      "role": "Hypothesis generator / Parameter explorer",
+      "responsibility": "Propose threshold variations based on historical performance",
+      "methods": [
+        "Sensitivity analysis: vary each \u03b8 by \u00b110%, \u00b120%",
+        "Correlation analysis: identify which thresholds most affect outcome metrics",
+        "Dimensionality reduction: find pareto-optimal threshold combinations"
+      ]
+    },
+    "experimenter": {
+      "role": "A/B test executor / Isolation controller",
+      "responsibility": "Run hypothesis tests with proper isolation, randomization, and control"
+    },
+    "analyst": {
+      "role": "Performance evaluator / Insight extractor",
+      "responsibility": "Analyze experiment results and recommend threshold improvements"
+    }
+  }
+}

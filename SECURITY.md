@@ -2,10 +2,12 @@
 
 ## Supported Versions
 
+Currently the supported versions are...
+
 | Version | Supported          |
 | ------- | ------------------ |
-
-All versions currently in development. Please stay tuned for updates.
+| 1.1.0   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
+Please submit all security issues, or vulnerabilities through a pull request.

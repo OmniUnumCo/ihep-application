@@ -1,0 +1,233 @@
+name: IHEP Platform CI/CD
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main, staging]
+
+env:
+  GCP_PROJECT_ID: gen-lang-client-0928975904
+  NEXT_PUBLIC_API_URL: https://www.ihep.app/api
+  GCP_REGION: us-central1
+  GAR_LOCATION: us-central1
+  REGISTRY: gcr.io
+
+jobs:
+  # Security scanning
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          severity: 'CRITICAL,HIGH'
+  
+  # Frontend tests and build
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Install dependencies
+        run: cd frontend && npm ci
+      
+      - name: Run linter
+        run: cd frontend && npm run lint
+      
+      - name: Run type check
+        run: cd frontend && npm run type-check
+      
+      - name: Run tests
+        run: cd frontend && npm test -- --coverage
+      
+      - name: Build
+        run: cd frontend && npm run build
+        env:
+          NEXT_PUBLIC_API_URL: https://ihep-platform.org
+          NEXT_PUBLIC_GCP_PROJECT: gen-lang-client-0928975904
+  
+  # Backend tests
+  backend-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [healthcare-api, auth-service]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+      
+      - name: Run linter
+        run: |
+          cd backend/${{ matrix.service }}
+          flake8 . --max-line-length=120
+      
+      - name: Run type checker
+        run: |
+          cd backend/${{ matrix.service }}
+          mypy . --ignore-missing-imports
+      
+      - name: Run tests
+        run: |
+          cd backend
+          pytest tests/ --cov=${{ matrix.service }} --cov-report=xml
+  
+  # Build and push Docker images
+  build-and-push:
+    needs: [security-scan, frontend-build, backend-test]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      matrix:
+        service: [frontend, healthcare-api, auth-service]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/934473355501/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider
+          service_account: github-actions-sa@gen-lang-client-0928975904.iam.gserviceaccount.com
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+      
+      - name: Configure Docker
+        run: gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
+      
+      - name: Build Docker image
+        run: |
+          if [ "${{ matrix.service }}" = "frontend" ]; then
+            cd frontend
+            docker build -t ${{ env.REGISTRY }}/${{ env.GCP_PROJECT_ID }}/${{ matrix.service }}:${{ github.sha }} \
+              --build-arg NEXT_PUBLIC_API_URL=${{ env.NEXT_PUBLIC_API_URL }} \
+              --build-arg NEXT_PUBLIC_GCP_PROJECT=${{ env.GCP_PROJECT_ID }} \
+              .
+          else
+            cd backend
+            docker build -f ${{ matrix.service }}/Dockerfile \
+              -t ${{ env.REGISTRY }}/${{ env.GCP_PROJECT_ID }}/${{ matrix.service }}:${{ github.sha }} \
+              .
+          fi
+      
+      - name: Push Docker image
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.GCP_PROJECT_ID }}/${{ matrix.service }}:${{ github.sha }}
+          docker tag ${{ env.REGISTRY }}/${{ env.GCP_PROJECT_ID }}/${{ matrix.service }}:${{ github.sha }} \
+            ${{ env.REGISTRY }}/${{ env.GCP_PROJECT_ID }}/${{ matrix.service }}:latest
+          docker push ${{ env.REGISTRY }}/${{ env.GCP_PROJECT_ID }}/${{ matrix.service }}:latest
+  
+  # Deploy to staging
+  deploy-staging:
+    needs: [build-and-push]
+    if: github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/934473355501/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider
+          service_account: github-actions-sa@gen-lang-client-0928975904.iam.gserviceaccount.com
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+      
+      - name: Deploy to Cloud Run
+        run: |
+          for service in frontend healthcare-api auth-service; do
+            gcloud run deploy ihep-${service}-staging \
+              --image ${{ env.REGISTRY }}/${{ env.GCP_PROJECT_ID }}/${service}:${{ github.sha }} \
+              --region ${{ env.GCP_REGION }} \
+              --platform managed \
+              --allow-unauthenticated \
+              --max-instances 10 \
+              --min-instances 0 \
+              --memory 2Gi \
+              --cpu 1 \
+              --timeout 300
+          done
+  
+  # Deploy to production (requires approval)
+  deploy-production:
+    needs: [build-and-push]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/934473355501/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider
+          service_account: github-actions-sa@gen-lang-client-0928975904.iam.gserviceaccount.com
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+      
+      - name: Deploy with blue-green strategy
+        run: |
+          for service in frontend healthcare-api auth-service; do
+            # Deploy new version (green)
+            gcloud run deploy ihep-${service}-production \
+              --image ${{ env.REGISTRY }}/${{ env.GCP_PROJECT_ID }}/${service}:${{ github.sha }} \
+              --region ${{ env.GCP_REGION }} \
+              --platform managed \
+              --no-traffic \
+              --tag green-${{ github.sha }}
+            
+            # Gradual traffic shift: 10% -> 50% -> 100%
+            gcloud run services update-traffic ihep-${service}-production \
+              --to-tags green-${{ github.sha }}=10 \
+              --region ${{ env.GCP_REGION }}
+            
+            sleep 300  # Monitor for 5 minutes
+            
+            gcloud run services update-traffic ihep-${service}-production \
+              --to-tags green-${{ github.sha }}=50 \
+              --region ${{ env.GCP_REGION }}
+            
+            sleep 300  # Monitor for 5 minutes
+            
+            gcloud run services update-traffic ihep-${service}-production \
+              --to-tags green-${{ github.sha }}=100 \
+              --region ${{ env.GCP_REGION }}
+          done
+      
+      - name: Run smoke tests
+        run: |
+          curl -f https://ihep-platform.org/health || exit 1
+          curl -f https://ihep-platform.org/api/v1/auth/health || exit 1

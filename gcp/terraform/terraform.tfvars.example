@@ -1,0 +1,84 @@
+# Example Terraform variables file for IHEP Healthcare Platform
+# Copy this file to terraform.tfvars and update with your actual values
+
+# ============================================================================
+# PROJECT CONFIGURATION
+# ============================================================================
+
+project_id  = "gen-lang-client-0928975904"  # Your GCP project ID
+region      = "us-central1"                  # Primary region
+zone        = "us-central1-a"                # Primary zone
+environment = "prod"                         # Environment: dev, staging, or prod
+
+# ============================================================================
+# NETWORKING CONFIGURATION
+# ============================================================================
+
+vpc_name            = "ihep-vpc"
+enable_vpc_flow_logs = true
+enable_cloud_nat    = true
+
+# ============================================================================
+# DATABASE CONFIGURATION
+# ============================================================================
+
+# Cloud SQL PostgreSQL
+db_tier           = "db-custom-2-8192"   # 2 vCPUs, 8 GB RAM (production)
+# db_tier         = "db-custom-1-3840"   # 1 vCPU, 3.75 GB RAM (dev/staging)
+db_replica_tier   = "db-custom-1-4096"   # 1 vCPU, 4 GB RAM (read replica)
+db_backup_enabled = true
+db_ha_enabled     = true                  # High availability
+db_disk_size_gb   = 100                   # Initial disk size
+
+# ============================================================================
+# REDIS CONFIGURATION
+# ============================================================================
+
+redis_memory_size_gb = 5                   # Memory size in GB
+redis_tier           = "STANDARD_HA"       # STANDARD_HA for production, BASIC for dev
+
+# ============================================================================
+# SECURITY CONFIGURATION
+# ============================================================================
+
+enable_cloud_armor      = true
+enable_ssl_policy       = true
+enable_private_ip_only  = true             # No public IPs for Cloud SQL
+enable_audit_logs       = true             # HIPAA requirement
+
+# Optional: Restrict admin access to specific IP ranges
+# allowed_ip_ranges = ["203.0.113.0/24", "198.51.100.0/24"]
+
+# ============================================================================
+# MONITORING & LOGGING
+# ============================================================================
+
+log_retention_days = 90                    # HIPAA requires 90+ days
+
+# ============================================================================
+# SCALING CONFIGURATION
+# ============================================================================
+
+min_instances   = 1                        # Minimum Cloud Run instances
+max_instances   = 10                       # Maximum Cloud Run instances
+cpu_throttling  = false                    # Disable CPU throttling for production
+
+# ============================================================================
+# DOMAIN CONFIGURATION
+# ============================================================================
+
+domain_name = "ihep.app"                   # Your custom domain
+enable_cdn  = true                         # Enable Cloud CDN
+
+# ============================================================================
+# LABELS & TAGS
+# ============================================================================
+
+labels = {
+  project     = "ihep"
+  managed_by  = "terraform"
+  environment = "prod"
+  compliance  = "hipaa"
+  department  = "healthcare"
+  cost_center = "operations"
+}

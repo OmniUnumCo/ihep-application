@@ -1,0 +1,13 @@
+ihep-cloud/
+├── terraform/
+│   ├── main.tf           # Core resources
+│   ├── security.tf       # Cloud Armor & IAM
+│   ├── database.tf       # SQL & Redis
+│   └── healthcare.tf     # Google Healthcare API
+├── backend/
+│   ├── app/              # Python Digital Twin Engine
+│   └── Dockerfile
+├── frontend/
+│   ├── src/              # Next.js App
+│   └── Dockerfile
+└── .github/              # CI/CD Workflows

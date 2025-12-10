@@ -5,7 +5,7 @@
 
 set -e
 
-PROJECT_ID="ihep-app"
+PROJECT_ID="gen-lang-client-0928975904"
 REGION="us-central1"
 
 echo "🚀 Setting up GCP project: $PROJECT_ID"
