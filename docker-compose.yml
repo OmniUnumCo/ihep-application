@@ -1,0 +1,290 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # Core Services
+  auth-service:
+    build:
+      context: ./services/auth-api
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PROJECT_ID=${PROJECT_ID}
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=ihep
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SSL_MODE=disable
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - ihep-network
+
+  health-service:
+    build:
+      context: ./services/health-api
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - PROJECT_ID=${PROJECT_ID}
+      - LOCATION=us-central1
+      - HEALTHCARE_DATASET_ID=ihep-phi-dataset
+      - FHIR_STORE_ID=ihep-fhir-store
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - ihep-network
+
+  chat-service:
+    build:
+      context: ./services/chat-api
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - PROJECT_ID=${PROJECT_ID}
+      - LOCATION=us-central1
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - ihep-network
+
+  # Patient Twin Service (was missing!)
+  patient-twin-service:
+    build:
+      context: ./services/patient-twin-service
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - PROJECT_ID=${PROJECT_ID}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/ihep
+      - TWIN_ENCRYPTION_KEY=${TWIN_ENCRYPTION_KEY}
+      - GOOGLE_CLOUD_PROJECT=${PROJECT_ID}
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - ihep-network
+
+  # Resource Catalog Service (was missing!)
+  resource-catalog-service:
+    build:
+      context: ./services/resource-catalog-service
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8080"
+    environment:
+      - PORT=8080
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/ihep
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - ihep-network
+
+  # New Services
+  finance-service:
+    build:
+      context: ./services/finance-api
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - PROJECT_ID=${PROJECT_ID}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - ihep-network
+
+  twin-service:
+    build:
+      context: ./services/twin-api
+      dockerfile: Dockerfile
+    ports:
+      - "8087:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - PROJECT_ID=${PROJECT_ID}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - TWIN_ENCRYPTION_KEY=${TWIN_ENCRYPTION_KEY}
+    depends_on:
+      - redis
+    networks:
+      - ihep-network
+
+  calendar-service:
+    build:
+      context: ./services/calendar-api
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - PROJECT_ID=${PROJECT_ID}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - ihep-network
+
+  notification-service:
+    build:
+      context: ./services/notification-api
+      dockerfile: Dockerfile
+    ports:
+      - "8089:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - PROJECT_ID=${PROJECT_ID}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}
+      - EMAIL_SENDER=${EMAIL_SENDER}
+      - AWS_REGION=${AWS_REGION}
+    depends_on:
+      - redis
+    networks:
+      - ihep-network
+
+  analytics-service:
+    build:
+      context: ./services/analytics-api
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - PROJECT_ID=${PROJECT_ID}
+      - DATASET_ID=ihep_analytics
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - ihep-network
+
+  community-service:
+    build:
+      context: ./services/community-api
+      dockerfile: Dockerfile
+    ports:
+      - "8091:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - PROJECT_ID=${PROJECT_ID}
+      - DATASET_ID=ihep_community
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - ihep-network
+
+  research-service:
+    build:
+      context: ./services/research-api
+      dockerfile: Dockerfile
+    ports:
+      - "8092:8080"
+    environment:
+      - PORT=8080
+      - JWT_SECRET=${JWT_SECRET}
+      - PROJECT_ID=${PROJECT_ID}
+      - DATASET_ID=ihep_research
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - ihep-network
+
+  # Infrastructure Services
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - ihep-network
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ihep
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - ihep-network
+    command: >
+      postgres
+      -c ssl=on
+      -c ssl_cert_file=/var/lib/postgresql/server.crt
+      -c ssl_key_file=/var/lib/postgresql/server.key
+      -c password_encryption=scram-sha-256
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+    depends_on:
+      - auth-service
+      - health-service
+    networks:
+      - ihep-network
+
+networks:
+  ihep-network:
+    driver: bridge
+
+volumes:
+  redis_data:
+  postgres_data:

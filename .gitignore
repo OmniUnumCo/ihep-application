@@ -1,0 +1,71 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Build outputs
+.next/
+dist/
+build/
+out/
+
+# Environment and secrets
+.env
+.env.*
+*.pem
+secrets.sh
+
+# IDE and editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large binary files
+*.qcow2
+*.tar.gz
+*.deb
+*.dmg
+*.exe
+*.msi
+*.zip
+*.rar
+*.7z
+
+# Miscellaneous directories that don't belong
+Desktop/
+Documents/
+Downloads/
+Music/
+Pictures/
+Public/
+Templates/
+Videos/
+claude-code/
+weathered-wildflower-73bb/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Cache
+.cache/

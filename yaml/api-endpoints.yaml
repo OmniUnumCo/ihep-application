@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  title: IHEP IAM Service
+  version: 1.0.0
+  description: Zero Trust identity and access management
+
+paths:
+  /v1/auth/login:
+    post:
+      summary: Authenticate user with MFA
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                mfa_code:
+                  type: string
+              required: [email, password, mfa_code]
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: JWT with 15min expiry
+                  refresh_token:
+                    type: string
+                  user_id:
+                    type: string
+                  trust_score:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+  
+  /v1/auth/verify:
+    post:
+      summary: Verify token and calculate real-time trust score
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resource:
+                  type: string
+                  description: Resource URI being accessed
+                context:
+                  type: object
+                  properties:
+                    device_id:
+                      type: string
+                    location:
+                      type: object
+                      properties:
+                        latitude:
+                          type: number
+                        longitude:
+                          type: number
+                    time:
+                      type: string
+                      format: date-time
+      responses:
+        '200':
+          description: Authorization decision
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authorized:
+                    type: boolean
+                  trust_score:
+                    type: number
+                  reasons:
+                    type: array
+                    items:
+                      type: string

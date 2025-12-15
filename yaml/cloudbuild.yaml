@@ -1,0 +1,72 @@
+# cloudbuild.yaml - CI/CD pipeline configuration
+
+steps:
+  # Step 1: Install dependencies
+  - name: 'node:22'
+    entrypoint: npm
+    args: ['ci']
+
+  # Step 2: Run tests
+  - name: 'node:22'
+    entrypoint: npm
+    args: ['test']
+
+  # Step 3: Build Next.js application
+  - name: 'node:22'
+    entrypoint: npm
+    args: ['run', 'build']
+    
+  # Step 4: Build synthesis service container
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-docker.pkg.dev/${PROJECT_ID}/ihep/synthesis-service:${SHORT_SHA}'
+      - '-f'
+      - 'services/synthesis/Dockerfile'
+      - './services/synthesis'
+      
+  # Step 5: Push container to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-docker.pkg.dev/${PROJECT_ID}/ihep/synthesis-service:${SHORT_SHA}'
+      
+  # Step 6: Deploy synthesis service to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'ihep-synthesis-service'
+      - '--image=us-docker.pkg.dev/${PROJECT_ID}/ihep/synthesis-service:${SHORT_SHA}'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--memory=4Gi'
+      - '--cpu=2'
+      - '--min-instances=1'
+      - '--max-instances=10'
+      - '--set-env-vars=POSTGRES_CONNECTION_NAME=${_POSTGRES_CONNECTION}'
+      - '--set-env-vars=HEALTHCARE_API_DATASET=${_HEALTHCARE_DATASET}'
+      - '--allow-unauthenticated=false'
+      
+  # Step 7: Deploy Next.js application
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'ihep-web-app'
+      - '--source=.'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--memory=2Gi'
+      - '--min-instances=1'
+      - '--max-instances=20'
+      - '--allow-unauthenticated=true'
+
+# Service account with minimum required permissions
+serviceAccount: 'projects/${PROJECT_ID}/serviceAccounts/cloudbuild@${PROJECT_ID}.iam.gserviceaccount.com'
+
+# Deployment timeout
+timeout: 1800s

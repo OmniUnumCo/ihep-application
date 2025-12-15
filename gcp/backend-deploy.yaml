@@ -1,0 +1,36 @@
+# Cloud Build for Cloud Functions deployment
+steps:
+  # Install dependencies for Cloud Functions
+  - name: 'node:20-alpine'
+    entrypoint: 'npm'
+    args: ['ci']
+    dir: 'gcp/functions'
+    
+  # Build TypeScript
+  - name: 'node:20-alpine'
+    entrypoint: 'npm'
+    args: ['run', 'build']
+    dir: 'gcp/functions'
+    
+  # Deploy Cloud Function
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args: [
+      'functions', 'deploy', 'health-insight-api',
+      '--runtime', 'nodejs20',
+      '--trigger-http',
+      '--allow-unauthenticated',
+      '--memory', '1GB',
+      '--timeout', '540s',
+      '--region', 'us-central1',
+      '--source', 'gcp/functions',
+      '--entry-point', 'health-insight-api',
+      '--set-env-vars', 'NODE_ENV=production',
+      '--set-secrets', 'OPENAI_API_KEY=OPENAI_API_KEY:latest,SENDGRID_API_KEY=SENDGRID_API_KEY:latest,TWILIO_ACCOUNT_SID=TWILIO_ACCOUNT_SID:latest,TWILIO_AUTH_TOKEN=TWILIO_AUTH_TOKEN:latest'
+    ]
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'E2_HIGHCPU_4'
+
+timeout: '800s'
