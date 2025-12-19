@@ -1,0 +1,130 @@
+_wandb:
+    value:
+        cli_version: 0.23.1
+        e:
+            bnn5x55b5rmeyfkiuz4ja49eufw2dai2:
+                apple:
+                    ecpuCores: 2
+                    gpuCores: 16
+                    memoryGb: 16
+                    name: Apple M1 Pro
+                    pcpuCores: 8
+                    ramTotalBytes: "17179869184"
+                    swapTotalBytes: "11811160064"
+                args:
+                    - --config
+                    - configs/test_config.yaml
+                    - --max_steps
+                    - "10"
+                codePath: training_datasets/train_medgemma.py
+                codePathLocal: train_medgemma.py
+                cpu_count: 10
+                cpu_count_logical: 10
+                disk:
+                    /:
+                        total: "666424573952"
+                        used: "382475337728"
+                email: jaymagik095@gmail.com
+                executable: /Users/nexus1/Documents/ihep-app/.venv/bin/python
+                git:
+                    commit: 306d3a57aae240614dd242fc7454d8e68a307701
+                    remote: https://github.com/omniunumco/ihep.git
+                host: nexus-dev.local
+                memory:
+                    total: "17179869184"
+                os: macOS-26.2-arm64-arm-64bit-Mach-O
+                program: /Users/nexus1/Documents/ihep-app/ihep/training_datasets/train_medgemma.py
+                python: CPython 3.14.2
+                root: /Users/nexus1/Documents/ihep-app/ihep/training_datasets
+                startedAt: "2025-12-19T07:27:13.973405Z"
+                writerId: bnn5x55b5rmeyfkiuz4ja49eufw2dai2
+        m: []
+        python_version: 3.14.2
+        t:
+            "1":
+                - 1
+                - 11
+                - 49
+                - 51
+                - 71
+                - 98
+            "2":
+                - 1
+                - 11
+                - 49
+                - 51
+                - 71
+                - 98
+            "3":
+                - 2
+                - 13
+                - 15
+                - 61
+            "4": 3.14.2
+            "5": 0.23.1
+            "6": 4.57.3
+            "12": 0.23.1
+            "13": darwin-arm64
+lora:
+    value:
+        alpha: 16
+        bias: none
+        dropout: 0.05
+        enabled: true
+        r: 8
+        target_modules:
+            - c_attn
+        task_type: CAUSAL_LM
+model:
+    value:
+        base_model: gpt2
+        gradient_checkpointing: true
+        max_length: 512
+        model_type: causal_lm
+        precision: bf16
+        use_flash_attention: false
+output:
+    value:
+        model_name: test-gpt2-finetune
+        output_dir: ./outputs/test_run
+        push_to_hub: false
+reproducibility:
+    value:
+        cudnn_benchmark: false
+        deterministic: true
+        seed: 42
+training:
+    value:
+        adam_beta1: 0.9
+        adam_beta2: 0.999
+        adam_epsilon: 1e-08
+        bf16: true
+        eval_steps: 5
+        eval_strategy: steps
+        gradient_accumulation_steps: 2
+        learning_rate: 2e-05
+        logging_steps: 2
+        logging_strategy: steps
+        lr_scheduler_type: cosine
+        max_grad_norm: 1
+        max_steps: 10
+        num_train_epochs: 1
+        optim: adamw_torch
+        per_device_eval_batch_size: 4
+        per_device_train_batch_size: 2
+        report_to:
+            - wandb
+        save_steps: 5
+        save_strategy: steps
+        save_total_limit: 2
+        warmup_ratio: 0.03
+        weight_decay: 0.01
+wandb:
+    value:
+        enabled: true
+        entity: null
+        name: test-run
+        project: ihep-training-test
+        tags:
+            - test
+            - gpt2

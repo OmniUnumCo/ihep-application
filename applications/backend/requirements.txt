@@ -71,3 +71,18 @@ pylint==3.3.2
 # Security Scanning (Development)
 bandit==1.8.0
 safety==3.2.11
+
+# ML Training Dependencies (for MedGemma fine-tuning)
+torch>=2.1.0
+transformers>=4.36.0
+datasets>=2.16.0
+accelerate>=0.25.0
+peft>=0.7.0
+bitsandbytes>=0.41.0
+wandb>=0.16.0
+tensorboard>=2.15.0
+evaluate>=0.4.1
+scipy>=1.11.0
+pyyaml>=6.0
+tqdm>=4.66.0
+

@@ -1,0 +1,122 @@
+version: '3.9'
+
+services:
+  # PostgreSQL Database (Test Instance)
+  postgres-test:
+    image: postgres:15-alpine
+    container_name: ihep-curriculum-postgres-test
+    environment:
+      POSTGRES_DB: ihep_curriculum_test
+      POSTGRES_USER: ihep_test_user
+      POSTGRES_PASSWORD: ${TEST_DB_PASSWORD:-test_password_change_me}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-test-data:/var/lib/postgresql/data
+      - ./test-data/init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ihep_test_user"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - test-network
+
+  # Redis (Test Instance)
+  redis-test:
+    image: redis:7-alpine
+    container_name: ihep-curriculum-redis-test
+    ports:
+      - "6380:6379"
+    command: redis-server --requirepass ${TEST_REDIS_PASSWORD:-test_redis_password}
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - test-network
+    volumes:
+      - redis-test-data:/data
+
+  # FastAPI Backend (Test Instance)
+  api-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: ihep-curriculum-api-test
+    environment:
+      DATABASE_URL: postgresql://ihep_test_user:${TEST_DB_PASSWORD:-test_password_change_me}@postgres-test:5432/ihep_curriculum_test
+      REDIS_URL: redis://:${TEST_REDIS_PASSWORD:-test_redis_password}@redis-test:6379/0
+      SECRET_KEY: ${TEST_SECRET_KEY:-test_secret_key_change_me_in_production}
+      ENVIRONMENT: test
+      LOG_LEVEL: DEBUG
+      PYTHONPATH: /app
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - ./test-results:/app/test-results
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - test-network
+
+  # Test Runner
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: ihep-test-runner
+    environment:
+      DATABASE_URL: postgresql://ihep_test_user:${TEST_DB_PASSWORD:-test_password_change_me}@postgres-test:5432/ihep_curriculum_test
+      REDIS_URL: redis://:${TEST_REDIS_PASSWORD:-test_redis_password}@redis-test:6379/0
+      SECRET_KEY: ${TEST_SECRET_KEY:-test_secret_key}
+      ENVIRONMENT: test
+      PYTHONPATH: /app
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - ./test-results:/app/test-results
+    command: >
+      sh -c "
+        echo 'Waiting for database...' &&
+        sleep 5 &&
+        echo 'Running migrations...' &&
+        alembic upgrade head &&
+        echo 'Running tests...' &&
+        pytest --cov=app --cov-report=html:/app/test-results/coverage --cov-report=term -v --tb=short
+      "
+    networks:
+      - test-network
+
+  # Load Testing (Locust)
+  load-test:
+    image: locustio/locust:latest
+    container_name: ihep-load-test
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./load-tests:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --host=http://api-test:8000
+    depends_on:
+      - api-test
+    networks:
+      - test-network
+
+networks:
+  test-network:
+    driver: bridge
+
+volumes:
+  postgres-test-data:
+  redis-test-data:

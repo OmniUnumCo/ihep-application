@@ -440,8 +440,7 @@ from datasets import load_dataset
 # Load model
 model = AutoModelForCausalLM.from_pretrained(
     "google/medgemma-7b",
-    torch_dtype=torch.bfloat16,
-    device_map="auto"
+    torch_dtype=torch.bfloat16
 )
 
 # Apply LoRA

@@ -1,0 +1,49 @@
+{
+  "email_config": {
+    "smtp_host": "smtp.gmail.com",
+    "smtp_port": 587,
+    "smtp_user": "jason@trademomentumllc.com",
+    "smtp_password": "yygq ltbm qnci nnmw",
+    "from_email": "jason@trademomentumllc.com",
+    "from_name": "Jason Jarmacz - IHEP Principal Investigator",
+    "use_tls": true
+  },
+  "proposals": [
+    {
+      "recipient_email": "workforce.grants@dol.gov",
+      "recipient_name": "Grants Management Specialist",
+      "organization": "U.S. Department of Labor - WIOA Program",
+      "proposal_type": "grant",
+      "file_path": "DOL WIOA WORKFORCE DEVELOPMENT PROPOSAL.docx",
+      "subject": "IHEP Workforce Development Grant Proposal - WIOA Program",
+      "custom_message": "This proposal outlines our peer mediator training program that directly aligns with WIOA workforce development objectives. We are requesting funding to train 100 peer mediators in the first cohort, with a clear pathway to certification and employment."
+    },
+    {
+      "recipient_email": "economic.justice@fordfoundation.org",
+      "recipient_name": "Program Officer",
+      "organization": "Ford Foundation - Economic Justice Initiative",
+      "proposal_type": "grant",
+      "file_path": "FORD FOUNDATION - ECONOMIC JUSTICE INITIATIVE.docx",
+      "subject": "IHEP Economic Empowerment Proposal - Ford Foundation",
+      "custom_message": "Our Digital Twin platform addresses systemic economic inequities faced by individuals living with HIV/AIDS. This proposal demonstrates how technology can create pathways to financial stability and economic justice for marginalized communities."
+    },
+    {
+      "recipient_email": "sbir@nih.gov",
+      "recipient_name": "SBIR Program Officer",
+      "organization": "National Institutes of Health - SBIR Program",
+      "proposal_type": "grant",
+      "file_path": "IHEP_NIH_SBIR_Phase_I_Proposal.docx",
+      "subject": "IHEP NIH SBIR Phase I Application - Digital Health Innovation",
+      "custom_message": "This Phase I SBIR proposal presents our morphogenetic AI platform for healthcare financial navigation. We seek funding to validate our technical approach and demonstrate commercial feasibility."
+    },
+    {
+      "recipient_email": "proposals@gv.com",
+      "recipient_name": "Investment Partner",
+      "organization": "Google Ventures (GV)",
+      "proposal_type": "investor",
+      "file_path": "investor proposal overview fixed.docx",
+      "subject": "IHEP Investment Opportunity - Digital Health Platform (Google Cloud Partner)",
+      "custom_message": "IHEP is a Google Cloud partner with a validated digital health platform addressing a $50B+ market opportunity. Our morphogenetic AI technology has been validated through our existing Google Cloud partnership, and we're seeking Series A funding to scale our peer mediator training program nationally.\n\nKey metrics: 98.5% production readiness, HIPAA compliant, 1000+ concurrent user capacity.\n\nI'd welcome the opportunity to discuss how IHEP aligns with GV's digital health portfolio."
+    }
+  ]
+}
