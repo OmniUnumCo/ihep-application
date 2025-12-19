@@ -1,0 +1,20 @@
+{
+    "nameShort": "ihep",
+    "nameLong": "IHEP Application",
+    "applicationName": "ihep",
+    "dataFolderName": ".ihep",
+    "tunnelApplicationName": "ihep",
+    "tunnelApplicationConfig": {
+        "authenticationProviders": {
+            "github": {
+                "scopes": [
+                    "user:email"
+                ]
+            }
+        },
+        "editorWebUrl": "https://insiders.vscode.dev/tunnel/{{tunnel}}/{{workspace}}",
+        "extension": "ms-vscode.remote-server",
+        "serviceName": "Visual Studio Tunnel Service",
+        "serviceUrl": "https://code.visualstudio.com/api/vscode-server-launcher"
+    }
+}

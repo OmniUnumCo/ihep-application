@@ -1,0 +1,43 @@
+{
+  "os": "macOS-26.2-arm64-arm-64bit-Mach-O",
+  "python": "CPython 3.14.2",
+  "startedAt": "2025-12-19T07:46:50.892364Z",
+  "args": [
+    "--config",
+    "configs/medgemma_finetune.yaml",
+    "--max_steps",
+    "10"
+  ],
+  "program": "/Users/nexus1/Documents/ihep-app/ihep/training_datasets/train_medgemma.py",
+  "codePath": "training_datasets/train_medgemma.py",
+  "codePathLocal": "train_medgemma.py",
+  "git": {
+    "remote": "https://github.com/omniunumco/ihep.git",
+    "commit": "306d3a57aae240614dd242fc7454d8e68a307701"
+  },
+  "email": "jaymagik095@gmail.com",
+  "root": "/Users/nexus1/Documents/ihep-app/ihep/training_datasets",
+  "host": "nexus-dev.local",
+  "executable": "/Users/nexus1/Documents/ihep-app/.venv/bin/python",
+  "cpu_count": 10,
+  "cpu_count_logical": 10,
+  "disk": {
+    "/": {
+      "total": "666424573952",
+      "used": "384489529344"
+    }
+  },
+  "memory": {
+    "total": "17179869184"
+  },
+  "apple": {
+    "name": "Apple M1 Pro",
+    "ecpuCores": 2,
+    "pcpuCores": 8,
+    "gpuCores": 16,
+    "memoryGb": 16,
+    "swapTotalBytes": "11811160064",
+    "ramTotalBytes": "17179869184"
+  },
+  "writerId": "m6r1kv4r7s0xpvqt9ml33joqexkaw6qt"
+}

@@ -10,7 +10,7 @@
 # Model Configuration
 # ----------------------------------------------------------------------------
 model:
-  base_model: "google/medgemma-7b"  # Or appropriate MedGemma variant
+  base_model: "/Users/nexus1/Documents/medgemma-4b-it"  # Local MedGemma 4B model
   model_type: "causal_lm"
   precision: "bf16"  # Use bfloat16 for training stability
   max_length: 4096
@@ -302,7 +302,8 @@ compute:
   # DeepSpeed configuration (if using)
   deepspeed:
     enabled: false
-    config: "configs/deepspeed_config.json"
+    # Uses DeepSpeed from ~/Documents/DeepSpeed/
+    config: "~/Documents/DeepSpeed/tests/model/Megatron_GPT2/ds_config_func_bs8_zero2.json"
 
   # Memory optimization
   enable_gradient_checkpointing: true

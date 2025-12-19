@@ -1,0 +1,72 @@
+# Test Configuration - Using GPT-2 Small for Quick Testing
+# This is a minimal config to test the training pipeline
+# Replace with actual MedGemma when you have access
+
+model:
+  base_model: "gpt2"  # Small, publicly available model for testing
+  model_type: "causal_lm"
+  precision: "bf16"
+  max_length: 512  # Smaller for faster testing
+  use_flash_attention: false
+  gradient_checkpointing: true
+
+lora:
+  enabled: true
+  r: 8  # Smaller rank for testing
+  alpha: 16
+  dropout: 0.05
+  target_modules:
+    - "c_attn"  # GPT-2 attention modules
+  bias: "none"
+  task_type: "CAUSAL_LM"
+
+training:
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.03
+  lr_scheduler_type: "cosine"
+  
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 4
+  gradient_accumulation_steps: 2
+  
+  num_train_epochs: 1
+  max_steps: 10  # Just for testing
+  
+  optim: "adamw_torch"
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  adam_epsilon: 1.0e-8
+  max_grad_norm: 1.0
+  
+  save_strategy: "steps"
+  save_steps: 5
+  save_total_limit: 2
+  
+  eval_strategy: "steps"
+  eval_steps: 5
+  
+  logging_strategy: "steps"
+  logging_steps: 2
+  report_to: ["wandb"]
+  
+  bf16: true
+
+output:
+  output_dir: "./outputs/test_run"
+  model_name: "test-gpt2-finetune"
+  push_to_hub: false
+
+wandb:
+  enabled: true
+  project: "ihep-training-test"
+  entity: null
+  name: "test-run"
+  tags:
+    - "test"
+    - "gpt2"
+
+reproducibility:
+  seed: 42
+  deterministic: true
+  cudnn_benchmark: false

@@ -1,0 +1,23 @@
+{
+  "os": "macOS-26.2-arm64-arm-64bit-Mach-O",
+  "python": "CPython 3.14.2",
+  "startedAt": "2025-12-19T07:24:21.196098Z",
+  "args": [
+    "--config",
+    "configs/medgemma_finetune.yaml",
+    "--max_steps",
+    "10"
+  ],
+  "program": "/Users/nexus1/Documents/ihep-app/ihep/training_datasets/train_medgemma.py",
+  "codePath": "training_datasets/train_medgemma.py",
+  "codePathLocal": "train_medgemma.py",
+  "git": {
+    "remote": "https://github.com/omniunumco/ihep.git",
+    "commit": "306d3a57aae240614dd242fc7454d8e68a307701"
+  },
+  "email": "jaymagik095@gmail.com",
+  "root": "/Users/nexus1/Documents/ihep-app/ihep/training_datasets",
+  "host": "nexus-dev.local",
+  "executable": "/Users/nexus1/Documents/ihep-app/.venv/bin/python",
+  "writerId": "stamh0acua0y4n98dzteiy9pkac5488a"
+}
