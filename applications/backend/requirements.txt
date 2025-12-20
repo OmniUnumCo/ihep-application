@@ -32,6 +32,7 @@ google-cloud-secret-manager==2.25.0
 # Security & Cryptography
 cryptography==46.0.3
 bcrypt==4.2.1
+filelock>=3.20.1  # Pinned for CVE-2025-68146 fix (TOCTOU symlink vulnerability)
 
 # HTTP Requests
 requests==2.32.5
