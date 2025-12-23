@@ -75,7 +75,7 @@ safety==3.2.11
 
 # ML Training Dependencies (for MedGemma fine-tuning)
 torch>=2.8.0  # Pinned for CVE-2025-32434 (RCE), CVE-2024-31580 (heap overflow), CVE-2024-31583 (use-after-free)
-transformers>=4.48.0  # Pinned for CVE-2024-11392/11393/11394 (deserialization RCE) and ReDoS fixes
+transformers>=5.3.0  # Pinned for CVE-2024-11392/11393/11394 (deserialization RCE) and ReDoS fixes
 datasets>=2.16.0
 accelerate>=0.25.0
 peft>=0.7.0
