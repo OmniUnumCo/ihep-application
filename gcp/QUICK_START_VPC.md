@@ -67,7 +67,7 @@ That's it! The script will:
 echo -n "sk-your-openai-key" | gcloud secrets versions add OPENAI_API_KEY --data-file=-
 
 # SendGrid API Key
-echo -n "SG.your-sendgrid-key" | gcloud secrets versions add SENDGRID_API_KEY --data-file=-
+echo -n "<YOUR_SENDGRID_API_KEY>" | gcloud secrets versions add SENDGRID_API_KEY --data-file=-
 
 # Twilio Credentials
 echo -n "AC..." | gcloud secrets versions add TWILIO_ACCOUNT_SID --data-file=-
