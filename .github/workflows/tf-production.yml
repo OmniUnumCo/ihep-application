@@ -12,8 +12,8 @@ jobs:
       contents: read
     env:
       TF_IN_AUTOMATION: "true"
-      WIF_PROVIDER: ${{ secrets.WIF_PROVIDER }}
-      GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
+      WIF_PROVIDER: projects/934473355501/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider
+      GCP_SA_EMAIL: github-actions-sa@gen-lang-client-0928975904.iam.gserviceaccount.com
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -56,8 +56,8 @@ jobs:
       contents: read
     env:
       TF_IN_AUTOMATION: "true"
-      WIF_PROVIDER: ${{ secrets.WIF_PROVIDER }}
-      GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
+      WIF_PROVIDER: projects/934473355501/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider
+      GCP_SA_EMAIL: github-actions-sa@gen-lang-client-0928975904.iam.gserviceaccount.com
     steps:
       - name: Checkout
         uses: actions/checkout@v4
