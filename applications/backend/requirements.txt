@@ -36,7 +36,7 @@ filelock>=3.20.1  # Pinned for CVE-2025-68146 fix (TOCTOU symlink vulnerability)
 
 # HTTP Requests
 requests==2.32.5
-urllib3==2.6.1
+urllib3>=2.6.2  # Pinned for CVE-2025-66418 (decompression chain DoS), CVE-2025-66471 (streaming DoS)
 
 # Data Validation & Serialization
 marshmallow>=4.1.2  # Pinned for CVE-2025-68480 fix (DoS in Schema.load)
