@@ -96,7 +96,7 @@ terraform apply -target=google_sql_database_instance.postgres_replica -var="proj
 ```bash
 # Create database and user
 gcloud sql databases create health_insight_db --instance=health-insight-postgres-primary
-gcloud sql users create healthapp --instance=health-insight-postgres-primary --password=SecurePassword123!
+gcloud sql users create healthapp --instance=health-insight-postgres-primary --password=<YOUR_SECURE_DB_PASSWORD>
 
 # Apply schema
 gcloud sql import sql health-insight-postgres-primary gs://ihep-app-sql-backups/schema.sql --database=health_insight_db
@@ -193,8 +193,8 @@ echo -n "your-twilio-auth-token" | gcloud secrets create TWILIO_AUTH_TOKEN --dat
 echo -n "your-twilio-phone-number" | gcloud secrets create TWILIO_PHONE_NUMBER --data-file=-
 
 # Set database connection strings
-echo -n "postgresql://healthapp:SecurePassword123!@health-insight-postgres-primary/health_insight_db" | gcloud secrets create DATABASE_URL --data-file=-
-echo -n "postgresql://healthapp:SecurePassword123!@health-insight-postgres-replica/health_insight_db" | gcloud secrets create DATABASE_REPLICA_URL --data-file=-
+echo -n "postgresql://healthapp:<YOUR_SECURE_DB_PASSWORD>@health-insight-postgres-primary/health_insight_db" | gcloud secrets create DATABASE_URL --data-file=-
+echo -n "postgresql://healthapp:<YOUR_SECURE_DB_PASSWORD>@health-insight-postgres-replica/health_insight_db" | gcloud secrets create DATABASE_REPLICA_URL --data-file=-
 ```
 
 ## Validation and Testing

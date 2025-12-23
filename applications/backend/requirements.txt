@@ -32,13 +32,14 @@ google-cloud-secret-manager==2.25.0
 # Security & Cryptography
 cryptography==46.0.3
 bcrypt==4.2.1
+filelock>=3.20.1  # Pinned for CVE-2025-68146 fix (TOCTOU symlink vulnerability)
 
 # HTTP Requests
 requests==2.32.5
-urllib3==2.6.1
+urllib3>=2.6.2  # Pinned for CVE-2025-66418 (decompression chain DoS), CVE-2025-66471 (streaming DoS)
 
 # Data Validation & Serialization
-marshmallow==3.23.2
+marshmallow>=4.1.2  # Pinned for CVE-2025-68480 fix (DoS in Schema.load)
 
 # Environment Variables
 python-dotenv==1.0.1
@@ -63,7 +64,7 @@ pytest-mock==3.14.0
 httpx==0.28.1  # For async HTTP testing
 
 # Code Quality (Development)
-black==24.10.0
+black==25.12.0
 flake8==7.1.1
 mypy==1.13.0
 pylint==3.3.2
@@ -73,8 +74,8 @@ bandit==1.8.0
 safety==3.2.11
 
 # ML Training Dependencies (for MedGemma fine-tuning)
-torch>=2.1.0
-transformers>=4.36.0
+torch>=2.8.0  # Pinned for CVE-2025-32434 (RCE), CVE-2024-31580 (heap overflow), CVE-2024-31583 (use-after-free)
+transformers>=4.53.0  # Pinned for CVE-2024-11392/11393/11394 (deserialization RCE) and ReDoS fixes
 datasets>=2.16.0
 accelerate>=0.25.0
 peft>=0.7.0
@@ -84,5 +85,5 @@ tensorboard>=2.15.0
 evaluate>=0.4.1
 scipy>=1.11.0
 pyyaml>=6.0
-tqdm>=4.66.0
+tqdm>=4.66.3  # Pinned for CVE-2024-34062 fix (CLI injection)
 
