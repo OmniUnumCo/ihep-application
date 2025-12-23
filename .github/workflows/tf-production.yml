@@ -6,7 +6,7 @@ on:
 
 jobs:
   plan:
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
@@ -47,7 +47,7 @@ jobs:
 
   apply:
     needs: plan
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     environment:
       name: production
       url: https://console.cloud.google.com/
