@@ -25,7 +25,7 @@ variable "environment" {
 variable "domain_name" {
   description = "Domain name for the application"
   type        = string
-  default.    = ihep.app
+  default     = "ihep.app"
 }
 
 variable "db_password" {

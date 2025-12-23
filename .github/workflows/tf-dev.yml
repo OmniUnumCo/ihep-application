@@ -46,7 +46,13 @@ jobs:
         run: |
           terraform plan -out=tfplan \
             -var enable_network=true \
-            -var enable_service_account=true
+            -var enable_service_account=true \
+            -var "project_id=gen-lang-client-0928975904" \
+            -var "db_password=placeholder" \
+            -var "ops_email=admin@ihep.app" \
+            -var "folders={}" \
+            -var "application_enabled_folder_paths=[]" \
+            -var "cmek_autokey_folders=[]"
 
       - name: Terraform apply (dev)
         working-directory: terraform
