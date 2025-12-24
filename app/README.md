@@ -93,7 +93,7 @@ terraform >= 1.6.0
 gcloud CLI >= 450.0.0
 
 # GCP Project Setup
-export GCP_PROJECT_ID="gen-lang-client-0928975904"
+export GCP_PROJECT_ID="ihep-platform-prod"
 export GCP_REGION="us-central1"
 ```
 

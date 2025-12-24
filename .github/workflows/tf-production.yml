@@ -6,14 +6,14 @@ on:
 
 jobs:
   plan:
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
     env:
       TF_IN_AUTOMATION: "true"
-      WIF_PROVIDER: ${{ secrets.WIF_PROVIDER }}
-      GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
+      WIF_PROVIDER: projects/934473355501/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider
+      GCP_SA_EMAIL: github-actions-sa@gen-lang-client-0928975904.iam.gserviceaccount.com
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
 
   apply:
     needs: plan
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     environment:
       name: production
       url: https://console.cloud.google.com/
@@ -56,8 +56,8 @@ jobs:
       contents: read
     env:
       TF_IN_AUTOMATION: "true"
-      WIF_PROVIDER: ${{ secrets.WIF_PROVIDER }}
-      GCP_SA_EMAIL: ${{ secrets.GCP_SA_EMAIL }}
+      WIF_PROVIDER: projects/934473355501/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider
+      GCP_SA_EMAIL: github-actions-sa@gen-lang-client-0928975904.iam.gserviceaccount.com
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -90,7 +90,13 @@ jobs:
         run: |
           terraform plan -out=tfplan \
             -var enable_network=true \
-            -var enable_service_account=true
+            -var enable_service_account=true \
+            -var "project_id=gen-lang-client-0928975904" \
+            -var "db_password=placeholder" \
+            -var "ops_email=admin@ihep.app" \
+            -var "folders={}" \
+            -var "application_enabled_folder_paths=[]" \
+            -var "cmek_autokey_folders=[]"
 
       - name: Terraform show plan
         working-directory: terraform
