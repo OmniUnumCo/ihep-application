@@ -521,7 +521,7 @@ def get_research_impact():
 # Requirements file for research service
 # requirements.txt
 flask==2.3.3
-flask-cors==4.0.0
+flask-cors>=6.0.2  # CVE-2024-6866, CVE-2024-6839, CVE-2024-6844
 google-cloud-logging==3.7.0
 google-cloud-bigquery==3.12.0
 google-cloud-storage==2.10.0
