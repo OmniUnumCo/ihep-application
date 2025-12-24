@@ -1,6 +1,6 @@
 # services/chat-api/requirements.txt
 flask==2.3.3
-flask-cors==6.0.1
+flask-cors>=6.0.2  # Pinned for CVE-2024-6866, CVE-2024-6839, CVE-2024-6844 fixes
 google-cloud-aiplatform==1.38.1
 google-cloud-logging==3.7.0
 PyJWT==2.8.0
