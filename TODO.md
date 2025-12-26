@@ -1,6 +1,6 @@
 # IHEP Project TODO
 
-Last Updated: December 26, 2024
+Last Updated: December 26, 2024 (Session 3)
 
 ## Completed Tasks
 
@@ -36,6 +36,12 @@ Last Updated: December 26, 2024
 - [x] Opportunities page: Find Opportunities button with error handling
 - [x] Fix Select dropdown transparency (solid white background)
 - [x] Fix Select dropdown direction (opens downward)
+- [x] Fix 29 Dependabot security vulnerabilities (Next.js, transformers, flask-cors, marshmallow, black)
+- [x] Rename app/ to workspaces/ to fix Next.js App Router conflict
+- [x] Remove duplicate postcss.config.js
+- [x] Fix CSP blocking inline scripts in development mode
+- [x] Add Contact form section to landing page (replaces footer scroll)
+- [x] Update images.domains to images.remotePatterns (deprecation fix)
 
 ## High Priority
 
