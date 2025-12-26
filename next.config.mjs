@@ -11,7 +11,16 @@ const nextConfig = {
   // Force correct repo root selection to avoid monorepo lockfile confusion
   outputFileTracingRoot: path.join(__dirname),
   images: {
-    domains: ['images.unsplash.com', 'via.placeholder.com']
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+    ],
   },
   async headers() {
     return [

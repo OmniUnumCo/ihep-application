@@ -31,5 +31,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "app_backup", "applications", "fragmented", "fragmented_database", "scripts", "components", "lib", "types", "models", "core", "services", "shared", "hooks", "drizzle.config.ts", "database", "gcp", "terraform", "k8s", "ai_inference_service", "api-gateway", "curriculum-backend", "iam_service", "notification_service", "patient_twin_service", "resource_catalog_service", "trust_framework"]
+  "exclude": ["node_modules", "app_backup", "applications", "workspaces", "fragmented", "fragmented_database", "scripts", "components", "lib", "types", "models", "core", "services", "shared", "hooks", "drizzle.config.ts", "database", "gcp", "terraform", "k8s", "ai_inference_service", "api-gateway", "curriculum-backend", "iam_service", "notification_service", "patient_twin_service", "resource_catalog_service", "trust_framework"]
 }
