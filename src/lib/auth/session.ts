@@ -9,6 +9,18 @@ import { getServerSession as nextAuthGetServerSession } from 'next-auth';
 import type { Session } from 'next-auth';
 import { authOptions } from './options';
 
+// Extend Session user type to include role
+interface ExtendedUser {
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  role?: string;
+}
+
+interface ExtendedSession extends Omit<Session, 'user'> {
+  user?: ExtendedUser;
+}
+
 /**
  * Get the current server session
  *
@@ -32,8 +44,8 @@ import { authOptions } from './options';
  * }
  * ```
  */
-export async function getServerSession(): Promise<Session | null> {
-  return await nextAuthGetServerSession(authOptions);
+export async function getServerSession(): Promise<ExtendedSession | null> {
+  return await nextAuthGetServerSession(authOptions) as ExtendedSession | null;
 }
 
 /**
@@ -107,7 +119,7 @@ export async function isAuthenticated(): Promise<boolean> {
  * }
  * ```
  */
-export async function requireAuth(): Promise<Session> {
+export async function requireAuth(): Promise<ExtendedSession> {
   const session = await getServerSession();
 
   if (!session?.user) {
@@ -160,10 +172,10 @@ export async function hasRole(role: string): Promise<boolean> {
  * }
  * ```
  */
-export async function requireRole(role: string): Promise<Session> {
+export async function requireRole(role: string): Promise<ExtendedSession> {
   const session = await requireAuth();
 
-  if (session.user.role !== role) {
+  if (session.user?.role !== role) {
     throw new Error(`Role '${role}' required`);
   }
 

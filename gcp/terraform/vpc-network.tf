@@ -215,7 +215,7 @@ resource "google_compute_firewall" "allow_backend_internal" {
 }
 
 # Allow health checks from GCP
-resource "google_compute_firewall" "allow_health_checks" {
+resource "google_compute_firewall" "ihep_allow_health_checks" {
   name    = "ihep-allow-health-checks"
   network = google_compute_network.ihep_vpc.name
 

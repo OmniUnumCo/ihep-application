@@ -1,41 +1,59 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+.DS_Store
+**/.DS_Store
+terraform.tfstate
+terraform.tfstate.backup
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+# Dependencies
+/node_modules/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# Python virtual environments
+venv/
+.venv/
+**/venv/
+**/.venv/
+.venv-*/
+*.py[cod]
+__pycache__/
+*.so
 
-# testing
-/coverage
-
-# next.js
+# Build artifacts
+/dist/
 /.next/
 /out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
+/build/
 *.tsbuildinfo
-next-env.d.ts
+.cache/
+
+# Testing
+/coverage/
+/.nyc_output/
+
+# Logs
+/logs/
+*.log
+*.tar.gz
+
+# Backups
+/backups/
+/backup_debug/
+/terraform.zip
+
+# Local Config
+.env.local
+/.env
+/.config/
+/.local/
+.replit
+cookies.txt
+
+# Training libraries (cloned repos)
+/training/DeepSpeed/
+/training/bitsandbytes/
+/training/datasets/
+/training/accelerate/
+/training/evaluate/
+/training/peft/
+/training/transformers/
+/training/trl/

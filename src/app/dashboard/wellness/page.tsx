@@ -5,10 +5,33 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Progress } from '@/components/ui/progress'
-import { Activity, Heart, TrendingUp, Plus } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Activity, Heart, TrendingUp, Plus, X } from 'lucide-react'
 
 export default function WellnessPage() {
   const [selectedPeriod, setSelectedPeriod] = useState('week')
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [metricType, setMetricType] = useState('')
+  const [metricValue, setMetricValue] = useState('')
+  const [metricUnit, setMetricUnit] = useState('')
+
+  const handleAddMetric = (e: React.FormEvent) => {
+    e.preventDefault()
+    // TODO: Save metric to database
+    console.log('Adding metric:', { metricType, metricValue, metricUnit })
+    setShowAddModal(false)
+    setMetricType('')
+    setMetricValue('')
+    setMetricUnit('')
+  }
 
   return (
     <div className="space-y-8">
@@ -18,11 +41,90 @@ export default function WellnessPage() {
           <h1 className="text-3xl font-bold gradient-text">Wellness Metrics</h1>
           <p className="text-gray-600 mt-2">Track your health journey</p>
         </div>
-        <Button className="gradient-primary">
+        <Button className="gradient-primary" onClick={() => setShowAddModal(true)}>
           <Plus className="h-4 w-4 mr-2" />
           Add Metric
         </Button>
       </div>
+
+      {/* Add Metric Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-md relative">
+            <h2 className="text-xl font-bold mb-4 text-gray-800">Add New Metric</h2>
+            <form onSubmit={handleAddMetric} className="space-y-4">
+              <div>
+                <Label htmlFor="metric-type">Metric Type</Label>
+                <Select value={metricType} onValueChange={setMetricType}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Select metric type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="blood-pressure">Blood Pressure</SelectItem>
+                    <SelectItem value="heart-rate">Heart Rate</SelectItem>
+                    <SelectItem value="weight">Weight</SelectItem>
+                    <SelectItem value="cd4-count">CD4 Count</SelectItem>
+                    <SelectItem value="viral-load">Viral Load</SelectItem>
+                    <SelectItem value="steps">Steps</SelectItem>
+                    <SelectItem value="sleep">Sleep Hours</SelectItem>
+                    <SelectItem value="blood-glucose">Blood Glucose</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="metric-value">Value</Label>
+                <Input
+                  id="metric-value"
+                  type="text"
+                  value={metricValue}
+                  onChange={(e) => setMetricValue(e.target.value)}
+                  placeholder={metricType === 'blood-pressure' ? 'e.g., 120/80' : 'Enter value'}
+                  className="mt-1"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="metric-unit">Unit</Label>
+                <Select value={metricUnit} onValueChange={setMetricUnit}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Select unit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="mmHg">mmHg</SelectItem>
+                    <SelectItem value="bpm">bpm</SelectItem>
+                    <SelectItem value="lbs">lbs</SelectItem>
+                    <SelectItem value="kg">kg</SelectItem>
+                    <SelectItem value="cells/mm3">cells/mm³</SelectItem>
+                    <SelectItem value="copies/ml">copies/mL</SelectItem>
+                    <SelectItem value="steps">steps</SelectItem>
+                    <SelectItem value="hours">hours</SelectItem>
+                    <SelectItem value="mg/dL">mg/dL</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex gap-3 pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setShowAddModal(false)}
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" className="flex-1 gradient-primary">
+                  Save Metric
+                </Button>
+              </div>
+            </form>
+            <button
+              onClick={() => setShowAddModal(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Overall Wellness Score */}
       <Card className="apple-card">

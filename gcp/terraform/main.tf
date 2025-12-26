@@ -156,6 +156,104 @@ resource "google_secret_manager_secret" "twilio_phone_number" {
   depends_on = [google_project_service.required_apis]
 }
 
+# NextAuth secret (required for authentication)
+resource "google_secret_manager_secret" "nextauth_secret" {
+  secret_id = "NEXTAUTH_SECRET"
+
+  replication {
+    automatic = true
+  }
+
+  depends_on = [google_project_service.required_apis]
+}
+
+# Cloud Run Service for Next.js Application
+resource "google_cloud_run_v2_service" "ihep_web" {
+  name     = "ihep-web"
+  location = var.region
+
+  template {
+    containers {
+      image = "gcr.io/${var.project_id}/ihep-web:latest"
+
+      ports {
+        container_port = 5000
+      }
+
+      env {
+        name  = "NODE_ENV"
+        value = "production"
+      }
+
+      env {
+        name  = "PORT"
+        value = "5000"
+      }
+
+      env {
+        name = "NEXTAUTH_SECRET"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.nextauth_secret.secret_id
+            version = "latest"
+          }
+        }
+      }
+
+      resources {
+        limits = {
+          cpu    = "2"
+          memory = "1Gi"
+        }
+      }
+
+      startup_probe {
+        http_get {
+          path = "/api/health"
+          port = 5000
+        }
+        initial_delay_seconds = 0
+        period_seconds        = 5
+        failure_threshold     = 30
+        timeout_seconds       = 3
+      }
+
+      liveness_probe {
+        http_get {
+          path = "/api/health"
+          port = 5000
+        }
+        period_seconds    = 15
+        timeout_seconds   = 5
+        failure_threshold = 3
+      }
+    }
+
+    scaling {
+      min_instance_count = 1
+      max_instance_count = 100
+    }
+  }
+
+  traffic {
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+    percent = 100
+  }
+
+  depends_on = [
+    google_project_service.required_apis,
+    google_secret_manager_secret.nextauth_secret
+  ]
+}
+
+# Allow unauthenticated access to Cloud Run service
+resource "google_cloud_run_v2_service_iam_member" "public_access" {
+  name     = google_cloud_run_v2_service.ihep_web.name
+  location = var.region
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
+
 # Outputs
 output "bigquery_dataset_id" {
   value = google_bigquery_dataset.health_insight_platform.dataset_id
@@ -171,4 +269,9 @@ output "assets_bucket_name" {
 
 output "project_id" {
   value = var.project_id
+}
+
+output "cloud_run_url" {
+  value       = google_cloud_run_v2_service.ihep_web.uri
+  description = "URL of the deployed Next.js application"
 }

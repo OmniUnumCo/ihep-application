@@ -1,117 +1,155 @@
-# Health Insight Ventures - GCP Serverless Migration
+# IHEP - GCP Cloud Run Deployment
 
-This directory contains all the necessary files and configurations to migrate your Health Insight Ventures platform to Google Cloud Platform using a serverless architecture.
+This directory contains configuration and scripts for deploying the IHEP Next.js application to Google Cloud Run.
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
-**Frontend**: React SPA → Cloud Storage + Cloud CDN  
-**Backend**: Express.js → Cloud Functions (Node.js 20)  
-**Database**: PostgreSQL → BigQuery  
-**Infrastructure**: Manual → Terraform (IaC)  
+**Application**: Next.js 16 (App Router) with standalone output
+**Runtime**: Cloud Run (serverless containers)
+**Database**: BigQuery (analytics) / Cloud SQL (optional for transactional data)
+**Secrets**: Google Secret Manager
+**Infrastructure**: Terraform (IaC)
 
-## 📁 Directory Structure
+## Directory Structure
 
 ```
 gcp/
-├── terraform/           # Infrastructure as Code
-│   └── main.tf         # GCP resources definition
-├── functions/          # Cloud Functions backend
-│   ├── index.ts        # API endpoints
-│   ├── package.json    # Dependencies
-│   └── tsconfig.json   # TypeScript config
-├── bigquery/           # Database schema
-│   └── schema.sql      # BigQuery tables
-├── deploy.sh           # One-click deployment script
-├── migration-guide.md  # Detailed migration guide
-├── frontend-build.yaml # Frontend deployment config
-├── backend-deploy.yaml # Backend deployment config
-└── README.md          # This file
+├── terraform/              # Infrastructure as Code
+│   ├── main.tf            # Core GCP resources
+│   ├── vpc-network.tf     # VPC networking
+│   ├── ha-architecture.tf # High availability config
+│   └── variables.tf       # Terraform variables
+├── bigquery/              # Analytics schema
+│   └── schema.sql         # BigQuery tables
+├── deploy.sh              # One-click Cloud Run deployment
+├── frontend-build.yaml    # Cloud Build config for Next.js
+├── cloud-run-service.yaml # Cloud Run service spec
+└── README.md              # This file
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Google Cloud CLI installed and authenticated
-- Terraform installed (v1.5+)
-- Node.js 20+ installed
-- BigQuery CLI tools
+- Docker installed (for local testing)
+- Node.js 22+ installed
 
-### One-Click Deployment
+### Local Testing
 ```bash
-# Make the script executable
+# Build Docker image
+docker build -t ihep-test .
+
+# Run locally
+docker run -p 5000:5000 \
+  -e NEXTAUTH_SECRET=test-secret \
+  ihep-test
+
+# Test health endpoint
+curl http://localhost:5000/api/health
+```
+
+### Deploy to GCP
+```bash
+# From project root directory
 chmod +x gcp/deploy.sh
+./gcp/deploy.sh
 
-# Run deployment (replace with your project ID)
-./gcp/deploy.sh your-gcp-project-id
+# Or with custom project ID
+./gcp/deploy.sh your-project-id
 ```
 
-### Manual Deployment
-See `migration-guide.md` for step-by-step instructions.
+The deployment script will:
+1. Enable required GCP services
+2. Build the Docker image using Cloud Build
+3. Push to Google Container Registry
+4. Deploy to Cloud Run
+5. Configure environment variables
 
-## 🔑 Required API Keys
+## Required Secrets
 
-After deployment, set these in Google Secret Manager:
-
-1. **OPENAI_API_KEY** - For AI-powered wellness tips
-2. **SENDGRID_API_KEY** - For email notifications  
-3. **TWILIO_ACCOUNT_SID** - For SMS and video calls
-4. **TWILIO_AUTH_TOKEN** - Twilio authentication
-5. **TWILIO_PHONE_NUMBER** - Your Twilio phone number
+Before deploying, create the required secret in Secret Manager:
 
 ```bash
-# Example: Setting OpenAI API key
-echo -n "sk-your-openai-key" | gcloud secrets create OPENAI_API_KEY --data-file=-
+# Generate and create NEXTAUTH_SECRET (required)
+openssl rand -base64 32 | gcloud secrets create NEXTAUTH_SECRET --data-file=-
+
+# Optional: Database URL
+echo -n "postgresql://..." | gcloud secrets create DATABASE_URL --data-file=-
 ```
 
-## 💰 Cost Estimation
+## Environment Variables
 
-### Monthly costs for moderate usage:
-- **Cloud Functions**: $10-50 (1M requests)
-- **BigQuery**: $20-100 (1TB processed)
-- **Cloud Storage**: $5-20 (frontend hosting)
-- **Cloud CDN**: $10-30 (global distribution)
-- **Total**: ~$45-200/month
+| Variable | Required | Description |
+|----------|----------|-------------|
+| NEXTAUTH_SECRET | Yes | JWT encryption secret |
+| NEXTAUTH_URL | Auto | Set automatically to Cloud Run URL |
+| NODE_ENV | Auto | Set to "production" |
+| PORT | Auto | Set to 5000 |
+| DATABASE_URL | No | Database connection string |
 
-## 🔒 Security Features
+## Cost Estimation
 
-- **HIPAA Compliance**: Audit logging, encryption at rest/transit
-- **IAM**: Fine-grained access control
-- **Secret Manager**: Secure API key storage
-- **VPC**: Network isolation (optional)
+### Cloud Run (pay per request)
+- **CPU**: $0.00002400 per vCPU-second
+- **Memory**: $0.00000250 per GiB-second
+- **Requests**: $0.40 per million requests
 
-## 📊 Monitoring
+### Estimated monthly costs:
+- **Low traffic** (10k requests/day): ~$5-15/month
+- **Medium traffic** (100k requests/day): ~$30-100/month
+- **High traffic** (1M requests/day): ~$200-500/month
 
-Access your application metrics:
-- **Cloud Monitoring**: Function performance, errors
-- **Cloud Logging**: Application and audit logs
-- **BigQuery**: Query analytics and costs
+## Monitoring
 
-## 🌐 Production Endpoints
-
-After deployment and DNS setup:
-- **Main Website**: `https://ihep.app`
-- **API Endpoint**: `https://api.ihep.app`
-- **Backup/Secondary**: `https://backup.ihep.app`
-
-## 🔄 CI/CD Pipeline
-
-Automated deployment via Cloud Build:
 ```bash
-# Trigger build from repository
-gcloud builds submit --config=cloudbuild.yaml .
+# View logs
+gcloud run logs read ihep-web --region us-central1 --limit 50
+
+# View service details
+gcloud run services describe ihep-web --region us-central1
+
+# View metrics
+gcloud run services metrics ihep-web --region us-central1
 ```
 
-## 📞 Support
+## Production URL
 
-- [Migration Guide](./migration-guide.md) - Detailed instructions
-- [GCP Documentation](https://cloud.google.com/docs)
-- [Terraform GCP Provider](https://registry.terraform.io/providers/hashicorp/google/latest/docs)
+After deployment, your application will be available at:
+```
+https://ihep-web-XXXXXXXXXX-uc.a.run.app
+```
 
-## 🎯 Next Steps
+To set up a custom domain:
+1. Go to Cloud Run console
+2. Select the ihep-web service
+3. Click "Manage Custom Domains"
+4. Follow the verification steps
 
-1. **Run deployment script**
-2. **Set API keys in Secret Manager**
-3. **Configure custom domain** (optional)
-4. **Set up monitoring alerts**
-5. **Test all features**
-6. **Update DNS** to point to new deployment
+## Troubleshooting
+
+### Build Failures
+```bash
+# Check Cloud Build logs
+gcloud builds list --limit 5
+gcloud builds log BUILD_ID
+```
+
+### Container Startup Issues
+```bash
+# Check Cloud Run logs
+gcloud logging read "resource.type=cloud_run_revision" --limit 50
+```
+
+### Health Check Failures
+The application exposes `/api/health` for health checks. If probes fail:
+1. Check if the container is starting properly
+2. Verify environment variables are set
+3. Check application logs for errors
+
+## Security
+
+- All traffic is encrypted (TLS)
+- Secrets stored in Secret Manager
+- Identity-Aware Proxy available for additional auth
+- VPC connector available for private networking
+- Cloud Armor for DDoS protection (optional)

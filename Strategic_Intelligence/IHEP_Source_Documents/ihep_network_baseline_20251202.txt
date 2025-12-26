@@ -1,0 +1,411 @@
+COMMAND     PID           USER   FD   TYPE             DEVICE SIZE/OFF   NODE NAME
+launchd       1           root   18u  IPv4 0xc3f6e58a184422e0      0t0    UDP *:138
+launchd       1           root   19u  IPv4 0x5ea07127e967a93d      0t0    UDP *:137
+configd     382           root   29u  IPv6 0x861c657ba0cbd568      0t0 ICMPV6 *:*
+syslogd     406           root    9u  IPv4 0xe809461ede627e71      0t0    UDP *:56784
+apsd        412           root   11u  IPv4 0xa19093c40c2eb386      0t0    TCP 192.168.1.28:58925->17.57.144.10:5223 (ESTABLISHED)
+airportd    476           root    3u  IPv4 0xfe42de886e488550      0t0    UDP *:*
+airportd    476           root    9u  IPv6 0x5c1cec722f109fda      0t0    UDP *:*
+airportd    476           root   10u  IPv4 0xb7d620e976cde093      0t0    UDP *:*
+airportd    476           root   12u  IPv4 0x4f8357b322132f85      0t0    UDP *:*
+airportd    476           root   13u  IPv4 0x527386f6f3538819      0t0    UDP *:*
+airportd    476           root   14u  IPv4 0xb84bce0b2bc4c696      0t0    UDP *:*
+airportd    476           root   17u  IPv4 0xef839d3c7566cee3      0t0    UDP *:*
+airportd    476           root   18u  IPv4 0x99c7f659964d274f      0t0    UDP *:*
+airportd    476           root   19u  IPv4 0xd5363a68d54f4aa5      0t0    UDP *:*
+airportd    476           root   21u  IPv4 0x1f90027b81a4dfc7      0t0    UDP *:*
+airportd    476           root   22u  IPv4 0x6c858d31d2f669fc      0t0    UDP *:*
+airportd    476           root   24u  IPv4 0xdff5aff6e67f7928      0t0    UDP *:*
+symptomsd   479      _networkd   19u  IPv6 0x8ffad1170ba15a29      0t0    TCP *:65230 (LISTEN)
+symptomsd   479      _networkd   32u  IPv4 0xa2270e96ce518347      0t0    UDP *:*
+mDNSRespo   500 _mdnsresponder    6u  IPv4 0x76e2a8ca4c10c715      0t0    UDP *:5353
+mDNSRespo   500 _mdnsresponder    7u  IPv6 0x27a5d3c921c243f2      0t0    UDP *:5353
+named       616           root   50u  IPv4 0xa76c96144d01c820      0t0    UDP 127.0.0.1:53
+named       616           root   51u  IPv4 0xa76c96144d01c820      0t0    UDP 127.0.0.1:53
+named       616           root   52u  IPv4 0xa76c96144d01c820      0t0    UDP 127.0.0.1:53
+named       616           root   53u  IPv4 0xa76c96144d01c820      0t0    UDP 127.0.0.1:53
+named       616           root   54u  IPv4 0xa76c96144d01c820      0t0    UDP 127.0.0.1:53
+named       616           root   55u  IPv4 0xa76c96144d01c820      0t0    UDP 127.0.0.1:53
+named       616           root   56u  IPv4 0xa76c96144d01c820      0t0    UDP 127.0.0.1:53
+named       616           root   57u  IPv4 0xa76c96144d01c820      0t0    UDP 127.0.0.1:53
+named       616           root   58u  IPv4 0xa76c96144d01c820      0t0    UDP 127.0.0.1:53
+named       616           root   59u  IPv4 0xa76c96144d01c820      0t0    UDP 127.0.0.1:53
+named       616           root   60u  IPv4 0x1d78b2826455a943      0t0    TCP 127.0.0.1:53 (LISTEN)
+named       616           root   62u  IPv4 0x1d78b2826455a943      0t0    TCP 127.0.0.1:53 (LISTEN)
+named       616           root   63u  IPv4 0x1d78b2826455a943      0t0    TCP 127.0.0.1:53 (LISTEN)
+named       616           root   64u  IPv4 0x1d78b2826455a943      0t0    TCP 127.0.0.1:53 (LISTEN)
+named       616           root   65u  IPv4 0x1d78b2826455a943      0t0    TCP 127.0.0.1:53 (LISTEN)
+named       616           root   66u  IPv4 0x1d78b2826455a943      0t0    TCP 127.0.0.1:53 (LISTEN)
+named       616           root   67u  IPv4 0x1d78b2826455a943      0t0    TCP 127.0.0.1:53 (LISTEN)
+named       616           root   69u  IPv4 0x1d78b2826455a943      0t0    TCP 127.0.0.1:53 (LISTEN)
+named       616           root   70u  IPv4 0x1d78b2826455a943      0t0    TCP 127.0.0.1:53 (LISTEN)
+named       616           root   71u  IPv4 0x1d78b2826455a943      0t0    TCP 127.0.0.1:53 (LISTEN)
+named       616           root   80u  IPv6 0xcb749a5cc95c1e6f      0t0    UDP [::1]:53
+named       616           root   81u  IPv6 0xcb749a5cc95c1e6f      0t0    UDP [::1]:53
+named       616           root   82u  IPv6 0xcb749a5cc95c1e6f      0t0    UDP [::1]:53
+named       616           root   83u  IPv6 0xcb749a5cc95c1e6f      0t0    UDP [::1]:53
+named       616           root   84u  IPv6 0xcb749a5cc95c1e6f      0t0    UDP [::1]:53
+named       616           root   85u  IPv6 0xcb749a5cc95c1e6f      0t0    UDP [::1]:53
+named       616           root   86u  IPv6 0xcb749a5cc95c1e6f      0t0    UDP [::1]:53
+named       616           root   87u  IPv6 0xcb749a5cc95c1e6f      0t0    UDP [::1]:53
+named       616           root   88u  IPv6 0xcb749a5cc95c1e6f      0t0    UDP [::1]:53
+named       616           root   89u  IPv6 0xcb749a5cc95c1e6f      0t0    UDP [::1]:53
+named       616           root   90u  IPv6 0x7b83653ad4317b3d      0t0    TCP [::1]:53 (LISTEN)
+named       616           root   91u  IPv6 0x7b83653ad4317b3d      0t0    TCP [::1]:53 (LISTEN)
+named       616           root   92u  IPv6 0x7b83653ad4317b3d      0t0    TCP [::1]:53 (LISTEN)
+named       616           root   93u  IPv6 0x7b83653ad4317b3d      0t0    TCP [::1]:53 (LISTEN)
+named       616           root   94u  IPv6 0x7b83653ad4317b3d      0t0    TCP [::1]:53 (LISTEN)
+named       616           root   95u  IPv6 0x7b83653ad4317b3d      0t0    TCP [::1]:53 (LISTEN)
+named       616           root   96u  IPv6 0x7b83653ad4317b3d      0t0    TCP [::1]:53 (LISTEN)
+named       616           root   97u  IPv6 0x7b83653ad4317b3d      0t0    TCP [::1]:53 (LISTEN)
+named       616           root   98u  IPv6 0x7b83653ad4317b3d      0t0    TCP [::1]:53 (LISTEN)
+named       616           root   99u  IPv6 0x7b83653ad4317b3d      0t0    TCP [::1]:53 (LISTEN)
+named       616           root  100u  IPv6 0x680d38d84193d94f      0t0    UDP [fe80:1::1]:53
+named       616           root  101u  IPv6 0x680d38d84193d94f      0t0    UDP [fe80:1::1]:53
+named       616           root  102u  IPv6 0x680d38d84193d94f      0t0    UDP [fe80:1::1]:53
+named       616           root  103u  IPv6 0x680d38d84193d94f      0t0    UDP [fe80:1::1]:53
+named       616           root  104u  IPv6 0x680d38d84193d94f      0t0    UDP [fe80:1::1]:53
+named       616           root  105u  IPv6 0x680d38d84193d94f      0t0    UDP [fe80:1::1]:53
+named       616           root  106u  IPv6 0x680d38d84193d94f      0t0    UDP [fe80:1::1]:53
+named       616           root  107u  IPv6 0x680d38d84193d94f      0t0    UDP [fe80:1::1]:53
+named       616           root  108u  IPv6 0x680d38d84193d94f      0t0    UDP [fe80:1::1]:53
+named       616           root  109u  IPv6 0x680d38d84193d94f      0t0    UDP [fe80:1::1]:53
+named       616           root  110u  IPv6  0xdfa284c2d5fd6be      0t0    TCP [fe80:1::1]:53 (LISTEN)
+named       616           root  111u  IPv6  0xdfa284c2d5fd6be      0t0    TCP [fe80:1::1]:53 (LISTEN)
+named       616           root  112u  IPv6  0xdfa284c2d5fd6be      0t0    TCP [fe80:1::1]:53 (LISTEN)
+named       616           root  113u  IPv6  0xdfa284c2d5fd6be      0t0    TCP [fe80:1::1]:53 (LISTEN)
+named       616           root  114u  IPv6  0xdfa284c2d5fd6be      0t0    TCP [fe80:1::1]:53 (LISTEN)
+named       616           root  115u  IPv6  0xdfa284c2d5fd6be      0t0    TCP [fe80:1::1]:53 (LISTEN)
+named       616           root  116u  IPv6  0xdfa284c2d5fd6be      0t0    TCP [fe80:1::1]:53 (LISTEN)
+named       616           root  117u  IPv6  0xdfa284c2d5fd6be      0t0    TCP [fe80:1::1]:53 (LISTEN)
+named       616           root  118u  IPv6  0xdfa284c2d5fd6be      0t0    TCP [fe80:1::1]:53 (LISTEN)
+named       616           root  119u  IPv6  0xdfa284c2d5fd6be      0t0    TCP [fe80:1::1]:53 (LISTEN)
+named       616           root  121u  IPv4 0x9a34e2afe0e25cf5      0t0    TCP 127.0.0.1:953 (LISTEN)
+named       616           root  122u  IPv6  0x3711503ef9233f9      0t0    TCP [::1]:953 (LISTEN)
+named       616           root  123u  IPv6 0xa3eccb57476b6cce      0t0    UDP [fe80:e::14ee:7415:782c:15e6]:53
+named       616           root  124u  IPv6 0xa3eccb57476b6cce      0t0    UDP [fe80:e::14ee:7415:782c:15e6]:53
+named       616           root  125u  IPv6 0xa3eccb57476b6cce      0t0    UDP [fe80:e::14ee:7415:782c:15e6]:53
+named       616           root  126u  IPv6 0xa3eccb57476b6cce      0t0    UDP [fe80:e::14ee:7415:782c:15e6]:53
+named       616           root  127u  IPv6 0xa3eccb57476b6cce      0t0    UDP [fe80:e::14ee:7415:782c:15e6]:53
+named       616           root  128u  IPv6 0xa3eccb57476b6cce      0t0    UDP [fe80:e::14ee:7415:782c:15e6]:53
+named       616           root  129u  IPv6 0xa3eccb57476b6cce      0t0    UDP [fe80:e::14ee:7415:782c:15e6]:53
+named       616           root  130u  IPv6 0xa3eccb57476b6cce      0t0    UDP [fe80:e::14ee:7415:782c:15e6]:53
+named       616           root  131u  IPv6 0xa3eccb57476b6cce      0t0    UDP [fe80:e::14ee:7415:782c:15e6]:53
+named       616           root  132u  IPv6 0xa3eccb57476b6cce      0t0    UDP [fe80:e::14ee:7415:782c:15e6]:53
+named       616           root  133u  IPv6  0xee113441d7382a7      0t0    TCP [fe80:e::14ee:7415:782c:15e6]:53 (LISTEN)
+named       616           root  134u  IPv6  0xee113441d7382a7      0t0    TCP [fe80:e::14ee:7415:782c:15e6]:53 (LISTEN)
+named       616           root  135u  IPv6  0xee113441d7382a7      0t0    TCP [fe80:e::14ee:7415:782c:15e6]:53 (LISTEN)
+named       616           root  136u  IPv6  0xee113441d7382a7      0t0    TCP [fe80:e::14ee:7415:782c:15e6]:53 (LISTEN)
+named       616           root  137u  IPv6  0xee113441d7382a7      0t0    TCP [fe80:e::14ee:7415:782c:15e6]:53 (LISTEN)
+named       616           root  138u  IPv6  0xee113441d7382a7      0t0    TCP [fe80:e::14ee:7415:782c:15e6]:53 (LISTEN)
+named       616           root  139u  IPv6  0xee113441d7382a7      0t0    TCP [fe80:e::14ee:7415:782c:15e6]:53 (LISTEN)
+named       616           root  140u  IPv6  0xee113441d7382a7      0t0    TCP [fe80:e::14ee:7415:782c:15e6]:53 (LISTEN)
+named       616           root  141u  IPv6  0xee113441d7382a7      0t0    TCP [fe80:e::14ee:7415:782c:15e6]:53 (LISTEN)
+named       616           root  142u  IPv6  0xee113441d7382a7      0t0    TCP [fe80:e::14ee:7415:782c:15e6]:53 (LISTEN)
+named       616           root  163u  IPv6 0xf3937ccaef0da2e6      0t0    UDP [fe80:10::44b3:2ff:fe17:53b9]:53
+named       616           root  164u  IPv6 0xf3937ccaef0da2e6      0t0    UDP [fe80:10::44b3:2ff:fe17:53b9]:53
+named       616           root  165u  IPv6 0xf3937ccaef0da2e6      0t0    UDP [fe80:10::44b3:2ff:fe17:53b9]:53
+named       616           root  166u  IPv6 0xf3937ccaef0da2e6      0t0    UDP [fe80:10::44b3:2ff:fe17:53b9]:53
+named       616           root  167u  IPv6 0xf3937ccaef0da2e6      0t0    UDP [fe80:10::44b3:2ff:fe17:53b9]:53
+named       616           root  168u  IPv6 0xf3937ccaef0da2e6      0t0    UDP [fe80:10::44b3:2ff:fe17:53b9]:53
+named       616           root  169u  IPv6 0xf3937ccaef0da2e6      0t0    UDP [fe80:10::44b3:2ff:fe17:53b9]:53
+named       616           root  170u  IPv6 0xf3937ccaef0da2e6      0t0    UDP [fe80:10::44b3:2ff:fe17:53b9]:53
+named       616           root  171u  IPv6 0xf3937ccaef0da2e6      0t0    UDP [fe80:10::44b3:2ff:fe17:53b9]:53
+named       616           root  172u  IPv6 0xf3937ccaef0da2e6      0t0    UDP [fe80:10::44b3:2ff:fe17:53b9]:53
+named       616           root  173u  IPv6 0x6fad95acfa476ab9      0t0    TCP [fe80:10::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  174u  IPv6 0x6fad95acfa476ab9      0t0    TCP [fe80:10::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  175u  IPv6 0x6fad95acfa476ab9      0t0    TCP [fe80:10::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  176u  IPv6 0x6fad95acfa476ab9      0t0    TCP [fe80:10::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  177u  IPv6 0x6fad95acfa476ab9      0t0    TCP [fe80:10::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  178u  IPv6 0x6fad95acfa476ab9      0t0    TCP [fe80:10::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  179u  IPv6 0x6fad95acfa476ab9      0t0    TCP [fe80:10::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  180u  IPv6 0x6fad95acfa476ab9      0t0    TCP [fe80:10::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  181u  IPv6 0x6fad95acfa476ab9      0t0    TCP [fe80:10::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  182u  IPv6 0x6fad95acfa476ab9      0t0    TCP [fe80:10::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  183u  IPv6 0xbf29f7e3f35a9007      0t0    UDP [fe80:12::3192:151c:9472:e6d2]:53
+named       616           root  184u  IPv6 0xbf29f7e3f35a9007      0t0    UDP [fe80:12::3192:151c:9472:e6d2]:53
+named       616           root  185u  IPv6 0xbf29f7e3f35a9007      0t0    UDP [fe80:12::3192:151c:9472:e6d2]:53
+named       616           root  186u  IPv6 0xbf29f7e3f35a9007      0t0    UDP [fe80:12::3192:151c:9472:e6d2]:53
+named       616           root  187u  IPv6 0xbf29f7e3f35a9007      0t0    UDP [fe80:12::3192:151c:9472:e6d2]:53
+named       616           root  188u  IPv6 0xbf29f7e3f35a9007      0t0    UDP [fe80:12::3192:151c:9472:e6d2]:53
+named       616           root  189u  IPv6 0xbf29f7e3f35a9007      0t0    UDP [fe80:12::3192:151c:9472:e6d2]:53
+named       616           root  190u  IPv6 0xbf29f7e3f35a9007      0t0    UDP [fe80:12::3192:151c:9472:e6d2]:53
+named       616           root  191u  IPv6 0xbf29f7e3f35a9007      0t0    UDP [fe80:12::3192:151c:9472:e6d2]:53
+named       616           root  192u  IPv6 0xbf29f7e3f35a9007      0t0    UDP [fe80:12::3192:151c:9472:e6d2]:53
+named       616           root  193u  IPv6 0x20211f7c9005c441      0t0    TCP [fe80:12::3192:151c:9472:e6d2]:53 (LISTEN)
+named       616           root  194u  IPv6 0x20211f7c9005c441      0t0    TCP [fe80:12::3192:151c:9472:e6d2]:53 (LISTEN)
+named       616           root  195u  IPv6 0x20211f7c9005c441      0t0    TCP [fe80:12::3192:151c:9472:e6d2]:53 (LISTEN)
+named       616           root  196u  IPv6 0x20211f7c9005c441      0t0    TCP [fe80:12::3192:151c:9472:e6d2]:53 (LISTEN)
+named       616           root  197u  IPv6 0x20211f7c9005c441      0t0    TCP [fe80:12::3192:151c:9472:e6d2]:53 (LISTEN)
+named       616           root  198u  IPv6 0x20211f7c9005c441      0t0    TCP [fe80:12::3192:151c:9472:e6d2]:53 (LISTEN)
+named       616           root  199u  IPv6 0x20211f7c9005c441      0t0    TCP [fe80:12::3192:151c:9472:e6d2]:53 (LISTEN)
+named       616           root  200u  IPv6 0x20211f7c9005c441      0t0    TCP [fe80:12::3192:151c:9472:e6d2]:53 (LISTEN)
+named       616           root  201u  IPv6 0x20211f7c9005c441      0t0    TCP [fe80:12::3192:151c:9472:e6d2]:53 (LISTEN)
+named       616           root  202u  IPv6 0x20211f7c9005c441      0t0    TCP [fe80:12::3192:151c:9472:e6d2]:53 (LISTEN)
+named       616           root  203u  IPv6 0xa6d85535f732f585      0t0    UDP [fe80:13::9f0c:9ff3:e7f7:8e00]:53
+named       616           root  204u  IPv6 0xa6d85535f732f585      0t0    UDP [fe80:13::9f0c:9ff3:e7f7:8e00]:53
+named       616           root  205u  IPv6 0xa6d85535f732f585      0t0    UDP [fe80:13::9f0c:9ff3:e7f7:8e00]:53
+named       616           root  206u  IPv6 0xa6d85535f732f585      0t0    UDP [fe80:13::9f0c:9ff3:e7f7:8e00]:53
+named       616           root  207u  IPv6 0xa6d85535f732f585      0t0    UDP [fe80:13::9f0c:9ff3:e7f7:8e00]:53
+named       616           root  208u  IPv6 0xa6d85535f732f585      0t0    UDP [fe80:13::9f0c:9ff3:e7f7:8e00]:53
+named       616           root  209u  IPv6 0xa6d85535f732f585      0t0    UDP [fe80:13::9f0c:9ff3:e7f7:8e00]:53
+named       616           root  210u  IPv6 0xa6d85535f732f585      0t0    UDP [fe80:13::9f0c:9ff3:e7f7:8e00]:53
+named       616           root  211u  IPv6 0xa6d85535f732f585      0t0    UDP [fe80:13::9f0c:9ff3:e7f7:8e00]:53
+named       616           root  212u  IPv6 0xa6d85535f732f585      0t0    UDP [fe80:13::9f0c:9ff3:e7f7:8e00]:53
+named       616           root  213u  IPv6 0x45ffb73f2f81fa3f      0t0    TCP [fe80:13::9f0c:9ff3:e7f7:8e00]:53 (LISTEN)
+named       616           root  214u  IPv6 0x45ffb73f2f81fa3f      0t0    TCP [fe80:13::9f0c:9ff3:e7f7:8e00]:53 (LISTEN)
+named       616           root  215u  IPv6 0x45ffb73f2f81fa3f      0t0    TCP [fe80:13::9f0c:9ff3:e7f7:8e00]:53 (LISTEN)
+named       616           root  216u  IPv6 0x45ffb73f2f81fa3f      0t0    TCP [fe80:13::9f0c:9ff3:e7f7:8e00]:53 (LISTEN)
+named       616           root  217u  IPv6 0x45ffb73f2f81fa3f      0t0    TCP [fe80:13::9f0c:9ff3:e7f7:8e00]:53 (LISTEN)
+named       616           root  218u  IPv6 0x45ffb73f2f81fa3f      0t0    TCP [fe80:13::9f0c:9ff3:e7f7:8e00]:53 (LISTEN)
+named       616           root  219u  IPv6 0x45ffb73f2f81fa3f      0t0    TCP [fe80:13::9f0c:9ff3:e7f7:8e00]:53 (LISTEN)
+named       616           root  220u  IPv6 0x45ffb73f2f81fa3f      0t0    TCP [fe80:13::9f0c:9ff3:e7f7:8e00]:53 (LISTEN)
+named       616           root  221u  IPv6 0x45ffb73f2f81fa3f      0t0    TCP [fe80:13::9f0c:9ff3:e7f7:8e00]:53 (LISTEN)
+named       616           root  222u  IPv6 0x45ffb73f2f81fa3f      0t0    TCP [fe80:13::9f0c:9ff3:e7f7:8e00]:53 (LISTEN)
+named       616           root  223u  IPv6 0x5723607bf9c8de72      0t0    UDP [fe80:14::db28:fbe2:9379:42ea]:53
+named       616           root  224u  IPv6 0x5723607bf9c8de72      0t0    UDP [fe80:14::db28:fbe2:9379:42ea]:53
+named       616           root  225u  IPv6 0x5723607bf9c8de72      0t0    UDP [fe80:14::db28:fbe2:9379:42ea]:53
+named       616           root  226u  IPv6 0x5723607bf9c8de72      0t0    UDP [fe80:14::db28:fbe2:9379:42ea]:53
+named       616           root  227u  IPv6 0x5723607bf9c8de72      0t0    UDP [fe80:14::db28:fbe2:9379:42ea]:53
+named       616           root  228u  IPv6 0x5723607bf9c8de72      0t0    UDP [fe80:14::db28:fbe2:9379:42ea]:53
+named       616           root  229u  IPv6 0x5723607bf9c8de72      0t0    UDP [fe80:14::db28:fbe2:9379:42ea]:53
+named       616           root  230u  IPv6 0x5723607bf9c8de72      0t0    UDP [fe80:14::db28:fbe2:9379:42ea]:53
+named       616           root  231u  IPv6 0x5723607bf9c8de72      0t0    UDP [fe80:14::db28:fbe2:9379:42ea]:53
+named       616           root  232u  IPv6 0x5723607bf9c8de72      0t0    UDP [fe80:14::db28:fbe2:9379:42ea]:53
+named       616           root  233u  IPv6 0xdeb710769dbd2df2      0t0    TCP [fe80:14::db28:fbe2:9379:42ea]:53 (LISTEN)
+named       616           root  234u  IPv6 0xdeb710769dbd2df2      0t0    TCP [fe80:14::db28:fbe2:9379:42ea]:53 (LISTEN)
+named       616           root  235u  IPv6 0xdeb710769dbd2df2      0t0    TCP [fe80:14::db28:fbe2:9379:42ea]:53 (LISTEN)
+named       616           root  236u  IPv6 0xdeb710769dbd2df2      0t0    TCP [fe80:14::db28:fbe2:9379:42ea]:53 (LISTEN)
+named       616           root  237u  IPv6 0xdeb710769dbd2df2      0t0    TCP [fe80:14::db28:fbe2:9379:42ea]:53 (LISTEN)
+named       616           root  238u  IPv6 0xdeb710769dbd2df2      0t0    TCP [fe80:14::db28:fbe2:9379:42ea]:53 (LISTEN)
+named       616           root  239u  IPv6 0xdeb710769dbd2df2      0t0    TCP [fe80:14::db28:fbe2:9379:42ea]:53 (LISTEN)
+named       616           root  240u  IPv6 0xdeb710769dbd2df2      0t0    TCP [fe80:14::db28:fbe2:9379:42ea]:53 (LISTEN)
+named       616           root  241u  IPv6 0xdeb710769dbd2df2      0t0    TCP [fe80:14::db28:fbe2:9379:42ea]:53 (LISTEN)
+named       616           root  242u  IPv6 0xdeb710769dbd2df2      0t0    TCP [fe80:14::db28:fbe2:9379:42ea]:53 (LISTEN)
+named       616           root  243u  IPv6 0x3d8ce8fe170ae9b1      0t0    UDP [fe80:15::ce81:b1c:bd2c:69e]:53
+named       616           root  244u  IPv6 0x3d8ce8fe170ae9b1      0t0    UDP [fe80:15::ce81:b1c:bd2c:69e]:53
+named       616           root  245u  IPv6 0x3d8ce8fe170ae9b1      0t0    UDP [fe80:15::ce81:b1c:bd2c:69e]:53
+named       616           root  246u  IPv6 0x3d8ce8fe170ae9b1      0t0    UDP [fe80:15::ce81:b1c:bd2c:69e]:53
+named       616           root  247u  IPv6 0x3d8ce8fe170ae9b1      0t0    UDP [fe80:15::ce81:b1c:bd2c:69e]:53
+named       616           root  248u  IPv6 0x3d8ce8fe170ae9b1      0t0    UDP [fe80:15::ce81:b1c:bd2c:69e]:53
+named       616           root  249u  IPv6 0x3d8ce8fe170ae9b1      0t0    UDP [fe80:15::ce81:b1c:bd2c:69e]:53
+named       616           root  250u  IPv6 0x3d8ce8fe170ae9b1      0t0    UDP [fe80:15::ce81:b1c:bd2c:69e]:53
+named       616           root  251u  IPv6 0x3d8ce8fe170ae9b1      0t0    UDP [fe80:15::ce81:b1c:bd2c:69e]:53
+named       616           root  252u  IPv6 0x3d8ce8fe170ae9b1      0t0    UDP [fe80:15::ce81:b1c:bd2c:69e]:53
+named       616           root  253u  IPv6 0x5463d1a55e53bd4b      0t0    TCP [fe80:15::ce81:b1c:bd2c:69e]:53 (LISTEN)
+named       616           root  254u  IPv6 0x5463d1a55e53bd4b      0t0    TCP [fe80:15::ce81:b1c:bd2c:69e]:53 (LISTEN)
+named       616           root  255u  IPv6 0x5463d1a55e53bd4b      0t0    TCP [fe80:15::ce81:b1c:bd2c:69e]:53 (LISTEN)
+named       616           root  256u  IPv6 0x5463d1a55e53bd4b      0t0    TCP [fe80:15::ce81:b1c:bd2c:69e]:53 (LISTEN)
+named       616           root  257u  IPv6 0x5463d1a55e53bd4b      0t0    TCP [fe80:15::ce81:b1c:bd2c:69e]:53 (LISTEN)
+named       616           root  258u  IPv6 0x5463d1a55e53bd4b      0t0    TCP [fe80:15::ce81:b1c:bd2c:69e]:53 (LISTEN)
+named       616           root  259u  IPv6 0x5463d1a55e53bd4b      0t0    TCP [fe80:15::ce81:b1c:bd2c:69e]:53 (LISTEN)
+named       616           root  260u  IPv6 0x5463d1a55e53bd4b      0t0    TCP [fe80:15::ce81:b1c:bd2c:69e]:53 (LISTEN)
+named       616           root  261u  IPv6 0x5463d1a55e53bd4b      0t0    TCP [fe80:15::ce81:b1c:bd2c:69e]:53 (LISTEN)
+named       616           root  262u  IPv6 0x5463d1a55e53bd4b      0t0    TCP [fe80:15::ce81:b1c:bd2c:69e]:53 (LISTEN)
+named       616           root  263u  IPv6 0x4231c87835eb8a25      0t0    UDP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53
+named       616           root  264u  IPv6 0x4231c87835eb8a25      0t0    UDP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53
+named       616           root  265u  IPv6 0x4231c87835eb8a25      0t0    UDP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53
+named       616           root  266u  IPv6 0x4231c87835eb8a25      0t0    UDP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53
+named       616           root  267u  IPv6 0x4231c87835eb8a25      0t0    UDP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53
+named       616           root  268u  IPv6 0x4231c87835eb8a25      0t0    UDP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53
+named       616           root  269u  IPv6 0x4231c87835eb8a25      0t0    UDP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53
+named       616           root  270u  IPv6 0x4231c87835eb8a25      0t0    UDP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53
+named       616           root  271u  IPv6 0x4231c87835eb8a25      0t0    UDP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53
+named       616           root  272u  IPv6 0x4231c87835eb8a25      0t0    UDP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53
+named       616           root  273u  IPv6 0xb235ae135ef2af2e      0t0    TCP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53 (LISTEN)
+named       616           root  274u  IPv6 0xb235ae135ef2af2e      0t0    TCP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53 (LISTEN)
+named       616           root  275u  IPv6 0xb235ae135ef2af2e      0t0    TCP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53 (LISTEN)
+named       616           root  276u  IPv6 0xb235ae135ef2af2e      0t0    TCP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53 (LISTEN)
+named       616           root  277u  IPv6 0xb235ae135ef2af2e      0t0    TCP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53 (LISTEN)
+named       616           root  278u  IPv6 0xb235ae135ef2af2e      0t0    TCP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53 (LISTEN)
+named       616           root  279u  IPv6 0xb235ae135ef2af2e      0t0    TCP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53 (LISTEN)
+named       616           root  280u  IPv6 0xb235ae135ef2af2e      0t0    TCP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53 (LISTEN)
+named       616           root  281u  IPv6 0xb235ae135ef2af2e      0t0    TCP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53 (LISTEN)
+named       616           root  282u  IPv6 0xb235ae135ef2af2e      0t0    TCP [2603:7000:a200:2bc7:8e0:7106:189b:2536]:53 (LISTEN)
+named       616           root  283u  IPv6 0x4c910013d0b77f2b      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53
+named       616           root  284u  IPv6 0x4c910013d0b77f2b      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53
+named       616           root  285u  IPv6 0x4c910013d0b77f2b      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53
+named       616           root  286u  IPv6 0x4c910013d0b77f2b      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53
+named       616           root  287u  IPv6 0x4c910013d0b77f2b      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53
+named       616           root  288u  IPv6 0x4c910013d0b77f2b      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53
+named       616           root  289u  IPv6 0x4c910013d0b77f2b      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53
+named       616           root  290u  IPv6 0x4c910013d0b77f2b      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53
+named       616           root  291u  IPv6 0x4c910013d0b77f2b      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53
+named       616           root  292u  IPv6 0x4c910013d0b77f2b      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53
+named       616           root  293u  IPv6 0x9c5cbfecb0da6f08      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53 (LISTEN)
+named       616           root  294u  IPv6 0x9c5cbfecb0da6f08      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53 (LISTEN)
+named       616           root  295u  IPv6 0x9c5cbfecb0da6f08      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53 (LISTEN)
+named       616           root  296u  IPv6 0x9c5cbfecb0da6f08      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53 (LISTEN)
+named       616           root  297u  IPv6 0x9c5cbfecb0da6f08      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53 (LISTEN)
+named       616           root  298u  IPv6 0x9c5cbfecb0da6f08      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53 (LISTEN)
+named       616           root  299u  IPv6 0x9c5cbfecb0da6f08      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53 (LISTEN)
+named       616           root  300u  IPv6 0x9c5cbfecb0da6f08      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53 (LISTEN)
+named       616           root  301u  IPv6 0x9c5cbfecb0da6f08      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53 (LISTEN)
+named       616           root  302u  IPv6 0x9c5cbfecb0da6f08      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:53 (LISTEN)
+named       616           root  303u  IPv6 0x6347b8dbd8dccf6a      0t0    UDP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53
+named       616           root  304u  IPv6 0x6347b8dbd8dccf6a      0t0    UDP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53
+named       616           root  305u  IPv6 0x6347b8dbd8dccf6a      0t0    UDP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53
+named       616           root  306u  IPv6 0x6347b8dbd8dccf6a      0t0    UDP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53
+named       616           root  307u  IPv6 0x6347b8dbd8dccf6a      0t0    UDP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53
+named       616           root  308u  IPv6 0x6347b8dbd8dccf6a      0t0    UDP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53
+named       616           root  309u  IPv6 0x6347b8dbd8dccf6a      0t0    UDP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53
+named       616           root  310u  IPv6 0x6347b8dbd8dccf6a      0t0    UDP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53
+named       616           root  311u  IPv6 0x6347b8dbd8dccf6a      0t0    UDP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53
+named       616           root  312u  IPv6 0x6347b8dbd8dccf6a      0t0    UDP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53
+named       616           root  313u  IPv6 0xb6b65e06fe7c8549      0t0    TCP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53 (LISTEN)
+named       616           root  314u  IPv6 0xb6b65e06fe7c8549      0t0    TCP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53 (LISTEN)
+named       616           root  315u  IPv6 0xb6b65e06fe7c8549      0t0    TCP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53 (LISTEN)
+named       616           root  316u  IPv6 0xb6b65e06fe7c8549      0t0    TCP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53 (LISTEN)
+named       616           root  317u  IPv6 0xb6b65e06fe7c8549      0t0    TCP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53 (LISTEN)
+named       616           root  318u  IPv6 0xb6b65e06fe7c8549      0t0    TCP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53 (LISTEN)
+named       616           root  319u  IPv6 0xb6b65e06fe7c8549      0t0    TCP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53 (LISTEN)
+named       616           root  320u  IPv6 0xb6b65e06fe7c8549      0t0    TCP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53 (LISTEN)
+named       616           root  321u  IPv6 0xb6b65e06fe7c8549      0t0    TCP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53 (LISTEN)
+named       616           root  322u  IPv6 0xb6b65e06fe7c8549      0t0    TCP [fd00:7437:5f4c:1b64:cdd:2f81:63a1:ab4a]:53 (LISTEN)
+named       616           root  323u  IPv4 0x60170b50cbab2a50      0t0    UDP 192.168.1.28:53
+named       616           root  324u  IPv4 0x60170b50cbab2a50      0t0    UDP 192.168.1.28:53
+named       616           root  325u  IPv4 0x60170b50cbab2a50      0t0    UDP 192.168.1.28:53
+named       616           root  326u  IPv4 0x60170b50cbab2a50      0t0    UDP 192.168.1.28:53
+named       616           root  327u  IPv4 0x60170b50cbab2a50      0t0    UDP 192.168.1.28:53
+named       616           root  328u  IPv4 0x60170b50cbab2a50      0t0    UDP 192.168.1.28:53
+named       616           root  329u  IPv4 0x60170b50cbab2a50      0t0    UDP 192.168.1.28:53
+named       616           root  330u  IPv4 0x60170b50cbab2a50      0t0    UDP 192.168.1.28:53
+named       616           root  331u  IPv4 0x60170b50cbab2a50      0t0    UDP 192.168.1.28:53
+named       616           root  332u  IPv4 0x60170b50cbab2a50      0t0    UDP 192.168.1.28:53
+named       616           root  333u  IPv4 0xc5ff2b4b6c3815d5      0t0    TCP 192.168.1.28:53 (LISTEN)
+named       616           root  334u  IPv4 0xc5ff2b4b6c3815d5      0t0    TCP 192.168.1.28:53 (LISTEN)
+named       616           root  335u  IPv4 0xc5ff2b4b6c3815d5      0t0    TCP 192.168.1.28:53 (LISTEN)
+named       616           root  336u  IPv4 0xc5ff2b4b6c3815d5      0t0    TCP 192.168.1.28:53 (LISTEN)
+named       616           root  337u  IPv4 0xc5ff2b4b6c3815d5      0t0    TCP 192.168.1.28:53 (LISTEN)
+named       616           root  338u  IPv4 0xc5ff2b4b6c3815d5      0t0    TCP 192.168.1.28:53 (LISTEN)
+named       616           root  339u  IPv4 0xc5ff2b4b6c3815d5      0t0    TCP 192.168.1.28:53 (LISTEN)
+named       616           root  340u  IPv4 0xc5ff2b4b6c3815d5      0t0    TCP 192.168.1.28:53 (LISTEN)
+named       616           root  341u  IPv4 0xc5ff2b4b6c3815d5      0t0    TCP 192.168.1.28:53 (LISTEN)
+named       616           root  342u  IPv4 0xc5ff2b4b6c3815d5      0t0    TCP 192.168.1.28:53 (LISTEN)
+named       616           root  343u  IPv6 0xde458b375386ae2f      0t0    UDP [2603:7000:a200:2bc7::135f]:53
+named       616           root  344u  IPv6 0xde458b375386ae2f      0t0    UDP [2603:7000:a200:2bc7::135f]:53
+named       616           root  345u  IPv6 0xde458b375386ae2f      0t0    UDP [2603:7000:a200:2bc7::135f]:53
+named       616           root  346u  IPv6 0xde458b375386ae2f      0t0    UDP [2603:7000:a200:2bc7::135f]:53
+named       616           root  347u  IPv6 0xde458b375386ae2f      0t0    UDP [2603:7000:a200:2bc7::135f]:53
+named       616           root  348u  IPv6 0xde458b375386ae2f      0t0    UDP [2603:7000:a200:2bc7::135f]:53
+named       616           root  349u  IPv6 0xde458b375386ae2f      0t0    UDP [2603:7000:a200:2bc7::135f]:53
+named       616           root  350u  IPv6 0xde458b375386ae2f      0t0    UDP [2603:7000:a200:2bc7::135f]:53
+named       616           root  351u  IPv6 0xde458b375386ae2f      0t0    UDP [2603:7000:a200:2bc7::135f]:53
+named       616           root  352u  IPv6 0xde458b375386ae2f      0t0    UDP [2603:7000:a200:2bc7::135f]:53
+named       616           root  353u  IPv6 0x29981481dede9077      0t0    TCP [2603:7000:a200:2bc7::135f]:53 (LISTEN)
+named       616           root  354u  IPv6 0x29981481dede9077      0t0    TCP [2603:7000:a200:2bc7::135f]:53 (LISTEN)
+named       616           root  355u  IPv6 0x29981481dede9077      0t0    TCP [2603:7000:a200:2bc7::135f]:53 (LISTEN)
+named       616           root  356u  IPv6 0x29981481dede9077      0t0    TCP [2603:7000:a200:2bc7::135f]:53 (LISTEN)
+named       616           root  357u  IPv6 0x29981481dede9077      0t0    TCP [2603:7000:a200:2bc7::135f]:53 (LISTEN)
+named       616           root  358u  IPv6 0x29981481dede9077      0t0    TCP [2603:7000:a200:2bc7::135f]:53 (LISTEN)
+named       616           root  359u  IPv6 0x29981481dede9077      0t0    TCP [2603:7000:a200:2bc7::135f]:53 (LISTEN)
+named       616           root  360u  IPv6 0x29981481dede9077      0t0    TCP [2603:7000:a200:2bc7::135f]:53 (LISTEN)
+named       616           root  361u  IPv6 0x29981481dede9077      0t0    TCP [2603:7000:a200:2bc7::135f]:53 (LISTEN)
+named       616           root  362u  IPv6 0x29981481dede9077      0t0    TCP [2603:7000:a200:2bc7::135f]:53 (LISTEN)
+named       616           root  363u  IPv6  0x7639a1359533014      0t0    UDP [fe80:11::44b3:2ff:fe17:53b9]:53
+named       616           root  364u  IPv6  0x7639a1359533014      0t0    UDP [fe80:11::44b3:2ff:fe17:53b9]:53
+named       616           root  365u  IPv6  0x7639a1359533014      0t0    UDP [fe80:11::44b3:2ff:fe17:53b9]:53
+named       616           root  366u  IPv6  0x7639a1359533014      0t0    UDP [fe80:11::44b3:2ff:fe17:53b9]:53
+named       616           root  367u  IPv6  0x7639a1359533014      0t0    UDP [fe80:11::44b3:2ff:fe17:53b9]:53
+named       616           root  368u  IPv6  0x7639a1359533014      0t0    UDP [fe80:11::44b3:2ff:fe17:53b9]:53
+named       616           root  369u  IPv6  0x7639a1359533014      0t0    UDP [fe80:11::44b3:2ff:fe17:53b9]:53
+named       616           root  370u  IPv6  0x7639a1359533014      0t0    UDP [fe80:11::44b3:2ff:fe17:53b9]:53
+named       616           root  371u  IPv6  0x7639a1359533014      0t0    UDP [fe80:11::44b3:2ff:fe17:53b9]:53
+named       616           root  372u  IPv6  0x7639a1359533014      0t0    UDP [fe80:11::44b3:2ff:fe17:53b9]:53
+named       616           root  373u  IPv6 0x3c69e518be5ed767      0t0    TCP [fe80:11::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  374u  IPv6 0x3c69e518be5ed767      0t0    TCP [fe80:11::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  375u  IPv6 0x3c69e518be5ed767      0t0    TCP [fe80:11::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  376u  IPv6 0x3c69e518be5ed767      0t0    TCP [fe80:11::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  377u  IPv6 0x3c69e518be5ed767      0t0    TCP [fe80:11::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  378u  IPv6 0x3c69e518be5ed767      0t0    TCP [fe80:11::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  379u  IPv6 0x3c69e518be5ed767      0t0    TCP [fe80:11::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  380u  IPv6 0x3c69e518be5ed767      0t0    TCP [fe80:11::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  381u  IPv6 0x3c69e518be5ed767      0t0    TCP [fe80:11::44b3:2ff:fe17:53b9]:53 (LISTEN)
+named       616           root  382u  IPv6 0x3c69e518be5ed767      0t0    TCP [fe80:11::44b3:2ff:fe17:53b9]:53 (LISTEN)
+identitys   735         nexus1    7u  IPv4 0x92c0f346b29341f1      0t0    UDP *:*
+identitys   735         nexus1   15u  IPv4 0xeb311c7b0737820c      0t0    UDP *:*
+identitys   735         nexus1   20u  IPv4 0x630eb2f6b7bf56e2      0t0    UDP *:*
+rapportd    744         nexus1   10u  IPv4 0xcf86970a084d157b      0t0    TCP *:49985 (LISTEN)
+rapportd    744         nexus1   11u  IPv6 0xbb569f5dfe7858e0      0t0    TCP *:49985 (LISTEN)
+exchanges   757         nexus1    7u  IPv6 0xc4a6d81f1459f92c      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:58991->[2603:1036:302:880::2]:443 (ESTABLISHED)
+sharingd    764         nexus1    4u  IPv4 0xb8421d1f496a92dc      0t0    UDP *:*
+sharingd    764         nexus1    7u  IPv6 0x94baf37f02e2ddcc      0t0    UDP *:59061
+wifianaly   808           root    3u  IPv4 0xa57e9e9b0c61007b      0t0    UDP *:*
+java        988         nexus1   25u  IPv6 0x38b83b5cff5ba436      0t0    TCP *:1025 (LISTEN)
+java        988         nexus1   26u  IPv6  0x1c5204eb74b14ba      0t0    TCP *:1110 (LISTEN)
+java        988         nexus1   27u  IPv6 0x1fd353efdc2c0fa8      0t0    TCP *:1143 (LISTEN)
+java        988         nexus1   28u  IPv6 0xcdde80682ab61c85      0t0    TCP *:1080 (LISTEN)
+java        988         nexus1   29u  IPv6 0xa7d8cc961c2bab89      0t0    TCP *:1389 (LISTEN)
+ollama      996         nexus1    3u  IPv4 0xc3f4edeaaa6d6a15      0t0    TCP 127.0.0.1:11434 (LISTEN)
+ChatGPTHe   997         nexus1    9u  IPv6 0x94de9291f40687da      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59126->[2a06:98c1:3100::6812:202f]:443 (ESTABLISHED)
+postgres   1010         nexus1    7u  IPv6 0x90dff05ac7db7c4d      0t0    TCP [::1]:5432 (LISTEN)
+postgres   1010         nexus1    8u  IPv4 0xf559ec4299b0e2f6      0t0    TCP 127.0.0.1:5432 (LISTEN)
+freeswitc  1083         nexus1   11u  IPv6 0xf4e16299669acec2      0t0    TCP [::1]:8081 (LISTEN)
+freeswitc  1083         nexus1   12u  IPv4 0x5dab1ef3088573d5      0t0    UDP *:*
+freeswitc  1083         nexus1   15u  IPv6 0x808ad73972b00c74      0t0    TCP [::1]:8082 (LISTEN)
+freeswitc  1083         nexus1   16u  IPv4 0x70c7853a9a9665f7      0t0    TCP 127.0.0.1:8081 (LISTEN)
+freeswitc  1083         nexus1   17u  IPv4  0x973361b31dcd0e0      0t0    TCP 127.0.0.1:8082 (LISTEN)
+freeswitc  1083         nexus1   24u  IPv6 0x4807f6c31a63a148      0t0    TCP *:8021 (LISTEN)
+epmd       1100         nexus1    3u  IPv4 0x4e003e6219c312f0      0t0    TCP *:4369 (LISTEN)
+epmd       1100         nexus1    4u  IPv6 0x59dcf37d314210a5      0t0    TCP *:4369 (LISTEN)
+Electron   6088         nexus1   44u  IPv6 0x8536e07eaabb8071      0t0    TCP *:9101 (LISTEN)
+Electron   6088         nexus1   45u  IPv6 0xc7269e784d48e528      0t0    TCP *:59871 (LISTEN)
+Electron   6088         nexus1   46u  IPv6 0x2a778994d257291d      0t0    TCP *:9092 (LISTEN)
+Antigravi  6096         nexus1   23u  IPv4 0x238287d7ef759ec7      0t0    TCP 127.0.0.1:58798->127.0.0.1:58785 (ESTABLISHED)
+ssh       16594         nexus1    3u  IPv4 0xe31e3a68358070fa      0t0    TCP 192.168.1.28:63483->136.23.48.10:22 (CLOSED)
+ssh       16937         nexus1    3u  IPv4 0xbf664ec641b951a2      0t0    TCP 192.168.1.28:63499->162.241.85.34:22 (ESTABLISHED)
+ChatGPT   22188         nexus1    9u  IPv6  0x4781a63a0597a44      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:54397->[2606:4700:440b::6812:2755]:443
+ChatGPT   22188         nexus1   13u  IPv6 0xc0c7a11cd0212c4c      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59088->[2a06:98c1:3100::6812:202f]:443 (ESTABLISHED)
+ChatGPT   22188         nexus1   19u  IPv6 0xcec3337d31ac97ef      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59090->[2a06:98c1:3107::6812:2715]:443 (ESTABLISHED)
+wifip2pd  23909           root    4u  IPv4 0x5ce6948461e983d9      0t0    UDP *:*
+wifip2pd  23909           root    6u  IPv4 0x46acc01f480775e6      0t0    UDP *:*
+wifip2pd  23909           root    7u  IPv4 0x511de17d746277dc      0t0    UDP *:*
+ChatGPT   29511         nexus1   25u  IPv6 0x17b5a52879015993      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59025->[2600:1f18:24e6:b901:72e3:1bfe:b271:96b2]:443 (CLOSED)
+ChatGPT   29511         nexus1   27u  IPv6  0xb814d342e0f146e      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:58866->[2600:1900:4110:86f::]:80 (CLOSED)
+ChatGPT   29511         nexus1   28u  IPv6 0xf1b0f758cb18b89e      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59026->[2600:1f18:24e6:b901:72e3:1bfe:b271:96b2]:443 (CLOSED)
+ChatGPT   29511         nexus1   29u  IPv6 0x4d8b88d223ff6526      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59007->[2600:1901:0:47fc::]:443 (ESTABLISHED)
+ChatGPT   29511         nexus1   30u  IPv6 0xe033e6b56146dfbc      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59027->[2600:1f18:24e6:b901:72e3:1bfe:b271:96b2]:443 (CLOSED)
+ChatGPT   29511         nexus1   32u  IPv6 0xa53f82289cccfa4e      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59005->[2a06:98c1:3100::6812:202f]:443 (CLOSED)
+ChatGPT   29511         nexus1   35u  IPv4 0xf7655f7f84a05a6e      0t0    TCP 192.168.1.28:58726->172.64.148.235:443 (ESTABLISHED)
+ChatGPT   29511         nexus1   36u  IPv6 0x6f2858a084bff57a      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59028->[2600:1f18:24e6:b901:72e3:1bfe:b271:96b2]:443 (CLOSED)
+ChatGPT   29511         nexus1   38u  IPv6  0xb40fa7e337607ac      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59009->[2a06:98c1:3107::6812:2715]:443 (ESTABLISHED)
+ChatGPT   29511         nexus1   46u  IPv6 0x1aea5575a2a0baa9      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:58732->[2607:f8b0:4004:c06::bc]:5228 (ESTABLISHED)
+ChatGPT   29511         nexus1   51u  IPv6 0x59b626f878c85ecc      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59010->[2a06:98c1:3107::6812:2715]:443 (ESTABLISHED)
+ChatGPT   29511         nexus1   52u  IPv6 0xe3a8b1b403c9442f      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59008->[2a06:98c1:3107::6812:2715]:443 (ESTABLISHED)
+ChatGPT   29511         nexus1   54u  IPv4 0x30db5c60a9eba4ea      0t0    UDP *:5353
+ChatGPT   29511         nexus1   55u  IPv6 0x4d193a082e531097      0t0    UDP *:5353
+ChatGPT   29511         nexus1   56u  IPv6 0xd6ff383da9a51579      0t0    UDP *:5353
+ChatGPT   29511         nexus1   57u  IPv6 0x121e6a1e954831f4      0t0    UDP *:5353
+ChatGPT   29511         nexus1   58u  IPv6 0xc1e84d9886588209      0t0    UDP *:5353
+ChatGPT   29511         nexus1   59u  IPv6 0xffb6b669d47a0619      0t0    UDP *:5353
+ChatGPT   29511         nexus1   60u  IPv6 0xfe9af1c6541326e7      0t0    UDP *:5353
+ChatGPT   29511         nexus1   61u  IPv6 0xd056bbd361e4cbad      0t0    UDP *:5353
+Code\x20H 29621         nexus1   81u  IPv4 0x1f12924a5b910409      0t0    TCP 127.0.0.1:37535 (LISTEN)
+Antigravi 29682         nexus1   36u  IPv4 0x16cf97a328f9b1ee      0t0    TCP 127.0.0.1:25188 (LISTEN)
+Antigravi 29682         nexus1   42u  IPv4  0x8eecb9a79ed0a0d      0t0    TCP 127.0.0.1:58768 (LISTEN)
+Antigravi 29682         nexus1   49u  IPv4 0xb8b9e0f16d70ef7d      0t0    TCP 127.0.0.1:58795->127.0.0.1:58785 (ESTABLISHED)
+Antigravi 29682         nexus1   52u  IPv4  0xd0310e60be3d90f      0t0    TCP 127.0.0.1:58796->127.0.0.1:58793 (ESTABLISHED)
+Antigravi 29682         nexus1   55u  IPv4 0x6d3a7db24ebd2991      0t0    TCP 127.0.0.1:58820 (LISTEN)
+Antigravi 29682         nexus1   79u  IPv6 0x66201c672746b199      0t0    TCP *:40001 (LISTEN)
+Code\x20H 29729         nexus1   22u  IPv4 0x2f8fa2ae5beba177      0t0    TCP 127.0.0.1:3416 (LISTEN)
+language_ 29878         nexus1    4u  IPv4 0x8c827862636f82a1      0t0    TCP 127.0.0.1:58785 (LISTEN)
+language_ 29878         nexus1    5u  IPv4 0x303189e7bc4c0011      0t0    TCP 127.0.0.1:58786 (LISTEN)
+language_ 29878         nexus1   20u  IPv4 0x4cd81e8a72062768      0t0    TCP 127.0.0.1:58785->127.0.0.1:58795 (ESTABLISHED)
+language_ 29878         nexus1   24u  IPv4   0x4f03673e0dc41d      0t0    TCP 192.168.1.28:59129->34.54.84.110:443 (ESTABLISHED)
+language_ 29878         nexus1   27u  IPv4 0xe0471ee3546cff8a      0t0    TCP 127.0.0.1:58793 (LISTEN)
+language_ 29878         nexus1   36u  IPv4 0xddc2985e760ed606      0t0    TCP 127.0.0.1:58793->127.0.0.1:58796 (ESTABLISHED)
+language_ 29878         nexus1   39u  IPv4 0x8c77f632062ba574      0t0    TCP 127.0.0.1:58785->127.0.0.1:58798 (ESTABLISHED)
+Claude    30502         nexus1   21u  IPv4 0x2091b1b9baf25f99      0t0    TCP 192.168.1.28:59107->3.92.140.140:443 (ESTABLISHED)
+Claude    30502         nexus1   24u  IPv6 0xcccd4aa0231b73b1      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59119->[2607:6bc0::10]:443 (ESTABLISHED)
+Claude    30502         nexus1   32u  IPv4 0xfd3517eae79c82df      0t0    TCP 192.168.1.28:58859->18.97.36.14:443 (ESTABLISHED)
+Comet\x20 31426         nexus1   25u  IPv6 0x2c37d180dfd8a3e8      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:52225->[2607:f8b0:4004:c1f::bc]:5228 (ESTABLISHED)
+Comet\x20 31426         nexus1   32u  IPv6 0x1f4c81d2f973fdaa      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:58740->[2606:4700::6812:1a30]:443 (ESTABLISHED)
+netbiosd  31880       _netbios    3u  IPv4 0x5ea07127e967a93d      0t0    UDP *:137
+netbiosd  31880       _netbios    4u  IPv4 0xc3f6e58a184422e0      0t0    UDP *:138
+wifiveloc 32958           root    3u  IPv4 0x211499afafeb943f      0t0    UDP *:*
+ChatGPT   49663         nexus1    5u  IPv6 0x378a88e5c76bb857      0t0    UDP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:52927->[2606:4700:440b::6812:2755]:443
+ChatGPT   49663         nexus1   19u  IPv6 0x2a11558afc0af94a      0t0    TCP [2603:7000:a200:2bc7:d593:91da:79a3:69fc]:59110->[2a06:98c1:3100::6812:202f]:443 (ESTABLISHED)
+com.docke 84939         nexus1   99u  IPv4 0x19f13fe0c790dd44      0t0   ICMP *:*
+com.docke 84939         nexus1  100u  IPv6 0x4a5a53e262c8a3a0      0t0 ICMPV6 *:*
+claude    92335         nexus1   10u  IPv4 0x89f861e28fb86f8b      0t0    TCP 192.168.1.28:59103->160.79.104.10:443 (ESTABLISHED)
+Baseline captured: Tue Dec  2 17:25:35 EST 2025

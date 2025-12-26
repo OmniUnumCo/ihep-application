@@ -1,68 +1,107 @@
 #!/bin/bash
 
-# Health Insight Ventures - GCP Deployment Script
+# IHEP - GCP Cloud Run Deployment Script
+# Deploys the Next.js application to Google Cloud Run
 set -e
 
-PROJECT_ID=${1:-"ihep-app"}
+PROJECT_ID=${1:-"gen-lang-client-0928975904"}
 REGION="us-central1"
+SERVICE_NAME="ihep-web"
 
-echo "🚀 Starting deployment for Health Insight Ventures to GCP..."
+echo "============================================"
+echo "IHEP - GCP Cloud Run Deployment"
+echo "============================================"
 echo "Project ID: $PROJECT_ID"
 echo "Region: $REGION"
+echo "Service: $SERVICE_NAME"
+echo ""
 
 # Set the project
 gcloud config set project $PROJECT_ID
 
-echo "📦 Step 1: Deploying infrastructure with Terraform..."
-cd gcp/terraform
+# Enable required services
+echo "[1/5] Enabling required GCP services..."
+gcloud services enable run.googleapis.com --quiet
+gcloud services enable cloudbuild.googleapis.com --quiet
+gcloud services enable secretmanager.googleapis.com --quiet
+gcloud services enable containerregistry.googleapis.com --quiet
 
-# Initialize Terraform
-terraform init
+echo "Services enabled successfully."
 
-# Plan infrastructure
-terraform plan -var="project_id=$PROJECT_ID" -var="region=$REGION"
+# Check if running from project root
+if [ ! -f "package.json" ]; then
+    echo "Error: Must run from project root directory"
+    exit 1
+fi
 
-# Apply infrastructure
-terraform apply -var="project_id=$PROJECT_ID" -var="region=$REGION" -auto-approve
+if [ ! -f "Dockerfile" ]; then
+    echo "Error: Dockerfile not found in project root"
+    exit 1
+fi
 
-echo "✅ Infrastructure deployed successfully!"
+# Build and deploy using Cloud Build
+echo ""
+echo "[2/5] Building and deploying Next.js application..."
+gcloud builds submit --config=gcp/frontend-build.yaml . \
+    --substitutions=_SERVICE_NAME=$SERVICE_NAME,_REGION=$REGION
 
-cd ../..
+# Get the service URL
+echo ""
+echo "[3/5] Getting service URL..."
+SERVICE_URL=$(gcloud run services describe $SERVICE_NAME \
+    --platform managed \
+    --region $REGION \
+    --format 'value(status.url)')
 
-echo "🗄️ Step 2: Setting up BigQuery schema..."
-# Apply BigQuery schema
-bq query --use_legacy_sql=false < gcp/bigquery/schema.sql
+# Set environment secrets (if they exist)
+echo ""
+echo "[4/5] Configuring environment variables..."
 
-echo "✅ BigQuery schema applied successfully!"
+# Check if NEXTAUTH_SECRET exists in Secret Manager
+if gcloud secrets describe NEXTAUTH_SECRET --project=$PROJECT_ID >/dev/null 2>&1; then
+    echo "Setting NEXTAUTH_SECRET from Secret Manager..."
+    gcloud run services update $SERVICE_NAME \
+        --region $REGION \
+        --set-secrets "NEXTAUTH_SECRET=NEXTAUTH_SECRET:latest" \
+        --quiet
+else
+    echo "Warning: NEXTAUTH_SECRET not found in Secret Manager."
+    echo "Create it with: echo -n 'your-secret' | gcloud secrets create NEXTAUTH_SECRET --data-file=-"
+fi
 
-echo "☁️ Step 3: Deploying Cloud Functions..."
-# Deploy backend functions
-gcloud builds submit --config=gcp/backend-deploy.yaml .
+# Update NEXTAUTH_URL to the service URL
+echo "Setting NEXTAUTH_URL..."
+gcloud run services update $SERVICE_NAME \
+    --region $REGION \
+    --update-env-vars "NEXTAUTH_URL=$SERVICE_URL" \
+    --quiet
 
-echo "✅ Cloud Functions deployed successfully!"
+# Verify deployment
+echo ""
+echo "[5/5] Verifying deployment..."
+HEALTH_CHECK=$(curl -s -o /dev/null -w "%{http_code}" "$SERVICE_URL/api/health" || echo "000")
 
-echo "🌐 Step 4: Building and deploying React frontend..."
-# Deploy frontend
-gcloud builds submit --config=gcp/frontend-build.yaml .
-
-echo "✅ Frontend deployed successfully!"
-
-echo "🔐 Step 5: Setting up secrets..."
-echo "Please manually set the following secrets in Google Secret Manager:"
-echo "- OPENAI_API_KEY"
-echo "- SENDGRID_API_KEY"
-echo "- TWILIO_ACCOUNT_SID"
-echo "- TWILIO_AUTH_TOKEN"
-echo "- TWILIO_PHONE_NUMBER"
+if [ "$HEALTH_CHECK" = "200" ]; then
+    echo "Health check passed."
+else
+    echo "Warning: Health check returned $HEALTH_CHECK (service may still be starting)"
+fi
 
 echo ""
-echo "🎉 Deployment completed successfully!"
-echo "🌍 Your application is now available at:"
-echo "   Frontend: https://storage.googleapis.com/ihep-app-health-insight-frontend/index.html"
-echo "   API: https://us-central1-ihep-app.cloudfunctions.net/health-insight-api"
+echo "============================================"
+echo "Deployment Completed Successfully!"
+echo "============================================"
 echo ""
-echo "📋 Next steps:"
-echo "1. Set up the required API keys in Secret Manager"
-echo "2. Configure your custom domain (optional)"
-echo "3. Set up monitoring and alerting"
-echo "4. Configure SSL certificate for custom domain"
+echo "Application URL: $SERVICE_URL"
+echo "Health Check:    $SERVICE_URL/api/health"
+echo ""
+echo "Required Secrets (set in Secret Manager):"
+echo "  - NEXTAUTH_SECRET (required for auth)"
+echo "  - DATABASE_URL (optional - for database)"
+echo ""
+echo "To create NEXTAUTH_SECRET:"
+echo "  openssl rand -base64 32 | gcloud secrets create NEXTAUTH_SECRET --data-file=-"
+echo ""
+echo "To view logs:"
+echo "  gcloud run logs read $SERVICE_NAME --region $REGION --limit 50"
+echo ""
