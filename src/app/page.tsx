@@ -31,6 +31,27 @@ export default function HomePage() {
   const [signupError, setSignupError] = useState('');
   const [signupLoading, setSignupLoading] = useState(false);
 
+  // Contact form state
+  const [contactData, setContactData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [contactLoading, setContactLoading] = useState(false);
+
+  // Handle contact form submission
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactLoading(true);
+    // Simulate form submission (replace with actual API call)
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setContactSubmitted(true);
+    setContactLoading(false);
+    setContactData({ name: '', email: '', subject: '', message: '' });
+  };
+
   // Handle login submission
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -353,8 +374,142 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Contact Form Section */}
+      <section id="contact" className="py-16 px-4 bg-gradient-to-r from-green-100 to-emerald-100">
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid md:grid-cols-2 gap-12 items-start">
+            <div className="space-y-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-green-800">Get In Touch</h2>
+              <p className="text-gray-600">
+                Have questions about IHEP or need assistance? Our team is here to help you on your wellness journey.
+                Fill out the form and we will get back to you within 24 hours.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-full bg-green-200 flex items-center justify-center">
+                    <Mail className="h-5 w-5 text-green-700" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-green-800">Email</p>
+                    <p className="text-gray-600">support@ihep.care</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-full bg-green-200 flex items-center justify-center">
+                    <Phone className="h-5 w-5 text-green-700" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-green-800">Phone</p>
+                    <p className="text-gray-600">1-800-IHEP-CARE</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-full bg-green-200 flex items-center justify-center">
+                    <Clock className="h-5 w-5 text-green-700" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-green-800">Telehealth Available</p>
+                    <p className="text-gray-600">24/7 Support</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+              {contactSubmitted ? (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
+                    <Heart className="h-8 w-8 text-green-700" />
+                  </div>
+                  <h3 className="text-xl font-bold text-green-800 mb-2">Thank You!</h3>
+                  <p className="text-gray-600 mb-4">Your message has been received. We will get back to you shortly.</p>
+                  <button
+                    onClick={() => setContactSubmitted(false)}
+                    className="px-6 py-2 border-2 border-green-700 text-green-700 rounded-full hover:bg-green-50 transition"
+                  >
+                    Send Another Message
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleContactSubmit} className="space-y-4">
+                  <h3 className="text-xl font-bold text-green-800 mb-4">Send Us a Message</h3>
+                  <div>
+                    <label htmlFor="contact-name" className="block text-sm font-medium mb-1 text-gray-700">Full Name</label>
+                    <input
+                      id="contact-name"
+                      type="text"
+                      value={contactData.name}
+                      onChange={(e) => setContactData({ ...contactData, name: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      required
+                      disabled={contactLoading}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-email" className="block text-sm font-medium mb-1 text-gray-700">Email Address</label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      value={contactData.email}
+                      onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      required
+                      disabled={contactLoading}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-subject" className="block text-sm font-medium mb-1 text-gray-700">Subject</label>
+                    <select
+                      id="contact-subject"
+                      value={contactData.subject}
+                      onChange={(e) => setContactData({ ...contactData, subject: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      required
+                      disabled={contactLoading}
+                    >
+                      <option value="">Select a topic</option>
+                      <option value="general">General Inquiry</option>
+                      <option value="support">Technical Support</option>
+                      <option value="enrollment">Program Enrollment</option>
+                      <option value="provider">Healthcare Provider</option>
+                      <option value="partnership">Partnership Opportunity</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="contact-message" className="block text-sm font-medium mb-1 text-gray-700">Message</label>
+                    <textarea
+                      id="contact-message"
+                      value={contactData.message}
+                      onChange={(e) => setContactData({ ...contactData, message: e.target.value })}
+                      rows={4}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent resize-none"
+                      required
+                      disabled={contactLoading}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={contactLoading}
+                    className="w-full py-3 bg-gradient-to-r from-green-700 to-emerald-600 text-white rounded-lg hover:shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                  >
+                    {contactLoading ? (
+                      <>
+                        <Loader2 className="animate-spin h-5 w-5 mr-2" />
+                        Sending...
+                      </>
+                    ) : (
+                      'Send Message'
+                    )}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer id="contact" className="bg-green-900 text-white py-12 px-4">
+      <footer className="bg-green-900 text-white py-12 px-4">
         <div className="container mx-auto max-w-7xl">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
