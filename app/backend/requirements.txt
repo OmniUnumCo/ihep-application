@@ -1,6 +1,6 @@
 # Core Framework
 Flask==3.0.3
-Flask-CORS==4.0.2
+Flask-CORS==6.0.1
 Flask-Limiter==3.12
 gunicorn==23.0.0
 gevent==25.9.1
@@ -24,7 +24,7 @@ scipy==1.14.1
 scikit-learn==1.5.2
 pandas==2.2.3
 torch==2.9.1
-transformers==4.47.1
+transformers>=4.53.0
 
 # Database
 SQLAlchemy==2.0.44
@@ -42,7 +42,7 @@ bcrypt==4.3.0
 # Data Validation
 pydantic==2.12.5
 pydantic-settings==2.12.0
-marshmallow==3.26.1
+marshmallow>=4.1.2
 
 # Testing
 pytest==7.4.4
@@ -54,7 +54,7 @@ faker==22.5.0
 hypothesis==6.98.0
 
 # Code Quality
-black==24.1.1
+black>=25.1.0
 flake8==7.0.0
 mypy==1.8.0
 pylint==3.0.3
