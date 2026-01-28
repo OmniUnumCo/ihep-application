@@ -142,3 +142,11 @@ secret.yml
 /training/transformers/
 /training/trl/
 openusd/
+
+# Weights & Biases artifacts
+# These are auto-generated experiment tracking files that should not be version-controlled
+# Contains environment snapshots including requirements.txt with potentially vulnerable dependencies
+**/wandb/
+wandb/
+training_datasets/wandb/
+**/training_datasets/wandb/
