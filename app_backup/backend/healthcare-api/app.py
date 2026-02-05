@@ -321,57 +321,87 @@ def health_check():
     return jsonify({'status': 'healthy', 'service': 'healthcare-api'}), 200
 
 
+def _log_and_get_safe_error(exc: Exception, user_id: str, action: str) -> str:
+    """
+    Log exception details securely and return a safe error message.
+
+    Security: Exception details may contain PHI or sensitive system info.
+    Log full details for debugging but return only generic message to user.
+    """
+    error_id = str(uuid.uuid4())[:8]
+    logger.error(
+        "Error [%s] in %s for user %s: %s",
+        error_id, action, user_id or 'unknown', type(exc).__name__
+    )
+    return f"An error occurred. Reference ID: {error_id}"
+
+
 @app.route('/api/v1/patients', methods=['POST'])
 @rate_limit(limit=100, per=60)  # 100 requests per minute
 def create_patient():
     """Create patient record"""
+    user_id = request.headers.get('X-User-ID')
     try:
-        user_id = request.headers.get('X-User-ID')
         if not user_id:
             return jsonify({'error': 'Missing user ID'}), 401
-        
+
         patient_data = request.json
         result = healthcare_service.create_patient(patient_data, user_id)
         return jsonify(result), 201
-        
+
+    except ValueError as e:
+        # Validation errors can be shown to user (no PHI)
+        return jsonify({'error': 'Invalid patient data'}), 400
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        # Security: Don't expose exception details to user
+        safe_error = _log_and_get_safe_error(e, user_id, 'create_patient')
+        return jsonify({'error': safe_error}), 500
 
 
 @app.route('/api/v1/patients/<patient_id>', methods=['GET'])
 @rate_limit(limit=200, per=60)  # 200 requests per minute
 def get_patient(patient_id: str):
     """Retrieve patient record"""
+    user_id = request.headers.get('X-User-ID')
     try:
-        user_id = request.headers.get('X-User-ID')
         if not user_id:
             return jsonify({'error': 'Missing user ID'}), 401
-        
+
         result = healthcare_service.get_patient(patient_id, user_id)
         return jsonify(result), 200
-        
+
+    except PermissionError:
+        return jsonify({'error': 'Access denied'}), 403
+    except LookupError:
+        return jsonify({'error': 'Patient not found'}), 404
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        # Security: Don't expose exception details to user
+        safe_error = _log_and_get_safe_error(e, user_id, 'get_patient')
+        return jsonify({'error': safe_error}), 500
 
 
 @app.route('/api/v1/research/datasets', methods=['POST'])
 @rate_limit(limit=10, per=60)  # 10 requests per minute (expensive operation)
 def create_research_dataset():
     """Create de-identified research dataset"""
+    user_id = request.headers.get('X-User-ID')
     try:
-        user_id = request.headers.get('X-User-ID')
         if not user_id:
             return jsonify({'error': 'Missing user ID'}), 401
-        
+
         data = request.json
         patient_ids = data.get('patient_ids', [])
         k = data.get('k', 5)
-        
+
         result = healthcare_service.de_identify_for_research(patient_ids, k)
         return jsonify(result), 200
-        
+
+    except ValueError:
+        return jsonify({'error': 'Invalid request parameters'}), 400
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        # Security: Don't expose exception details to user
+        safe_error = _log_and_get_safe_error(e, user_id, 'create_research_dataset')
+        return jsonify({'error': safe_error}), 500
 
 
 if __name__ == '__main__':

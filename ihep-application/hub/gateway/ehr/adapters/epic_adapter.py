@@ -374,6 +374,27 @@ class EpicAdapter(BaseEHRAdapter):
             if not self.refresh_token():
                 raise ConnectionError("Failed to refresh Epic access token")
 
+    def _extract_error_summary(self, response) -> str:
+        """
+        Extract error summary from FHIR response without exposing PHI.
+
+        Returns only the error code and type from OperationOutcome,
+        never patient data or detailed error messages that may contain PHI.
+        """
+        try:
+            data = response.json()
+            if data.get("resourceType") == "OperationOutcome":
+                issues = data.get("issue", [])
+                if issues:
+                    # Only extract severity and code, not diagnostics which may contain PHI
+                    first_issue = issues[0]
+                    severity = first_issue.get("severity", "unknown")
+                    code = first_issue.get("code", "unknown")
+                    return f"OperationOutcome: {severity}/{code}"
+            return f"HTTP {response.status_code}"
+        except Exception:
+            return f"HTTP {response.status_code}"
+
     def _fhir_request(
         self,
         method: str,
@@ -427,7 +448,10 @@ class EpicAdapter(BaseEHRAdapter):
                 return None
 
             if response.status_code >= 400:
-                logger.error(f"Epic FHIR request failed: {response.status_code} - {response.text}")
+                # Log error without exposing potential PHI in response body
+                # Extract only the error code/type from FHIR OperationOutcome if present
+                error_summary = self._extract_error_summary(response)
+                logger.error(f"Epic FHIR request failed: {response.status_code} - {error_summary}")
                 return None
 
             if response.status_code == 204:
