@@ -2,12 +2,73 @@
 """
 Create gender-balanced training data by generating female-equivalent examples
 Security: Uses json module, no code execution, validates all input
+         All PHI fields are sanitized before writing to output
 """
 import json
 import sys
 import re
+import hashlib
 from pathlib import Path
 from typing import Dict, Any, List, Tuple
+
+# PHI fields that should be sanitized before writing
+PHI_FIELDS = frozenset({
+    'name', 'patient_name', 'first_name', 'last_name', 'full_name',
+    'ssn', 'social_security', 'social_security_number',
+    'mrn', 'medical_record_number', 'record_number',
+    'email', 'email_address', 'phone', 'phone_number', 'telephone',
+    'address', 'street', 'street_address', 'city', 'zip', 'zip_code', 'postal_code',
+    'dob', 'date_of_birth', 'birth_date', 'birthdate',
+    'ip_address', 'device_id', 'mac_address',
+    'account_number', 'insurance_id', 'policy_number',
+    'license_number', 'drivers_license',
+})
+
+def sanitize_phi_value(value: str, field_name: str) -> str:
+    """
+    Sanitize a PHI value by hashing it.
+
+    Security:
+        - Uses SHA-256 for consistent but irreversible transformation
+        - Prefixes with field type for clarity
+        - Returns truncated hash for readability
+    """
+    if not isinstance(value, str) or not value:
+        return value
+    hash_input = f"{field_name}:{value}".encode('utf-8')
+    hash_value = hashlib.sha256(hash_input).hexdigest()[:12]
+    return f"[REDACTED_{field_name.upper()}_{hash_value}]"
+
+
+def sanitize_phi_fields(data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Recursively sanitize PHI fields in a data structure.
+
+    Security:
+        - Creates new dict (doesn't modify input)
+        - Sanitizes all known PHI field names
+        - Preserves data structure for training while removing identifiers
+    """
+    if isinstance(data, dict):
+        result = {}
+        for key, value in data.items():
+            key_lower = key.lower().replace('-', '_').replace(' ', '_')
+            if key_lower in PHI_FIELDS:
+                # Sanitize PHI field
+                if isinstance(value, str):
+                    result[key] = sanitize_phi_value(value, key_lower)
+                elif isinstance(value, list):
+                    result[key] = [sanitize_phi_value(str(v), key_lower) if v else v for v in value]
+                else:
+                    result[key] = "[REDACTED]"
+            else:
+                result[key] = sanitize_phi_fields(value)
+        return result
+    elif isinstance(data, list):
+        return [sanitize_phi_fields(item) for item in data]
+    else:
+        return data
+
 
 # Gender term mappings (case-insensitive replacement)
 GENDER_MAPPINGS = [
@@ -119,6 +180,7 @@ def process_file(input_file: Path, output_file: Path) -> Tuple[int, int]:
         - Uses json.loads/dumps (not eval)
         - Validates file paths
         - Handles errors gracefully
+        - Sanitizes PHI fields before writing to output
     """
     original_count = 0
     added_count = 0
@@ -136,8 +198,11 @@ def process_file(input_file: Path, output_file: Path) -> Tuple[int, int]:
                     # Parse original
                     data = json.loads(line)
 
-                    # Write original
-                    outfile.write(json.dumps(data, ensure_ascii=False) + '\n')
+                    # Sanitize PHI fields before writing
+                    sanitized_data = sanitize_phi_fields(data)
+
+                    # Write sanitized original
+                    outfile.write(json.dumps(sanitized_data, ensure_ascii=False) + '\n')
                     original_count += 1
 
                     # If male-dominant, create female version
@@ -153,7 +218,9 @@ def process_file(input_file: Path, output_file: Path) -> Tuple[int, int]:
                             female_data['metadata']['gender_balanced'] = True
                             female_data['metadata']['source'] = 'synthetic_balanced'
 
-                        outfile.write(json.dumps(female_data, ensure_ascii=False) + '\n')
+                        # Sanitize PHI fields before writing
+                        sanitized_female_data = sanitize_phi_fields(female_data)
+                        outfile.write(json.dumps(sanitized_female_data, ensure_ascii=False) + '\n')
                         added_count += 1
 
                 except json.JSONDecodeError as e:

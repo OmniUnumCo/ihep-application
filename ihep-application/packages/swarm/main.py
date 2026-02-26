@@ -52,6 +52,43 @@ c2_router: Optional[C2Router] = None
 
 
 # =============================================================================
+# SECURITY HELPERS
+# =============================================================================
+
+# Safe error messages that can be exposed to clients
+_SAFE_ERROR_MESSAGES = {
+    "invalid_team": "Invalid team specified",
+    "invalid_priority": "Invalid priority level",
+    "mission_not_found": "Mission not found",
+    "execution_failed": "Mission execution failed",
+    "invalid_request": "Invalid request parameters",
+}
+
+
+def _sanitize_error_for_response(error: str) -> str:
+    """
+    Sanitize error messages before exposing to clients.
+
+    Security: Internal error details may expose system architecture or
+    implementation details. Only return safe, predefined messages.
+    """
+    error_lower = error.lower()
+
+    # Map common errors to safe messages
+    if "team" in error_lower:
+        return _SAFE_ERROR_MESSAGES["invalid_team"]
+    if "priority" in error_lower:
+        return _SAFE_ERROR_MESSAGES["invalid_priority"]
+    if "not found" in error_lower:
+        return _SAFE_ERROR_MESSAGES["mission_not_found"]
+    if "failed" in error_lower or "error" in error_lower:
+        return _SAFE_ERROR_MESSAGES["execution_failed"]
+
+    # Default safe message
+    return _SAFE_ERROR_MESSAGES["invalid_request"]
+
+
+# =============================================================================
 # LIFESPAN MANAGEMENT
 # =============================================================================
 
@@ -231,7 +268,9 @@ async def create_mission(request: CreateMissionRequest):
         }
 
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        # Security: Sanitize error message before exposing to client
+        logger.warning("Mission creation failed: %s", str(e))
+        raise HTTPException(status_code=400, detail=_sanitize_error_for_response(str(e)))
 
 
 @app.post("/missions/execute")
@@ -243,7 +282,12 @@ async def execute_mission(request: ExecuteMissionRequest):
     result = orchestrator.execute_mission(request.mission_id)
 
     if "error" in result:
-        raise HTTPException(status_code=400, detail=result["error"])
+        # Security: Sanitize error message before exposing to client
+        logger.warning("Mission execution failed: %s", result.get("error", "unknown"))
+        raise HTTPException(
+            status_code=400,
+            detail=_sanitize_error_for_response(result.get("error", ""))
+        )
 
     return result
 
@@ -281,7 +325,12 @@ async def get_mission(mission_id: str):
 
     status = orchestrator.get_mission_status(mission_id)
     if "error" in status:
-        raise HTTPException(status_code=404, detail=status["error"])
+        # Security: Sanitize error message before exposing to client
+        logger.debug("Mission status lookup failed for %s: %s", mission_id, status.get("error"))
+        raise HTTPException(
+            status_code=404,
+            detail=_sanitize_error_for_response(status.get("error", ""))
+        )
 
     return status
 
