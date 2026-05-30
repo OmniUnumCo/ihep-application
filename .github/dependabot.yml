@@ -44,6 +44,56 @@ updates:
     #   - dependency-name: "package-name"
     #     versions: ["1.x"]
 
+  # NPM Dependencies - Additional workspaces & app copies
+  # (these directories had open alerts but were not previously watched)
+  - package-ecosystem: "npm"
+    directories:
+      - "/workspaces"
+      - "/workspaces/frontend"
+      - "/applications"
+      - "/applications/frontend"
+      - "/ihep-application/hub/gateway"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 10
+    groups:
+      npm-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    allow:
+      - dependency-type: "all"
+    labels:
+      - "dependencies"
+      - "npm"
+    rebase-strategy: "auto"
+
+  # Python (pip) Dependencies - real shipping manifests only
+  - package-ecosystem: "pip"
+    directories:
+      - "/applications/backend"
+      - "/ihep-application/hub/gateway"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    open-pull-requests-limit: 10
+    groups:
+      pip-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    allow:
+      - dependency-type: "all"
+    labels:
+      - "dependencies"
+      - "python"
+    rebase-strategy: "auto"
+
   # GitHub Actions Workflows
   - package-ecosystem: "github-actions"
     directory: "/"
